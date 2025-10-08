@@ -18,7 +18,6 @@ export default function Home() {
     const y = parseInt(year)
     if (isNaN(y) || y < 1920) return null
     
-    // Easter egg for future dates!
     if (y > 2025) {
       return {
         name: 'Terminator',
@@ -49,7 +48,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      {/* Hero Section */}
       <div className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-5xl font-bold text-center mb-4 text-gray-900">
           What Generation Am I?
@@ -58,7 +56,6 @@ export default function Home() {
           Enter your birth year to instantly discover your generation
         </p>
 
-        {/* Calculator Tool */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -84,7 +81,6 @@ export default function Home() {
             </button>
           </form>
 
-          {/* Result Display */}
           {result && (
             <div className={`mt-8 p-6 ${result.color} ${result.isTerminator ? 'bg-opacity-20 animate-pulse' : 'bg-opacity-10'} rounded-xl border-2 border-current`}>
               <div className="text-center">
@@ -97,14 +93,14 @@ export default function Home() {
                       🚨 TIME TRAVELER DETECTED! 🚨
                     </p>
                     <p className="text-lg text-gray-700 mb-2">
-                      Born in {result.year}? You're from the future!
+                      Born in {result.year}? You are from the future!
                     </p>
                     <p className="text-md text-gray-600 italic">
-                      "I'll be back... to 2025"
+                      I will be back... to 2025
                     </p>
                     <div className="mt-4 p-4 bg-black bg-opacity-10 rounded-lg">
                       <p className="text-sm text-gray-700">
-                        Come back when you've actually been born! 😄
+                        Come back when you have actually been born! 😄
                       </p>
                     </div>
                   </>
@@ -117,11 +113,10 @@ export default function Home() {
                       Birth Years: {result.start} - {result.end}
                     </p>
                     
-                    {/* Share Buttons */}
                     <div className="flex gap-3 justify-center flex-wrap mt-6">
                       <button
                         onClick={() => {
-                          const text = `I'm ${result.name} ${result.emoji}! Find your generation at findmygen.com`
+                          const text = `I am ${result.name} ${result.emoji}! Find your generation at findmygen.com`
                           navigator.clipboard.writeText(text)
                           alert('Copied to clipboard! Share it anywhere! 🎉')
                         }}
@@ -132,7 +127,7 @@ export default function Home() {
                       
                       <button
                         onClick={() => {
-                          const text = encodeURIComponent(`I'm ${result.name} ${result.emoji}! What generation are you?`)
+                          const text = encodeURIComponent(`I am ${result.name} ${result.emoji}! What generation are you?`)
                           const url = encodeURIComponent('https://findmygen.com')
                           window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
                         }}
@@ -144,7 +139,7 @@ export default function Home() {
                       <button
                         onClick={() => {
                           const url = encodeURIComponent('https://findmygen.com')
-                          const quote = encodeURIComponent(`I'm ${result.name} ${result.emoji}! Find your generation:`)
+                          const quote = encodeURIComponent(`I am ${result.name} ${result.emoji}! Find your generation:`)
                           window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, '_blank')
                         }}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
@@ -158,7 +153,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Calculate Again Button */}
           {result && (
             <button
               onClick={() => {
@@ -172,7 +166,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* SEO Content Section */}
         <div className="prose prose-lg max-w-none bg-white rounded-2xl shadow-lg p-8 space-y-8">
           <h2 className="text-3xl font-bold text-gray-900">Understanding Generations</h2>
           <p className="text-gray-700 leading-relaxed">
@@ -209,9 +202,9 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-purple-600 mb-3">🚀 Gen Alpha (2013 - Present)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Generation Alpha is the newest generation, born entirely in the 21st century. They're growing up 
+                Generation Alpha is the newest generation, born entirely in the 21st century. They are growing up 
                 with tablets, voice assistants, and AI as normal parts of daily life. These true digital natives 
-                have never known a world without smartphones, streaming services, or social media. They're expected 
+                have never known a world without smartphones, streaming services, or social media. They are expected 
                 to be the most technologically immersed and formally educated generation in history.
               </p>
             </div>
@@ -220,8 +213,8 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-blue-600 mb-3">📱 Gen Z (1997 - 2012)</h3>
               <p className="text-gray-700 leading-relaxed">
                 Generation Z grew up with smartphones in hand and witnessed major global events like COVID-19 during 
-                their formative years. They're known for being socially conscious, entrepreneurial, and fluent in 
-                digital communication. Gen Z values authenticity, diversity, and mental health awareness. They're 
+                their formative years. They are known for being socially conscious, entrepreneurial, and fluent in 
+                digital communication. Gen Z values authenticity, diversity, and mental health awareness. They are 
                 the first generation to have never known life without the internet and social media.
               </p>
             </div>
@@ -232,15 +225,15 @@ export default function Home() {
                 Millennials came of age during the internet boom and witnessed the transition from analog to digital. 
                 They experienced 9/11 as formative adults, faced the 2008 financial crisis early in their careers, 
                 and have dealt with student debt and rising housing costs. Known for valuing work-life balance, 
-                experiences over possessions, and using technology to stay connected. They're often called the 
-                "burnout generation" but are also known for resilience and adaptability.
+                experiences over possessions, and using technology to stay connected. They are often called the 
+                burnout generation but are also known for resilience and adaptability.
               </p>
             </div>
 
             <div>
               <h3 className="text-2xl font-bold text-yellow-600 mb-3">🎸 Gen X (1965 - 1980)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Generation X is often called the "forgotten generation" or "latchkey kids." They grew up during 
+                Generation X is often called the forgotten generation or latchkey kids. They grew up during 
                 rising divorce rates and the emergence of personal computers. Gen X witnessed the fall of the Berlin 
                 Wall, came of age with MTV and grunge music, and learned to be independent and resourceful. They value 
                 work-life balance, are skeptical of institutions, and successfully bridged the gap between analog 
@@ -254,7 +247,7 @@ export default function Home() {
                 Baby Boomers were born during the post-World War II population boom and grew up during unprecedented 
                 economic prosperity. They witnessed the civil rights movement, moon landing, Vietnam War, and Woodstock. 
                 Boomers are known for their optimism, work ethic, and driving cultural revolutions in the 1960s and 70s. 
-                They're often characterized by individualism, competitive spirit, and strong work-centric values.
+                They are often characterized by individualism, competitive spirit, and strong work-centric values.
               </p>
             </div>
 
@@ -304,12 +297,12 @@ export default function Home() {
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Why do generation year ranges vary?</h3>
-              <p className="text-gray-700">Different research organizations use slightly different cutoff dates. While there's general agreement, some sources may differ by a year or two. Our calculator uses the most commonly accepted ranges from Pew Research and demographic experts.</p>
+              <p className="text-gray-700">Different research organizations use slightly different cutoff dates. While there is general agreement, some sources may differ by a year or two. Our calculator uses the most commonly accepted ranges from Pew Research and demographic experts.</p>
             </div>
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Can you be between two generations?</h3>
-              <p className="text-gray-700">Yes! People born on the cusp between generations (like 1996-1997 or 1980-1981) often share characteristics of both. These "cuspers" may identify with traits from both generations.</p>
+              <p className="text-gray-700">Yes! People born on the cusp between generations (like 1996-1997 or 1980-1981) often share characteristics of both. These cuspers may identify with traits from both generations.</p>
             </div>
           </div>
         </div>
