@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export default function Home() {
@@ -55,7 +56,19 @@ export default function Home() {
         <p className="text-xl text-center text-gray-600 mb-8">
           Enter your birth year to instantly discover your generation
         </p>
+        <p className="text-xl text-center text-gray-600 mb-8">
+  Enter your birth year to instantly discover your generation
+</p>
 
+{/* NEW: Quiz Button */}
+<div className="text-center mb-8">
+  <Link
+    href="/quiz"
+    className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-purple-700 hover:to-pink-700 transition transform hover:scale-105 shadow-lg"
+  >
+    🎯 Take the Generation Quiz →
+  </Link>
+</div>
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
