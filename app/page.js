@@ -20,7 +20,7 @@ export default function Home() {
     
     if (y > 2025) {
       return {
-        name: 'Terminator',
+        name: 'Terminator ',
         start: 2026,
         end: 9999,
         color: 'bg-red-600',
