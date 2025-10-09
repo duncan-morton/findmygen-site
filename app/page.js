@@ -56,8 +56,7 @@ export default function Home() {
         <p className="text-xl text-center text-gray-600 mb-8">
           Enter your birth year to instantly discover your generation
         </p>
-        <p className="text-xl text-center text-gray-600 mb-8">
-  Enter your birth year to instantly discover your generation
+
 </p>
 
 {/* NEW: Quiz Button */}
