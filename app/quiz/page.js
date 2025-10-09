@@ -11,7 +11,7 @@ export default function Quiz() {
     {
       question: "What was your first social media platform?",
       options: [
-        { text: "What's social media?", points: { silent: 5, boomer: 3 } },
+        { text: "What is social media?", points: { silent: 5, boomer: 3 } },
         { text: "MySpace", points: { genx: 3, millennial: 4 } },
         { text: "Facebook", points: { millennial: 5, genx: 2 } },
         { text: "Instagram", points: { genz: 4, millennial: 2 } },
@@ -29,11 +29,11 @@ export default function Quiz() {
       ]
     },
     {
-      question: "What's your ideal Friday night?",
+      question: "What is your ideal Friday night?",
       options: [
         { text: "Early to bed with a good book", points: { silent: 5, boomer: 3 } },
         { text: "Dinner party with close friends", points: { boomer: 4, genx: 3 } },
-        { text: "Going out to bars/clubs", points: { genx: 3, millennial: 4 } },
+        { text: "Going out to bars or clubs", points: { genx: 3, millennial: 4 } },
         { text: "Netflix and chill", points: { millennial: 5, genz: 3 } },
         { text: "Gaming with friends online", points: { genz: 5, genalpha: 4 } }
       ]
@@ -43,15 +43,15 @@ export default function Quiz() {
       options: [
         { text: "Smartphones? We had rotary phones!", points: { silent: 5, boomer: 4 } },
         { text: "I remember pagers and payphones", points: { genx: 5, boomer: 2 } },
-        { text: "Barely - I got my first phone in high school", points: { millennial: 5, genx: 2 } },
+        { text: "Barely - got my first phone in high school", points: { millennial: 5, genx: 2 } },
         { text: "Not really - always had one", points: { genz: 5, millennial: 2 } },
-        { text: "What's life without a smartphone?", points: { genz: 3, genalpha: 5 } }
+        { text: "What is life without a smartphone?", points: { genz: 3, genalpha: 5 } }
       ]
     },
     {
       question: "Your relationship with technology:",
       options: [
-        { text: "What's an app?", points: { silent: 5, boomer: 3 } },
+        { text: "What is an app?", points: { silent: 5, boomer: 3 } },
         { text: "I use it when necessary", points: { boomer: 4, genx: 3 } },
         { text: "I adapted and learned", points: { genx: 5, millennial: 3 } },
         { text: "Tech is second nature to me", points: { millennial: 5, genz: 4 } },
@@ -91,7 +91,7 @@ export default function Quiz() {
     {
       question: "Your attitude toward change:",
       options: [
-        { text: "If it ain't broke, don't fix it", points: { silent: 5, boomer: 4 } },
+        { text: "If it ain't broke don't fix it", points: { silent: 5, boomer: 4 } },
         { text: "Skeptical but adaptable", points: { genx: 5, boomer: 2 } },
         { text: "Optimistic about progress", points: { millennial: 5, genx: 2 } },
         { text: "Embrace change and innovation", points: { genz: 5, millennial: 3 } },
@@ -166,7 +166,7 @@ export default function Quiz() {
 
             <p className="text-lg text-gray-700 mb-8">
               Based on your answers, you have the spirit and mindset of {gen.name}! 
-              Your preferences and attitudes align most closely with this generation's characteristics.
+              Your preferences and attitudes align most closely with this generation.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap mb-6">
@@ -174,11 +174,11 @@ export default function Quiz() {
                 onClick={() => {
                   const text = `I took the Generation Quiz and I vibe with ${gen.name} ${gen.emoji}! Take the quiz at findmygen.com/quiz`
                   navigator.clipboard.writeText(text)
-                  alert('Copied to clipboard! 🎉')
+                  alert('Copied to clipboard!')
                 }}
                 className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition"
               >
-                📋 Copy Result
+                Copy Result
               </button>
               
               <button
@@ -189,7 +189,7 @@ export default function Quiz() {
                 }}
                 className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
               >
-                🐦 Share on X
+                Share on X
               </button>
             </div>
 
@@ -198,14 +198,14 @@ export default function Quiz() {
                 onClick={restartQuiz}
                 className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
               >
-                🔄 Take Quiz Again
+                Take Quiz Again
               </button>
               
               <Link
                 href="/"
                 className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition inline-block"
               >
-                🎯 Find Your Birth Year Generation
+                Find Your Birth Year Generation
               </Link>
             </div>
           </div>
@@ -242,7 +242,7 @@ export default function Quiz() {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-4 text-gray-900">
-            🎯 Which Generation Do You Really Belong To?
+            Which Generation Do You Really Belong To?
           </h1>
           <p className="text-xl text-gray-600">
             Answer 10 questions to discover which generation matches your vibe!
@@ -276,7 +276,7 @@ export default function Quiz() {
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
-                className="w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 transform hover:scale-102"
+                className="w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200"
               >
                 <span className="text-lg font-medium text-gray-800">{option.text}</span>
               </button>
@@ -288,7 +288,7 @@ export default function Quiz() {
               href="/"
               className="text-purple-600 hover:text-purple-700 font-semibold"
             >
-              ← Back to Generation Calculator
+              Back to Generation Calculator
             </Link>
           </div>
         </div>
