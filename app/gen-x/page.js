@@ -27,7 +27,7 @@ export default function GenXPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are Gen X?</h2>
             <p className="text-gray-700 leading-relaxed">
-              Generation X includes anyone born between <strong>1965 and 1980</strong>. This makes Gen X currently between 
+              Generation X includes anyone born between 1965 and 1980. This makes Gen X currently between 
               45 and 60 years old in 2025. Often called the forgotten generation or middle child between Baby Boomers and 
               Millennials, Gen X quietly shaped modern culture while flying under the radar.
             </p>
@@ -38,29 +38,29 @@ export default function GenXPage() {
             <p className="text-gray-700 leading-relaxed">
               Gen X earned the nickname latchkey kids because many came home to empty houses as both parents worked. They 
               learned independence and self-reliance early. This generation is comfortable being alone, solving problems 
-              themselves, and doesn't need constant validation or supervision. This independence shaped their skeptical, 
+              themselves, and does not need constant validation or supervision. This independence shaped their skeptical, 
               self-sufficient nature.
             </p>
 
             <h3 className="text-2xl font-bold text-yellow-600 mt-8 mb-3">Adaptable and Resourceful</h3>
             <p className="text-gray-700 leading-relaxed">
-              Gen X grew up with rotary phones and learned to code on Commodore 64s. They adapted to personal computers, 
+              Gen X grew up with rotary phones and learned to code on Commodore 64 computers. They adapted to personal computers, 
               email, mobile phones, and smartphones as adults. This makes them uniquely skilled at both analog and digital 
-              worlds. They can fix things themselves, figure things out without YouTube tutorials, and aren't intimidated 
+              worlds. They can fix things themselves, figure things out without YouTube tutorials, and are not intimidated 
               by technology.
             </p>
 
             <h3 className="text-2xl font-bold text-yellow-600 mt-8 mb-3">Work-Life Balance Pioneers</h3>
             <p className="text-gray-700 leading-relaxed">
               Gen X watched their Boomer parents sacrifice everything for work and said no thanks. They prioritized family 
-              time and personal life more than previous generations. Gen X introduced the concept that work doesn't have to 
+              time and personal life more than previous generations. Gen X introduced the concept that work does not have to 
               consume your identity. They work hard but leave at 5pm without guilt.
             </p>
 
             <h3 className="text-2xl font-bold text-yellow-600 mt-8 mb-3">Skeptical and Cynical</h3>
             <p className="text-gray-700 leading-relaxed">
               Gen X grew up during Watergate, economic recessions, rising divorce rates, and the AIDS crisis. This bred 
-              healthy skepticism toward authority, institutions, and corporate promises. They question everything, don't 
+              healthy skepticism toward authority, institutions, and corporate promises. They question everything, do not 
               trust easily, and value authenticity over polish. This generation invented alternative culture and grunge 
               precisely because they rejected mainstream phoniness.
             </p>
@@ -70,42 +70,42 @@ export default function GenXPage() {
               Gen X currently holds many leadership positions but leads differently than Boomers:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
-              <li><strong>Direct communicators:</strong> No corporate speak, just tell it like it is</li>
-              <li><strong>Results-focused:</strong> Care about output, not face time in the office</li>
-              <li><strong>Hands-off managers:</strong> Trust employees to do their jobs without micromanaging</li>
-              <li><strong>Pragmatic problem solvers:</strong> Focus on practical solutions over theory</li>
-              <li><strong>Bridge builders:</strong> Can translate between Boomer and Millennial/Gen Z perspectives</li>
+              <li>Direct communicators: No corporate speak, just tell it like it is</li>
+              <li>Results-focused: Care about output, not face time in the office</li>
+              <li>Hands-off managers: Trust employees to do their jobs without micromanaging</li>
+              <li>Pragmatic problem solvers: Focus on practical solutions over theory</li>
+              <li>Bridge builders: Can translate between Boomer and Millennial or Gen Z perspectives</li>
             </ul>
 
             <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Cultural Markers That Define Gen X</h2>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li><strong>MTV:</strong> Music television defined their teen years</li>
-              <li><strong>Grunge and Alternative Rock:</strong> Nirvana, Pearl Jam rejected mainstream culture</li>
-              <li><strong>Fall of Berlin Wall:</strong> Witnessed end of Cold War</li>
-              <li><strong>AIDS Crisis:</strong> Came of age during devastating epidemic</li>
-              <li><strong>Personal Computers:</strong> First generation to use PCs in schools and homes</li>
-              <li><strong>Economic Uncertainty:</strong> Graduated into recessions, learned financial caution</li>
-              <li><strong>Rise of Hip Hop:</strong> Witnessed genre go mainstream</li>
-              <li><strong>Slacker Culture:</strong> Defined by Richard Linklater film, rejected yuppie ambition</li>
+              <li>MTV: Music television defined their teen years</li>
+              <li>Grunge and Alternative Rock: Nirvana and Pearl Jam rejected mainstream culture</li>
+              <li>Fall of Berlin Wall: Witnessed end of Cold War</li>
+              <li>AIDS Crisis: Came of age during devastating epidemic</li>
+              <li>Personal Computers: First generation to use PCs in schools and homes</li>
+              <li>Economic Uncertainty: Graduated into recessions, learned financial caution</li>
+              <li>Rise of Hip Hop: Witnessed genre go mainstream</li>
+              <li>Slacker Culture: Defined by Richard Linklater film, rejected yuppie ambition</li>
             </ul>
 
             <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Why Gen X is Called the Forgotten Generation</h2>
             <p className="text-gray-700 leading-relaxed">
               Gen X is smaller than both Baby Boomers and Millennials, making them less influential in marketing and media. 
-              They're sandwiched between two loud, large generations and content to stay under the radar. Gen X doesn't 
-              complain much, solves problems quietly, and doesn't seek attention. While Boomers and Millennials dominate 
+              They are sandwiched between two loud, large generations and content to stay under the radar. Gen X does not 
+              complain much, solves problems quietly, and does not seek attention. While Boomers and Millennials dominate 
               headlines, Gen X runs things behind the scenes and prefers it that way.
             </p>
 
             <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Gen X Values and Attitudes</h2>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li><strong>Independence:</strong> Prefer to figure things out themselves</li>
-              <li><strong>Authenticity:</strong> Hate phoniness and corporate speak</li>
-              <li><strong>Privacy:</strong> Not interested in sharing everything online</li>
-              <li><strong>Skepticism:</strong> Question authority and marketing claims</li>
-              <li><strong>Balance:</strong> Work to live, not live to work</li>
-              <li><strong>Practicality:</strong> Focus on what works, not theory</li>
-              <li><strong>Self-reliance:</strong> Don't need constant validation or supervision</li>
+              <li>Independence: Prefer to figure things out themselves</li>
+              <li>Authenticity: Hate phoniness and corporate speak</li>
+              <li>Privacy: Not interested in sharing everything online</li>
+              <li>Skepticism: Question authority and marketing claims</li>
+              <li>Balance: Work to live, not live to work</li>
+              <li>Practicality: Focus on what works, not theory</li>
+              <li>Self-reliance: Do not need constant validation or supervision</li>
             </ul>
 
             <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Frequently Asked Questions About Gen X</h2>
@@ -118,7 +118,7 @@ export default function GenXPage() {
 
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">What generation comes after Gen X?</h3>
-                <p className="text-gray-700">Millennials (Generation Y) come after Gen X. Millennials were born between 1981 and 1996.</p>
+                <p className="text-gray-700">Millennials or Generation Y come after Gen X. Millennials were born between 1981 and 1996.</p>
               </div>
 
               <div>
@@ -139,8 +139,7 @@ export default function GenXPage() {
               <Link href="/" className="bg-yellow-600 text-white px-6 py-3 rounded-lg hover:bg-yellow-700 transition font-semibold">
                 Find Your Generation
               </Link>
-              <Link href="/quiz" className="bg-purple-600 text-white px-6 py-3
-              rounded-lg hover:bg-purple-700 transition font-semibold">
+              <Link href="/quiz" className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold">
                 Take the Quiz
               </Link>
               <Link href="/millennials" className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold">
