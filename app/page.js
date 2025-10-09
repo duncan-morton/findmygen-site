@@ -57,8 +57,6 @@ export default function Home() {
           Enter your birth year to instantly discover your generation
         </p>
 
-</p>
-
 {/* NEW: Quiz Button */}
 <div className="text-center mb-8">
   <Link
