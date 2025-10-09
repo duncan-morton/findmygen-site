@@ -1,11 +1,12 @@
 import { Inter } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'What Generation Am I? | Birth Year → Generation Checker – FindMyGen',
-  description: 'Enter your birth year to instantly find your generation, age and fun facts. Discover if you\'re Gen Z, Millennial, Gen X, Boomer, or Gen Alpha. Free generation calculator.',
+  description: 'Find your generation instantly! Enter your birth year to discover if you\'re Gen Z, Millennial, Gen X, Boomer, or Gen Alpha. Free tool.',
   keywords: 'generation calculator, what generation am i, generation chart by birth year, gen z, millennial, gen x, boomer, silent generation, gen alpha, birth year',
   authors: [{ name: 'FindMyGen' }],
   openGraph: {
@@ -46,7 +47,10 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
