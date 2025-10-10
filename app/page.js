@@ -314,6 +314,61 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900 mb-2">Can you be between two generations?</h3>
               <p className="text-gray-700">Yes! People born on the cusp between generations (like 1996-1997 or 1980-1981) often share characteristics of both. These cuspers may identify with traits from both generations.</p>
             </div>
+            {/* Browse All Generations Section */}
+<div className="mt-16 pt-8 border-t border-gray-200">
+  <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
+    Explore Each Generation
+  </h2>
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <Link href="/gen-alpha" className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl hover:shadow-lg transition border-2 border-purple-200 hover:border-purple-400">
+      <div className="text-4xl mb-2">🚀</div>
+      <h3 className="text-xl font-bold mb-2">Gen Alpha</h3>
+      <p className="text-gray-600 text-sm">2013-Present • Ages 0-12</p>
+      <p className="text-gray-700 mt-2">The AI native generation</p>
+    </Link>
+
+    <Link href="/gen-z" className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl hover:shadow-lg transition border-2 border-blue-200 hover:border-blue-400">
+      <div className="text-4xl mb-2">📱</div>
+      <h3 className="text-xl font-bold mb-2">Gen Z</h3>
+      <p className="text-gray-600 text-sm">1997-2012 • Ages 13-28</p>
+      <p className="text-gray-700 mt-2">Digital natives and entrepreneurs</p>
+    </Link>
+
+    <Link href="/millennials" className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl hover:shadow-lg transition border-2 border-green-200 hover:border-green-400">
+      <div className="text-4xl mb-2">💻</div>
+      <h3 className="text-xl font-bold mb-2">Millennials</h3>
+      <p className="text-gray-600 text-sm">1981-1996 • Ages 29-44</p>
+      <p className="text-gray-700 mt-2">Digital pioneers and experience seekers</p>
+    </Link>
+
+    <Link href="/gen-x" className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl hover:shadow-lg transition border-2 border-yellow-200 hover:border-yellow-400">
+      <div className="text-4xl mb-2">🎸</div>
+      <h3 className="text-xl font-bold mb-2">Gen X</h3>
+      <p className="text-gray-600 text-sm">1965-1980 • Ages 45-60</p>
+      <p className="text-gray-700 mt-2">The forgotten independent generation</p>
+    </Link>
+
+    <Link href="/baby-boomers" className="p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl hover:shadow-lg transition border-2 border-orange-200 hover:border-orange-400">
+      <div className="text-4xl mb-2">🌻</div>
+      <h3 className="text-xl font-bold mb-2">Baby Boomers</h3>
+      <p className="text-gray-600 text-sm">1946-1964 • Ages 61-79</p>
+      <p className="text-gray-700 mt-2">Hardworking and optimistic achievers</p>
+    </Link>
+
+    <Link href="/silent-generation" className="p-6 bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl hover:shadow-lg transition border-2 border-gray-200 hover:border-gray-400">
+      <div className="text-4xl mb-2">📻</div>
+      <h3 className="text-xl font-bold mb-2">Silent Generation</h3>
+      <p className="text-gray-600 text-sm">1928-1945 • Ages 80-97</p>
+      <p className="text-gray-700 mt-2">Dutiful and resilient survivors</p>
+    </Link>
+  </div>
+
+  <div className="text-center mt-8">
+    <Link href="/compare" className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition font-semibold text-lg">
+      🆚 Compare Any Two Generations
+    </Link>
+  </div>
+</div>
           </div>
         </div>
       </div>
