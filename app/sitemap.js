@@ -1,5 +1,5 @@
 export default function sitemap() {
-    const baseUrl = 'https://findmygen.com'
+    const baseUrl = 'https://www.findmygen.com'
     
     return [
       {
@@ -28,6 +28,18 @@ export default function sitemap() {
       },
       {
         url: `${baseUrl}/gen-x`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/baby-boomers`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/gen-alpha`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
         priority: 0.8,
