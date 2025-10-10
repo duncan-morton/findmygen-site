@@ -369,6 +369,16 @@ export default function Home() {
     </Link>
   </div>
 </div>
+{/* Footer */}
+<div className="mt-16 pt-8 border-t border-gray-200 text-center">
+  <div className="flex gap-6 justify-center text-sm text-gray-600">
+    <Link href="/privacy" className="hover:text-gray-900">
+      Privacy Policy
+    </Link>
+    <span className="text-gray-400">•</span>
+    <span>© 2025 FindMyGen</span>
+  </div>
+</div>
           </div>
         </div>
       </div>
