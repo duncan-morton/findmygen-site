@@ -15,6 +15,12 @@ export default function sitemap() {
         priority: 0.9,
       },
       {
+        url: `${baseUrl}/compare`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.9,
+      },
+      {
         url: `${baseUrl}/gen-alpha`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
