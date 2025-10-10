@@ -15,6 +15,12 @@ export default function sitemap() {
         priority: 0.9,
       },
       {
+        url: `${baseUrl}/gen-alpha`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
         url: `${baseUrl}/gen-z`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
@@ -39,7 +45,7 @@ export default function sitemap() {
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/gen-alpha`,
+        url: `${baseUrl}/silent-generation`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
         priority: 0.8,
