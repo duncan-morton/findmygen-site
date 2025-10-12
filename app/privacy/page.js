@@ -10,7 +10,7 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
         <div className="mb-6">
-          <Link href="/" className="text-blue-600 hover:text-blue-700">← Back to Home</Link>
+          <Link href="/" className="text-blue-600 hover:text-blue-700">Back to Home</Link>
         </div>
         
         <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
@@ -32,12 +32,12 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc pl-6 text-gray-700">
               <li>Anonymous page views and visit duration</li>
-              <li>General location (country level only)</li>
+              <li>General location at country level only</li>
               <li>Device and browser type</li>
-              <li>Referral source (how you found us)</li>
+              <li>Referral source showing how you found us</li>
             </ul>
             <p className="text-gray-700">
-              <strong>We do NOT collect:</strong> Names, email addresses, IP addresses, or any personally 
+              We do NOT collect: Names, email addresses, IP addresses, or any personally 
               identifiable information.
             </p>
           </section>
@@ -66,14 +66,14 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900">Third-Party Services</h2>
             <p className="text-gray-700">
-              Our site includes social sharing buttons (Twitter/X, Facebook). When you click these 
-              buttons, you will be subject to those platforms privacy policies. We do not receive 
+              Our site includes social sharing buttons for Twitter and Facebook. When you click these 
+              buttons, you will be subject to those platform privacy policies. We do not receive 
               any data from these interactions unless you choose to share.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900">Your Rights (GDPR)</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Your Rights Under GDPR</h2>
             <p className="text-gray-700">
               Under GDPR, you have rights regarding your data. Since we do not collect personal data, 
               there is no personal information to access, modify, or delete. All analytics data is 
@@ -90,7 +90,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900">Children's Privacy</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Children and Privacy</h2>
             <p className="text-gray-700">
               Our site is suitable for all ages. We do not knowingly collect any information from 
               children under 13 or anyone else.
@@ -116,7 +116,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 pt-6 border-t border-gray-200">
           <Link href="/" className="text-blue-600 hover:text-blue-700 font-semibold">
-            ← Return to FindMyGen
+            Return to FindMyGen
           </Link>
         </div>
       </div>
