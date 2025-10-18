@@ -57,13 +57,19 @@ export default function Home() {
           Enter your birth year to instantly discover your generation
         </p>
 
-{/* NEW: Quiz Button */}
-<div className="text-center mb-8">
+{/* Quiz and Blog Buttons */}
+<div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
   <Link
     href="/quiz"
     className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-purple-700 hover:to-pink-700 transition transform hover:scale-105 shadow-lg"
   >
-    🎯 Take the Generation Quiz →
+    🎯 Take the Generation Quiz
+  </Link>
+  <Link
+    href="/blog"
+    className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition transform hover:scale-105 shadow-lg"
+  >
+    📚 Read Our Blog
   </Link>
 </div>
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">

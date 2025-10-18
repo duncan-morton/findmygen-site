@@ -1,66 +1,76 @@
 export default function sitemap() {
-    const baseUrl = 'https://www.findmygen.com'
-    
-    return [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 1.0,
-      },
-      {
-        url: `${baseUrl}/quiz`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/compare`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/gen-alpha`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/gen-z`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/millennials`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/gen-x`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/baby-boomers`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/silent-generation`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/privacy`,
-        lastModified: new Date(),
-        changeFrequency: 'yearly',
-        priority: 0.3,
-      },
-    ]
-  }
+  return [
+    {
+      url: 'https://www.findmygen.com',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: 'https://www.findmygen.com/quiz',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: 'https://www.findmygen.com/compare',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: 'https://www.findmygen.com/blog',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/gen-z-vs-millennials',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/gen-z',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/millennials',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/gen-x',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/baby-boomers',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/gen-alpha',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/silent-generation',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/privacy',
+      lastModified: new Date('2025-10-17'),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+  ]
+}
