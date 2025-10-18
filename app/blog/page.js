@@ -9,6 +9,30 @@ export const metadata = {
 export default function Blog() {
   const posts = [
     {
+      slug: 'what-is-gen-alpha',
+      title: 'What is Gen Alpha? Everything About the First Fully Digital Generation',
+      excerpt: 'Born from 2013 onwards, Gen Alpha is the most tech-savvy generation yet. Learn what makes them unique, their defining characteristics, and how they will shape the future.',
+      date: 'October 18, 2025',
+      readTime: '7 min read',
+      category: 'Generation Guides'
+    },
+    {
+      slug: 'millennials-vs-gen-x',
+      title: 'Millennials vs Gen X: Why These Generations Clash at Work',
+      excerpt: 'Discover why Millennials and Gen X often misunderstand each other in the workplace. Learn about their different approaches to work, communication, and life.',
+      date: 'October 18, 2025',
+      readTime: '8 min read',
+      category: 'Generation Guides'
+    },
+    {
+      slug: 'gen-x-vs-baby-boomers',
+      title: 'Gen X vs Baby Boomers: Understanding the Generational Divide',
+      excerpt: 'Explore the key differences between Gen X and Baby Boomers in work values, technology adoption, parenting styles, and cultural perspectives.',
+      date: 'October 18, 2025',
+      readTime: '8 min read',
+      category: 'Generation Guides'
+    },
+    {
       slug: 'gen-z-vs-millennials',
       title: 'Gen Z vs Millennials: The Complete Guide to Understanding Both Generations',
       excerpt: 'Discover the key differences between Gen Z and Millennials, from technology use to work values, communication styles, and cultural touchstones that define each generation.',

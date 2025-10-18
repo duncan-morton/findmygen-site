@@ -31,6 +31,24 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      url: 'https://www.findmygen.com/blog/what-is-gen-alpha',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/gen-x-vs-baby-boomers',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/millennials-vs-gen-x',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: 'https://www.findmygen.com/gen-z',
       lastModified: new Date('2025-10-17'),
       changeFrequency: 'monthly',
