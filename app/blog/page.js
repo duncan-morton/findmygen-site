@@ -9,6 +9,30 @@ export const metadata = {
 export default function Blog() {
   const posts = [
     {
+      slug: 'cuspers-born-between-generations',
+      title: 'Are You a Cusper? Born on the Edge Between Generations',
+      excerpt: 'Discover what it means to be born between generations. Learn about cuspers who do not quite fit their assigned generation and identify with traits from both.',
+      date: 'October 18, 2025',
+      readTime: '9 min read',
+      category: 'Generation Identity'
+    },
+    {
+      slug: 'bridging-generation-gaps-at-work',
+      title: 'Bridging Generation Gaps at Work: A Complete Guide for 2025',
+      excerpt: 'Learn practical strategies for managing multi-generational teams. Discover how to leverage generational differences as strengths and create workplace harmony.',
+      date: 'October 18, 2025',
+      readTime: '11 min read',
+      category: 'Workplace Strategy'
+    },
+    {
+      slug: 'gen-alpha-parenting-guide',
+      title: 'Gen Alpha Parenting: How to Raise Digital Natives in 2025',
+      excerpt: 'Practical guide for parents raising Gen Alpha children. Learn how to navigate screen time, social media, education, and preparing kids for an AI-powered future.',
+      date: 'October 18, 2025',
+      readTime: '10 min read',
+      category: 'Parenting Guide'
+    },
+    {
       slug: 'gen-z-workplace-guide',
       title: 'Gen Z in the Workplace: What Employers Need to Know in 2025',
       excerpt: 'Gen Z is transforming the workplace with new expectations around flexibility, mental health, and authenticity. Learn how to attract, manage, and retain Gen Z talent.',

@@ -67,6 +67,24 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      url: 'https://www.findmygen.com/blog/gen-alpha-parenting-guide',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/bridging-generation-gaps-at-work',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/cuspers-born-between-generations',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: 'https://www.findmygen.com/gen-z',
       lastModified: new Date('2025-10-17'),
       changeFrequency: 'monthly',
