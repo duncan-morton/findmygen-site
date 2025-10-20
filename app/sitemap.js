@@ -49,6 +49,24 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      url: 'https://www.findmygen.com/blog/silent-generation-explained',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/gen-z-workplace-guide',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.findmygen.com/blog/baby-boomer-retirement',
+      lastModified: new Date('2025-10-18'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: 'https://www.findmygen.com/gen-z',
       lastModified: new Date('2025-10-17'),
       changeFrequency: 'monthly',

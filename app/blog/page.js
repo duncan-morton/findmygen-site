@@ -9,6 +9,30 @@ export const metadata = {
 export default function Blog() {
   const posts = [
     {
+      slug: 'gen-z-workplace-guide',
+      title: 'Gen Z in the Workplace: What Employers Need to Know in 2025',
+      excerpt: 'Gen Z is transforming the workplace with new expectations around flexibility, mental health, and authenticity. Learn how to attract, manage, and retain Gen Z talent.',
+      date: 'October 18, 2025',
+      readTime: '10 min read',
+      category: 'Workplace Insights'
+    },
+    {
+      slug: 'baby-boomer-retirement',
+      title: 'Baby Boomer Retirement: Redefining What It Means to Age in 2025',
+      excerpt: 'Baby Boomers are transforming retirement with active lifestyles, second careers, and longer lives. Learn how this generation is redefining aging and what comes next.',
+      date: 'October 18, 2025',
+      readTime: '9 min read',
+      category: 'Generation Guides'
+    },
+    {
+      slug: 'silent-generation-explained',
+      title: 'Silent Generation: The Forgotten Generation Explained',
+      excerpt: 'Born 1928-1945, the Silent Generation shaped modern America through quiet determination. Learn about their values, experiences, and lasting impact on society.',
+      date: 'October 18, 2025',
+      readTime: '9 min read',
+      category: 'Generation Guides'
+    },
+    {
       slug: 'what-is-gen-alpha',
       title: 'What is Gen Alpha? Everything About the First Fully Digital Generation',
       excerpt: 'Born from 2013 onwards, Gen Alpha is the most tech-savvy generation yet. Learn what makes them unique, their defining characteristics, and how they will shape the future.',
