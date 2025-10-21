@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Navigation from '../../components/Navigation';
 
 export const metadata = {
-  title: 'Gen Alpha Parenting: How to Raise Digital Natives in 2025',
+  title: 'Gen Alpha Parenting: How to Raise Digital Natives in  2025',
   description: 'Practical guide for parents raising Gen Alpha children. Learn how to navigate screen time, social media, education, and preparing kids for an AI-powered future.',
 }
 
