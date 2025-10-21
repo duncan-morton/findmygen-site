@@ -30,7 +30,7 @@ export default function BridgingGenerationGaps() {
               </h1>
               
               <p className="text-xl text-gray-600 leading-relaxed">
-                Today's workplaces span five generations, from Silent Generation consultants to Gen Z new hires. Understanding how to bridge these generational differences transforms potential conflict into competitive advantage.
+                Today workplaces span five generations, from Silent Generation consultants to Gen Z new hires. Understanding how to bridge these generational differences transforms potential conflict into competitive advantage.
               </p>
             </div>
           </header>
