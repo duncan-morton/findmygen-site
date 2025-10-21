@@ -59,7 +59,7 @@ export default function BridgingGenerationGaps() {
               </ul>
             </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Understanding Each Generation's Strengths</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Understanding the Strengths of Each Generation</h2>
 
             <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-3">Baby Boomers: Experience and Relationships</h3>
 
