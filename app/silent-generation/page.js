@@ -1,210 +1,214 @@
-import Link from 'next/link'
+/**
+ * Silent Generation Page
+ * 
+ * Uses data source, metadata helpers, and SEO components.
+ */
 
-export const metadata = {
-  title: 'Silent Generation: Birth Years, Traits & History (1928-1945) | FindMyGen',
-  description: 'Complete guide to the Silent Generation: birth years 1928-1945, defining characteristics, historical impact, and what shaped the Greatest Generation.',
-  keywords: 'silent generation, silent generation birth years, silent generation characteristics, 1928-1945, greatest generation'
+import Link from 'next/link'
+import { getGenerationBySlug, getAllGenerationSlugs } from '../lib/data/generations'
+import { getPostBySlug, blogPosts } from '../lib/data/blog'
+import { generateGenerationMetadata } from '../lib/metadata-helpers'
+import Breadcrumbs from '../components/Breadcrumbs'
+import RelatedContent from '../components/RelatedContent'
+
+const SLUG = 'silent-generation'
+
+// Generate metadata using helper function
+export async function generateMetadata() {
+  const gen = getGenerationBySlug(SLUG)
+  if (!gen) {
+    return {
+      title: 'Silent Generation | FindMyGen',
+      description: 'Complete guide to the Silent Generation.',
+    }
+  }
+  return generateGenerationMetadata(gen)
 }
 
+// Server component - no 'use client' directive
 export default function SilentGenPage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="mb-6 text-sm">
-          <Link href="/" className="text-gray-600 hover:text-gray-700">Home</Link>
-          <span className="mx-2 text-gray-500">→</span>
-          <span className="text-gray-700">Silent Generation</span>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="text-center mb-8">
-            <div className="text-8xl mb-4">📻</div>
-            <h1 className="text-5xl font-bold mb-4 text-gray-900">Silent Generation</h1>
-            <p className="text-2xl text-gray-600 font-semibold mb-2">Born: 1928 - 1945</p>
-            <p className="text-xl text-gray-600">Ages 80-97 in 2025</p>
+  const gen = getGenerationBySlug(SLUG)
+  
+  if (!gen) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Generation Not Found</h1>
+            <p className="text-gray-700">The requested generation could not be found.</p>
+            <Link href="/" className="text-blue-600 hover:underline mt-4 inline-block">
+              ← Back to Home
+            </Link>
           </div>
+        </div>
+      </div>
+    )
+  }
 
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are the Silent Generation?</h2>
-            <p className="text-gray-700 leading-relaxed">
-              The Silent Generation includes anyone born between 1928 and 1945. This makes the Silent Generation currently 
-              between 80 and 97 years old in 2025. They are called silent because they were raised to respect authority, 
-              work hard without complaint, and avoid making waves. This generation grew up during the Great Depression and 
-              World War II, shaping their values of sacrifice, duty, and perseverance.
-            </p>
+  // Calculate age range
+  const CURRENT_YEAR = 2025
+  const ageRange = {
+    start: CURRENT_YEAR - gen.yearRange.end,
+    end: CURRENT_YEAR - gen.yearRange.start,
+  }
+  
+  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === 2025 ? 'Present' : gen.yearRange.end}`
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Key Characteristics of the Silent Generation</h2>
-            
-            <h3 className="text-2xl font-bold text-gray-600 mt-8 mb-3">Hardworking and Resilient</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Having grown up during the Great Depression, the Silent Generation learned the value of hard work and 
-              frugality early. Many experienced genuine poverty and rationing during World War II. This taught them to 
-              waste nothing, save everything, and work tirelessly to provide security for their families. They believe 
-              in earning what you have and are uncomfortable with debt.
-            </p>
+  // Get related generations
+  const allGenerations = getAllGenerationSlugs()
+    .map((slug) => getGenerationBySlug(slug))
+    .filter((g) => g && g.slug !== SLUG)
+  
+  // Filter to related generations if specified, otherwise show all
+  const relatedGenerations = gen.relatedSlugs && gen.relatedSlugs.length > 0
+    ? gen.relatedSlugs
+        .map((slug) => getGenerationBySlug(slug))
+        .filter((g) => g !== undefined)
+    : allGenerations.slice(0, 3) // Show 3 random if no specific related
 
-            <h3 className="text-2xl font-bold text-gray-600 mt-8 mb-3">Respect for Authority</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The Silent Generation was raised to respect elders, follow rules, and trust institutions. They value 
-              hierarchy, proper etiquette, and doing things by the book. This generation rarely questioned authority 
-              figures like teachers, doctors, or government officials. They believe in working within the system rather 
-              than challenging it.
-            </p>
+  // Get related blog posts
+  const relatedPosts = gen.relatedBlogPosts && gen.relatedBlogPosts.length > 0
+    ? gen.relatedBlogPosts
+        .map((slug) => getPostBySlug(slug))
+        .filter((post) => post !== undefined)
+    : blogPosts
+        .filter((post) => 
+          post.relatedGenerations && post.relatedGenerations.includes(SLUG)
+        )
+        .slice(0, 3)
 
-            <h3 className="text-2xl font-bold text-gray-600 mt-8 mb-3">Financially Conservative</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Having witnessed economic collapse during the Depression, the Silent Generation is extremely financially 
-              cautious. They save aggressively, avoid unnecessary risks, and prefer tangible assets like homes and savings 
-              accounts. Credit cards and loans make them uncomfortable. Many kept cash hidden at home as insurance against 
-              another economic disaster.
-            </p>
+  // FAQPage schema (only if FAQs exist)
+  const faqSchema = gen.faqs && gen.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: gen.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null
 
-            <h3 className="text-2xl font-bold text-gray-600 mt-8 mb-3">Traditional Values</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The Silent Generation holds traditional views on family, work, and society. They believe in clear gender 
-              roles, formal manners, and community standards. Marriage was expected and typically lifelong. Church attendance 
-              was common, and reputation in the community mattered greatly. They value stability, tradition, and maintaining 
-              social order.
-            </p>
+  return (
+    <>
+      {/* FAQPage structured data */}
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
+      
+      <div className={`min-h-screen bg-gradient-to-br ${gen.bgGradient}`}>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          {/* Breadcrumbs with structured data */}
+          <Breadcrumbs items={[
+            { name: gen.displayName, href: `/${gen.slug}` },
+          ]} />
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Historical Context That Shaped Them</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Great Depression: Childhood marked by economic hardship and scarcity</li>
-              <li>World War II: Teen years during global conflict, rationing, and sacrifice</li>
-              <li>Post-war prosperity: Built careers during strongest economic growth period</li>
-              <li>Korean War: Many served or had family members serve</li>
-              <li>Rise of suburbs: Moved to new suburban developments in 1950s-60s</li>
-              <li>Golden age of radio: Primary entertainment before television</li>
-              <li>Birth of rock and roll: Witnessed Elvis and cultural shift as adults</li>
-            </ul>
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="text-8xl mb-4">{gen.emoji}</div>
+              <h1 className="text-5xl font-bold mb-4 text-gray-900">{gen.displayName}</h1>
+              <p className={`text-2xl ${gen.color.replace('bg-', 'text-')} font-semibold mb-2`}>
+                Born: {yearDisplay}
+              </p>
+              <p className="text-xl text-gray-600">Ages {ageRange.start}-{ageRange.end} in {CURRENT_YEAR}</p>
+            </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Why Called the Silent Generation?</h2>
-            <p className="text-gray-700 leading-relaxed">
-              The term Silent Generation was coined in a 1951 Time magazine article describing them as grave, cautious, 
-              and unimaginative. Sandwiched between the Greatest Generation who fought WWII and the vocal Baby Boomers, 
-              they were seen as conformist and risk-averse. However, this characterization overlooks their significant 
-              contributions to civil rights, arts, and business leadership.
-            </p>
+            {/* Main Content */}
+            <div className="prose prose-lg max-w-none">
+              {/* Introduction */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are {gen.displayName}?</h2>
+              <p className="text-gray-700 leading-relaxed">
+                {gen.longDescription}
+              </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Silent Generation Contributions</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Despite their name, the Silent Generation produced many influential leaders and changemakers:
-            </p>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
-              <li>Civil rights leaders: Martin Luther King Jr., Malcolm X, Gloria Steinem</li>
-              <li>Cultural icons: Elvis Presley, Johnny Cash, James Dean, Marilyn Monroe</li>
-              <li>Political leaders: John McCain, Joe Biden, Bernie Sanders</li>
-              <li>Business innovators: Warren Buffett, Rupert Murdoch</li>
-              <li>Artists and writers: Bob Dylan, Joan Baez, Stephen King</li>
-            </ul>
+              {/* Key Characteristics */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Key Characteristics of {gen.displayName}</h2>
+              {gen.keyCharacteristics.map((char, index) => (
+                <div key={index} className="mt-8">
+                  <h3 className={`text-2xl font-bold ${gen.color.replace('bg-', 'text-')} mb-3`}>
+                    {char.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">{char.description}</p>
+                </div>
+              ))}
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Silent Generation Values</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Duty and sacrifice: Put country and family before self</li>
-              <li>Financial security: Save for rainy day, avoid debt</li>
-              <li>Hard work: Success comes from dedication and perseverance</li>
-              <li>Loyalty: Stay with same employer, spouse, community for life</li>
-              <li>Respect: Honor elders, authorities, and traditions</li>
-              <li>Privacy: Keep personal matters private, do not air grievances publicly</li>
-              <li>Self-reliance: Solve own problems without asking for help</li>
-            </ul>
+              {/* Workplace Habits */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">{gen.displayName} in the Workplace</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
+                {gen.workplaceHabits.map((habit, index) => (
+                  <li key={index}>{habit}</li>
+                ))}
+              </ul>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Silent Generation and Technology</h2>
-            <p className="text-gray-700 leading-relaxed">
-              The Silent Generation witnessed more technological change than any generation before them. They were born 
-              when cars were still uncommon, grew up with radio, witnessed the birth of television, adapted to computers 
-              in the workplace, and now use smartphones and the internet. While many embraced technology for practical 
-              purposes, they generally prefer traditional methods of communication like phone calls and letters.
-            </p>
+              {/* Cultural Markers */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Cultural Markers That Define {gen.displayName}</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                {gen.culturalMarkers.map((marker, index) => (
+                  <li key={index}>{marker}</li>
+                ))}
+              </ul>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Work and Retirement</h2>
-            <p className="text-gray-700 leading-relaxed">
-              The Silent Generation pioneered the concept of retirement as we know it. They benefited from strong pension 
-              systems and Social Security, making comfortable retirement possible for the middle class. Many worked for 
-              one employer their entire career, earning gold watches at retirement. They valued job security over high 
-              salaries and stayed loyal to companies that provided stable employment.
-            </p>
+              {/* FAQs Section */}
+              {gen.faqs && gen.faqs.length > 0 && (
+                <>
+                  <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">
+                    Frequently Asked Questions About {gen.displayName}
+                  </h2>
+                  <div className="space-y-6 mt-6">
+                    {gen.faqs.map((faq, index) => (
+                      <div key={index}>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{faq.question}</h3>
+                        <p className="text-gray-700">{faq.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Frequently Asked Questions About the Silent Generation</h2>
-            
-            <div className="space-y-6 mt-6">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Is the Silent Generation the same as the Greatest Generation?</h3>
-                <p className="text-gray-700">No, they are different. The Greatest Generation fought in World War II and were born roughly 1901-1927. The Silent Generation came after, born 1928-1945, and were too young to fight in WWII but served in the Korean War.</p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">What generation comes after the Silent Generation?</h3>
-                <p className="text-gray-700">Baby Boomers come after the Silent Generation. Boomers were born between 1946 and 1964.</p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">If I was born in 1940, what generation am I?</h3>
-                <p className="text-gray-700">If you were born in 1940, you are part of the Silent Generation, right in the middle of the cohort.</p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Why is the Silent Generation so frugal?</h3>
-                <p className="text-gray-700">The Silent Generation grew up during the Great Depression when many families struggled to afford basic necessities. This childhood experience of scarcity created lifelong habits of saving, avoiding waste, and preparing for hard times.</p>
+              {/* Call to Action Section */}
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">Explore More</h3>
+                <div className="flex gap-4 justify-center flex-wrap mb-8">
+                  <Link 
+                    href="/" 
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+                  >
+                    🎯 Generation Calculator
+                  </Link>
+                  <Link 
+                    href="/quiz" 
+                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold"
+                  >
+                    🎮 Take the Quiz
+                  </Link>
+                  <Link 
+                    href="/compare" 
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
+                  >
+                    🆚 Compare Generations
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200">
-  <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">Explore More</h3>
-  <div className="flex gap-4 justify-center flex-wrap mb-8">
-    <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
-      🎯 Generation Calculator
-    </Link>
-    <Link href="/quiz" className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold">
-      🎮 Take the Quiz
-    </Link>
-    <Link href="/compare" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold">
-      🆚 Compare Generations
-    </Link>
-  </div>
-
-  <h4 className="text-xl font-bold text-center mb-4 text-gray-900">Browse All Generations</h4>
-  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-    <Link href="/gen-alpha" className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition border border-purple-200 text-center">
-      <div className="text-3xl mb-1">🚀</div>
-      <div className="font-semibold text-sm">Gen Alpha</div>
-      <div className="text-xs text-gray-600">2013-Present</div>
-    </Link>
-
-    <Link href="/gen-z" className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition border border-blue-200 text-center">
-      <div className="text-3xl mb-1">📱</div>
-      <div className="font-semibold text-sm">Gen Z</div>
-      <div className="text-xs text-gray-600">1997-2012</div>
-    </Link>
-
-    <Link href="/millennials" className="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition border border-green-200 text-center">
-      <div className="text-3xl mb-1">💻</div>
-      <div className="font-semibold text-sm">Millennials</div>
-      <div className="text-xs text-gray-600">1981-1996</div>
-    </Link>
-
-    <Link href="/gen-x" className="p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition border border-yellow-200 text-center">
-      <div className="text-3xl mb-1">🎸</div>
-      <div className="font-semibold text-sm">Gen X</div>
-      <div className="text-xs text-gray-600">1965-1980</div>
-    </Link>
-
-    <Link href="/baby-boomers" className="p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition border border-orange-200 text-center">
-      <div className="text-3xl mb-1">🌻</div>
-      <div className="font-semibold text-sm">Baby Boomers</div>
-      <div className="text-xs text-gray-600">1946-1964</div>
-    </Link>
-
-    <Link href="/silent-generation" className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-200 text-center">
-      <div className="text-3xl mb-1">📻</div>
-      <div className="font-semibold text-sm">Silent Gen</div>
-      <div className="text-xs text-gray-600">1928-1945</div>
-    </Link>
-  </div>
-</div>
+          {/* Related Content Component with internal linking */}
+          <RelatedContent 
+            generations={relatedGenerations}
+            blogPosts={relatedPosts}
+            title="Explore More"
+            maxItems={6}
+          />
         </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,193 +1,214 @@
-import Link from 'next/link'
+/**
+ * Baby Boomers Page
+ * 
+ * Uses data source, metadata helpers, and SEO components.
+ */
 
-export const metadata = {
-  title: 'Baby Boomers: Birth Years, Traits & Characteristics (1946-1964) | FindMyGen',
-  description: 'Complete guide to Baby Boomers: birth years 1946-1964, defining characteristics, cultural impact, work ethic, and what makes the Boomer generation unique.',
-  keywords: 'baby boomers, boomer generation, boomer birth years, boomer characteristics, 1946-1964, baby boomer traits'
+import Link from 'next/link'
+import { getGenerationBySlug, getAllGenerationSlugs } from '../lib/data/generations'
+import { getPostBySlug, blogPosts } from '../lib/data/blog'
+import { generateGenerationMetadata } from '../lib/metadata-helpers'
+import Breadcrumbs from '../components/Breadcrumbs'
+import RelatedContent from '../components/RelatedContent'
+
+const SLUG = 'baby-boomers'
+
+// Generate metadata using helper function
+export async function generateMetadata() {
+  const gen = getGenerationBySlug(SLUG)
+  if (!gen) {
+    return {
+      title: 'Baby Boomers | FindMyGen',
+      description: 'Complete guide to Baby Boomers.',
+    }
+  }
+  return generateGenerationMetadata(gen)
 }
 
+// Server component - no 'use client' directive
 export default function BoomersPage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="mb-6 text-sm">
-          <Link href="/" className="text-orange-600 hover:text-orange-700">Home</Link>
-          <span className="mx-2 text-gray-500">→</span>
-          <span className="text-gray-700">Baby Boomers</span>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="text-center mb-8">
-            <div className="text-8xl mb-4">🌻</div>
-            <h1 className="text-5xl font-bold mb-4 text-gray-900">Baby Boomers</h1>
-            <p className="text-2xl text-orange-600 font-semibold mb-2">Born: 1946 - 1964</p>
-            <p className="text-xl text-gray-600">Ages 61-79 in 2025</p>
+  const gen = getGenerationBySlug(SLUG)
+  
+  if (!gen) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Generation Not Found</h1>
+            <p className="text-gray-700">The requested generation could not be found.</p>
+            <Link href="/" className="text-blue-600 hover:underline mt-4 inline-block">
+              ← Back to Home
+            </Link>
           </div>
+        </div>
+      </div>
+    )
+  }
 
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are Baby Boomers?</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Baby Boomers include anyone born between 1946 and 1964. This makes Baby Boomers currently between 
-              61 and 79 years old in 2025. The name comes from the dramatic increase in birth rates following World War II, 
-              when returning soldiers started families during a period of unprecedented economic prosperity.
-            </p>
+  // Calculate age range
+  const CURRENT_YEAR = 2025
+  const ageRange = {
+    start: CURRENT_YEAR - gen.yearRange.end,
+    end: CURRENT_YEAR - gen.yearRange.start,
+  }
+  
+  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === 2025 ? 'Present' : gen.yearRange.end}`
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Key Characteristics of Baby Boomers</h2>
-            
-            <h3 className="text-2xl font-bold text-orange-600 mt-8 mb-3">Strong Work Ethic</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Baby Boomers are known for their dedication to work and belief in paying your dues. They value face time 
-              at the office, climbing the corporate ladder, and loyalty to employers. Many Boomers worked for the same 
-              company for decades, something unheard of in younger generations. They believe hard work and dedication 
-              lead to success and financial security.
-            </p>
+  // Get related generations
+  const allGenerations = getAllGenerationSlugs()
+    .map((slug) => getGenerationBySlug(slug))
+    .filter((g) => g && g.slug !== SLUG)
+  
+  // Filter to related generations if specified, otherwise show all
+  const relatedGenerations = gen.relatedSlugs && gen.relatedSlugs.length > 0
+    ? gen.relatedSlugs
+        .map((slug) => getGenerationBySlug(slug))
+        .filter((g) => g !== undefined)
+    : allGenerations.slice(0, 3) // Show 3 random if no specific related
 
-            <h3 className="text-2xl font-bold text-orange-600 mt-8 mb-3">Optimistic and Idealistic</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Growing up during post-war prosperity, Boomers developed an optimistic worldview. They believed they could 
-              change the world and drove major social movements in the 1960s and 70s including civil rights, feminism, 
-              and environmentalism. This generation coined phrases like peace and love and questioned authority while 
-              pursuing idealistic goals.
-            </p>
+  // Get related blog posts
+  const relatedPosts = gen.relatedBlogPosts && gen.relatedBlogPosts.length > 0
+    ? gen.relatedBlogPosts
+        .map((slug) => getPostBySlug(slug))
+        .filter((post) => post !== undefined)
+    : blogPosts
+        .filter((post) => 
+          post.relatedGenerations && post.relatedGenerations.includes(SLUG)
+        )
+        .slice(0, 3)
 
-            <h3 className="text-2xl font-bold text-orange-600 mt-8 mb-3">Competitive and Success-Driven</h3>
-            <p className="text-gray-700 leading-relaxed">
-              As the largest generation in history, Boomers competed for everything: jobs, college spots, housing, and 
-              promotions. This created a highly competitive, achievement-oriented mindset. They measure success through 
-              career titles, home ownership, and material possessions. The phrase keeping up with the Joneses originated 
-              from Boomer culture.
-            </p>
+  // FAQPage schema (only if FAQs exist)
+  const faqSchema = gen.faqs && gen.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: gen.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null
 
-            <h3 className="text-2xl font-bold text-orange-600 mt-8 mb-3">Prefer Traditional Communication</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Baby Boomers prefer phone calls and face-to-face meetings over texting or email. They value personal 
-              relationships built through direct interaction. While many have adapted to technology, they did not grow 
-              up with it and often prefer traditional methods of communication and doing business.
-            </p>
+  return (
+    <>
+      {/* FAQPage structured data */}
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
+      
+      <div className={`min-h-screen bg-gradient-to-br ${gen.bgGradient}`}>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          {/* Breadcrumbs with structured data */}
+          <Breadcrumbs items={[
+            { name: gen.displayName, href: `/${gen.slug}` },
+          ]} />
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Baby Boomers in the Workplace</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Baby Boomers shaped modern corporate culture and still hold many leadership positions:
-            </p>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
-              <li>Value loyalty: Expect employees to stay with companies long-term</li>
-              <li>Hierarchical respect: Respect authority and chain of command</li>
-              <li>Face time matters: Equate office presence with productivity</li>
-              <li>Work-life integration: Often put career before personal life</li>
-              <li>Delayed retirement: Many working past traditional retirement age</li>
-            </ul>
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="text-8xl mb-4">{gen.emoji}</div>
+              <h1 className="text-5xl font-bold mb-4 text-gray-900">{gen.displayName}</h1>
+              <p className={`text-2xl ${gen.color.replace('bg-', 'text-')} font-semibold mb-2`}>
+                Born: {yearDisplay}
+              </p>
+              <p className="text-xl text-gray-600">Ages {ageRange.start}-{ageRange.end} in {CURRENT_YEAR}</p>
+            </div>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Cultural Markers That Define Baby Boomers</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Vietnam War: Divisive conflict that defined their young adult years</li>
-              <li>Civil Rights Movement: Witnessed and participated in major social change</li>
-              <li>Woodstock and Counterculture: Music festivals and hippie movement</li>
-              <li>Moon Landing 1969: Watched humanity land on the moon</li>
-              <li>Assassination of JFK: Defining national tragedy</li>
-              <li>Rise of Television: First generation to grow up with TV in most homes</li>
-              <li>Economic Prosperity: Experienced strongest middle-class growth in US history</li>
-              <li>Rock and Roll: Elvis, Beatles, Rolling Stones defined their soundtrack</li>
-            </ul>
+            {/* Main Content */}
+            <div className="prose prose-lg max-w-none">
+              {/* Introduction */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are {gen.displayName}?</h2>
+              <p className="text-gray-700 leading-relaxed">
+                {gen.longDescription}
+              </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Baby Boomer Values and Attitudes</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Hard work pays off: Belief in meritocracy and American Dream</li>
-              <li>Company loyalty: Traditional employer-employee relationships</li>
-              <li>Home ownership: View owning a home as key milestone and investment</li>
-              <li>Question authority: Despite respect for hierarchy, challenged status quo in youth</li>
-              <li>Personal achievement: Individual success and recognition important</li>
-              <li>Financial security: Prioritize savings and traditional investments</li>
-              <li>Family values: Traditional family structures, though many experienced divorce</li>
-            </ul>
+              {/* Key Characteristics */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Key Characteristics of {gen.displayName}</h2>
+              {gen.keyCharacteristics.map((char, index) => (
+                <div key={index} className="mt-8">
+                  <h3 className={`text-2xl font-bold ${gen.color.replace('bg-', 'text-')} mb-3`}>
+                    {char.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">{char.description}</p>
+                </div>
+              ))}
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Baby Boomers and Technology</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Baby Boomers witnessed massive technological change throughout their lives. They adapted from rotary phones 
-              to smartphones, from typewriters to computers, from vinyl records to streaming music. While not digital 
-              natives, many Boomers have successfully learned technology out of necessity. They prefer technology that 
-              solves practical problems and are less interested in technology for its own sake.
-            </p>
+              {/* Workplace Habits */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">{gen.displayName} in the Workplace</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
+                {gen.workplaceHabits.map((habit, index) => (
+                  <li key={index}>{habit}</li>
+                ))}
+              </ul>
 
-            <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Frequently Asked Questions About Baby Boomers</h2>
-            
-            <div className="space-y-6 mt-6">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Why are they called Baby Boomers?</h3>
-                <p className="text-gray-700">They are called Baby Boomers because of the dramatic boom or spike in birth rates after World War II. Returning soldiers started families, leading to 76 million births in the United States between 1946 and 1964.</p>
-              </div>
+              {/* Cultural Markers */}
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Cultural Markers That Define {gen.displayName}</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                {gen.culturalMarkers.map((marker, index) => (
+                  <li key={index}>{marker}</li>
+                ))}
+              </ul>
 
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">What generation comes after Baby Boomers?</h3>
-                <p className="text-gray-700">Generation X comes after Baby Boomers. Gen X includes anyone born between 1965 and 1980.</p>
-              </div>
+              {/* FAQs Section */}
+              {gen.faqs && gen.faqs.length > 0 && (
+                <>
+                  <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">
+                    Frequently Asked Questions About {gen.displayName}
+                  </h2>
+                  <div className="space-y-6 mt-6">
+                    {gen.faqs.map((faq, index) => (
+                      <div key={index}>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{faq.question}</h3>
+                        <p className="text-gray-700">{faq.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
 
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">If I was born in 1960, am I a Baby Boomer?</h3>
-                <p className="text-gray-700">Yes, if you were born in 1960, you are a Baby Boomer, toward the latter part of the generation sometimes called Generation Jones.</p>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">What is the OK Boomer meme about?</h3>
-                <p className="text-gray-700">OK Boomer became a viral phrase used by younger generations to dismiss or mock outdated attitudes attributed to Baby Boomers. It reflects generational tensions around technology, climate change, economics, and social values.</p>
+              {/* Call to Action Section */}
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">Explore More</h3>
+                <div className="flex gap-4 justify-center flex-wrap mb-8">
+                  <Link 
+                    href="/" 
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+                  >
+                    🎯 Generation Calculator
+                  </Link>
+                  <Link 
+                    href="/quiz" 
+                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold"
+                  >
+                    🎮 Take the Quiz
+                  </Link>
+                  <Link 
+                    href="/compare" 
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
+                  >
+                    🆚 Compare Generations
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200">
-  <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">Explore More</h3>
-  <div className="flex gap-4 justify-center flex-wrap mb-8">
-    <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
-      🎯 Generation Calculator
-    </Link>
-    <Link href="/quiz" className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold">
-      🎮 Take the Quiz
-    </Link>
-    <Link href="/compare" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold">
-      🆚 Compare Generations
-    </Link>
-  </div>
-
-  <h4 className="text-xl font-bold text-center mb-4 text-gray-900">Browse All Generations</h4>
-  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-    <Link href="/gen-alpha" className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition border border-purple-200 text-center">
-      <div className="text-3xl mb-1">🚀</div>
-      <div className="font-semibold text-sm">Gen Alpha</div>
-      <div className="text-xs text-gray-600">2013-Present</div>
-    </Link>
-
-    <Link href="/gen-z" className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition border border-blue-200 text-center">
-      <div className="text-3xl mb-1">📱</div>
-      <div className="font-semibold text-sm">Gen Z</div>
-      <div className="text-xs text-gray-600">1997-2012</div>
-    </Link>
-
-    <Link href="/millennials" className="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition border border-green-200 text-center">
-      <div className="text-3xl mb-1">💻</div>
-      <div className="font-semibold text-sm">Millennials</div>
-      <div className="text-xs text-gray-600">1981-1996</div>
-    </Link>
-
-    <Link href="/gen-x" className="p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition border border-yellow-200 text-center">
-      <div className="text-3xl mb-1">🎸</div>
-      <div className="font-semibold text-sm">Gen X</div>
-      <div className="text-xs text-gray-600">1965-1980</div>
-    </Link>
-
-    <Link href="/baby-boomers" className="p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition border border-orange-200 text-center">
-      <div className="text-3xl mb-1">🌻</div>
-      <div className="font-semibold text-sm">Baby Boomers</div>
-      <div className="text-xs text-gray-600">1946-1964</div>
-    </Link>
-
-    <Link href="/silent-generation" className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-200 text-center">
-      <div className="text-3xl mb-1">📻</div>
-      <div className="font-semibold text-sm">Silent Gen</div>
-      <div className="text-xs text-gray-600">1928-1945</div>
-    </Link>
-  </div>
-</div>
+          {/* Related Content Component with internal linking */}
+          <RelatedContent 
+            generations={relatedGenerations}
+            blogPosts={relatedPosts}
+            title="Explore More"
+            maxItems={6}
+          />
         </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,5 +1,7 @@
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
+import HeaderNav from './components/HeaderNav'
+import Footer from './components/Footer'
 import './globals.css'
 
 const inter = Inter({ 
@@ -117,7 +119,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={inter.className}>
-        {children}
+        <HeaderNav />
+        <main id="main-content">{children}</main>
+        <Footer />
         <Analytics />
       </body>
     </html>
