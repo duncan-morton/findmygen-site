@@ -1,20 +1,72 @@
 import Link from 'next/link'
 
+const siteUrl = 'https://findmygen.com'
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Gen Z: Birth Years, Characteristics & Traits (1997-2012) | FindMyGen',
   description: 'Everything about Generation Z: birth years 1997-2012, defining characteristics, cultural traits, work habits, and what makes Gen Z unique. Complete guide.',
-  keywords: 'gen z, generation z, gen z birth years, gen z characteristics, gen z traits, gen z age range, 1997-2012'
+  keywords: 'gen z, generation z, gen z birth years, gen z characteristics, gen z traits, gen z age range, 1997-2012',
+  alternates: {
+    canonical: `${siteUrl}/gen-z`,
+  },
+  openGraph: {
+    title: 'Gen Z: Birth Years, Characteristics & Traits (1997-2012)',
+    description: 'Everything about Generation Z: birth years 1997-2012, defining characteristics, cultural traits, work habits, and what makes Gen Z unique.',
+    type: 'article',
+    url: `${siteUrl}/gen-z`,
+    siteName: 'FindMyGen',
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Gen Z - Birth Years 1997-2012',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gen Z: Birth Years, Characteristics & Traits (1997-2012)',
+    description: 'Everything about Generation Z: birth years 1997-2012, defining characteristics, cultural traits, work habits.',
+  },
 }
 
 export default function GenZPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Gen Z',
+        item: `${siteUrl}/gen-z`,
+      },
+    ],
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="mb-6 text-sm">
-          <Link href="/" className="text-blue-600 hover:text-blue-700">Home</Link>
-          <span className="mx-2 text-gray-500">→</span>
-          <span className="text-gray-700">Gen Z</span>
-        </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <nav className="mb-6 text-sm" aria-label="Breadcrumb">
+            <Link href="/" className="text-blue-600 hover:text-blue-700">Home</Link>
+            <span className="mx-2 text-gray-500">→</span>
+            <span className="text-gray-700">Gen Z</span>
+          </nav>
 
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
           <div className="text-center mb-8">
@@ -172,5 +224,6 @@ export default function GenZPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

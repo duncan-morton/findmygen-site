@@ -1,14 +1,111 @@
 import Link from 'next/link';
 import Navigation from '../../components/Navigation';
 
+const siteUrl = 'https://findmygen.com'
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Gen Z vs Millennials: Complete Guide to Understanding Both Generations',
   description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences in technology use, work values, communication styles, and cultural experiences.',
+  alternates: {
+    canonical: `${siteUrl}/blog/gen-z-vs-millennials`,
+  },
+  openGraph: {
+    title: 'Gen Z vs Millennials: Complete Guide to Understanding Both Generations',
+    description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences in technology use, work values, communication styles, and cultural experiences.',
+    type: 'article',
+    url: `${siteUrl}/blog/gen-z-vs-millennials`,
+    siteName: 'FindMyGen',
+    publishedTime: '2025-10-18T00:00:00.000Z',
+    authors: ['FindMyGen'],
+    tags: ['Gen Z', 'Millennials', 'Generation Comparison', 'Workplace Culture'],
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Gen Z vs Millennials Comparison',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gen Z vs Millennials: Complete Guide',
+    description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences.',
+    images: [`${siteUrl}/og-image.png`],
+  },
+  authors: [{ name: 'FindMyGen' }],
+  publishedTime: '2025-10-18T00:00:00.000Z',
 }
 
 export default function GenZvsMillennials() {
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Gen Z vs Millennials: Complete Guide to Understanding Both Generations',
+    description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences in technology use, work values, communication styles, and cultural experiences.',
+    image: `${siteUrl}/og-image.png`,
+    datePublished: '2025-10-18T00:00:00.000Z',
+    dateModified: '2025-10-18T00:00:00.000Z',
+    author: {
+      '@type': 'Organization',
+      name: 'FindMyGen',
+      url: siteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FindMyGen',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/blog/gen-z-vs-millennials`,
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${siteUrl}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Gen Z vs Millennials',
+        item: `${siteUrl}/blog/gen-z-vs-millennials`,
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <article className="container mx-auto px-4 py-16 max-w-4xl">

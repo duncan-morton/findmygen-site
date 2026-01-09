@@ -1,9 +1,14 @@
+const siteUrl = 'https://findmygen.com'
+
 export default function robots() {
-    return {
-      rules: {
+  return {
+    rules: [
+      {
         userAgent: '*',
         allow: '/',
+        disallow: ['/quiz', '/compare', '/api/'],
       },
-      sitemap: 'https://findmygen.com/sitemap.xml',
-    }
+    ],
+    sitemap: `${siteUrl}/sitemap.xml`,
   }
+}

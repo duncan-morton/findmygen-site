@@ -1,11 +1,17 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { trackEvent, AnalyticsEvents } from '../lib/analytics'
 
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState([])
   const [showResult, setShowResult] = useState(false)
+
+  useEffect(() => {
+    trackEvent(AnalyticsEvents.PAGE_VIEW, { page: 'quiz' })
+    trackEvent(AnalyticsEvents.QUIZ_STARTED)
+  }, [])
 
   const questions = [
     {
@@ -120,12 +126,27 @@ export default function Quiz() {
   }
 
   const handleAnswer = (option) => {
-    setAnswers([...answers, option.points])
+    const updatedAnswers = [...answers, option.points]
+    setAnswers(updatedAnswers)
     
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
       setShowResult(true)
+      // Track completion after a brief delay to ensure result is calculated
+      setTimeout(() => {
+        const totals = { silent: 0, boomer: 0, genx: 0, millennial: 0, genz: 0, genalpha: 0 }
+        updatedAnswers.forEach(answer => {
+          Object.keys(answer).forEach(gen => {
+            totals[gen] += answer[gen]
+          })
+        })
+        const winner = Object.keys(totals).reduce((a, b) => totals[a] > totals[b] ? a : b)
+        trackEvent(AnalyticsEvents.QUIZ_COMPLETED, {
+          result: winner,
+          questionCount: questions.length,
+        })
+      }, 100)
     }
   }
 

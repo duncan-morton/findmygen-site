@@ -1,10 +1,15 @@
 'use client'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { trackEvent, AnalyticsEvents } from './lib/analytics'
 
 export default function Home() {
   const [birthYear, setBirthYear] = useState('')
   const [result, setResult] = useState(null)
+
+  useEffect(() => {
+    trackEvent(AnalyticsEvents.PAGE_VIEW, { page: 'home' })
+  }, [])
 
   const generations = {
     'Gen Alpha': { start: 2013, end: 2025, color: 'bg-purple-500', emoji: '🚀' },
@@ -45,6 +50,10 @@ export default function Home() {
     e.preventDefault()
     const gen = getGeneration(birthYear)
     setResult(gen)
+    trackEvent(AnalyticsEvents.CALCULATOR_USED, {
+      birthYear: parseInt(birthYear),
+      generation: gen?.name,
+    })
   }
 
   return (
@@ -135,6 +144,10 @@ export default function Home() {
                           const text = `I am ${result.name} ${result.emoji}! Find your generation at findmygen.com`
                           navigator.clipboard.writeText(text)
                           alert('Copied to clipboard! Share it anywhere! 🎉')
+                          trackEvent(AnalyticsEvents.CALCULATOR_RESULT_SHARED, {
+                            generation: result.name,
+                            method: 'copy',
+                          })
                         }}
                         className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition"
                       >
@@ -146,6 +159,10 @@ export default function Home() {
                           const text = encodeURIComponent(`I am ${result.name} ${result.emoji}! What generation are you?`)
                           const url = encodeURIComponent('https://findmygen.com')
                           window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+                          trackEvent(AnalyticsEvents.CALCULATOR_RESULT_SHARED, {
+                            generation: result.name,
+                            method: 'twitter',
+                          })
                         }}
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
                       >
@@ -157,6 +174,10 @@ export default function Home() {
                           const url = encodeURIComponent('https://findmygen.com')
                           const quote = encodeURIComponent(`I am ${result.name} ${result.emoji}! Find your generation:`)
                           window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, '_blank')
+                          trackEvent(AnalyticsEvents.CALCULATOR_RESULT_SHARED, {
+                            generation: result.name,
+                            method: 'facebook',
+                          })
                         }}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                       >
