@@ -1,0 +1,150 @@
+/**
+ * Example: Refactored generation page using data source
+ * This shows how to convert existing pages to use the data source
+ * 
+ * To implement: Replace app/gen-z/page.js with this pattern
+ */
+
+import Link from 'next/link'
+import { getGenerationBySlug, getAllGenerationSlugs, getYearRangeDisplay } from '../lib/data/generations'
+import { getPostsByCategory, getRelatedPosts } from '../lib/data/blog'
+import { generateGenerationMetadata } from '../lib/metadata-helpers'
+import Breadcrumbs from '../components/Breadcrumbs'
+import RelatedContent from '../components/RelatedContent'
+import AdPlaceholder from '../components/AdPlaceholder'
+
+const slug = 'gen-z'
+
+export async function generateStaticParams() {
+  // This would be used if we convert to dynamic route
+  // For now, keeping static structure but using data source
+  return []
+}
+
+export async function generateMetadata() {
+  const gen = getGenerationBySlug(slug)
+  if (!gen) return {}
+  return generateGenerationMetadata(gen)
+}
+
+export default function GenZPage() {
+  const gen = getGenerationBySlug(slug)
+  if (!gen) {
+    return <div>Generation not found</div>
+  }
+
+  const yearDisplay = getYearRangeDisplay(gen)
+  const currentYear = 2025
+  const ageRange = {
+    start: currentYear - gen.yearRange.end,
+    end: currentYear - gen.yearRange.start,
+  }
+
+  // Get related content
+  const allGenerations = getAllGenerationSlugs()
+    .map((s) => getGenerationBySlug(s))
+    .filter((g) => g && g.slug !== slug && gen.relatedSlugs.includes(g.slug))
+  
+  const relatedPosts = getRelatedPosts('gen-z-vs-millennials', 3)
+
+  // FAQPage schema
+  const faqSchema = gen.faqs && gen.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: gen.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null
+
+  return (
+    <>
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
+      <div className={`min-h-screen bg-gradient-to-br ${gen.bgGradient}`}>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <Breadcrumbs items={[
+            { name: gen.displayName, href: `/${gen.slug}` },
+          ]} />
+
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <div className="text-center mb-8">
+              <div className="text-8xl mb-4">{gen.emoji}</div>
+              <h1 className="text-5xl font-bold mb-4 text-gray-900">{gen.displayName}</h1>
+              <p className={`text-2xl ${gen.color.replace('bg-', 'text-')} font-semibold mb-2`}>
+                Born: {yearDisplay}
+              </p>
+              <p className="text-xl text-gray-600">Ages {ageRange.start}-{ageRange.end} in {currentYear}</p>
+            </div>
+
+            <AdPlaceholder position="top" className="mb-8" />
+
+            <div className="prose prose-lg max-w-none">
+              <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">What Years Are {gen.displayName}?</h2>
+              <p className="text-gray-700 leading-relaxed">{gen.longDescription}</p>
+
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Key Characteristics of {gen.displayName}</h2>
+              {gen.keyCharacteristics.map((char, index) => (
+                <div key={index} className="mt-8">
+                  <h3 className={`text-2xl font-bold ${gen.color.replace('bg-', 'text-')} mb-3`}>
+                    {char.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">{char.description}</p>
+                </div>
+              ))}
+
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">{gen.displayName} in the Workplace</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 mt-4">
+                {gen.workplaceHabits.map((habit, index) => (
+                  <li key={index}>{habit}</li>
+                ))}
+              </ul>
+
+              <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">Cultural Markers That Define {gen.displayName}</h2>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                {gen.culturalMarkers.map((marker, index) => (
+                  <li key={index}>{marker}</li>
+                ))}
+              </ul>
+
+              {gen.faqs && gen.faqs.length > 0 && (
+                <>
+                  <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-4">
+                    Frequently Asked Questions About {gen.displayName}
+                  </h2>
+                  <div className="space-y-6 mt-6">
+                    {gen.faqs.map((faq, index) => (
+                      <div key={index}>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{faq.question}</h3>
+                        <p className="text-gray-700">{faq.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <AdPlaceholder position="bottom" className="mt-8" />
+
+            <RelatedContent 
+              generations={allGenerations}
+              blogPosts={relatedPosts}
+              title="Explore More"
+              maxItems={6}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}

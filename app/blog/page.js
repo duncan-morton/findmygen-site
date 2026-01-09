@@ -1,94 +1,45 @@
 import Link from 'next/link';
 import Navigation from '../components/Navigation';
+import { blogPosts } from '../lib/data/blog';
+import { generateBlogMetadata } from '../lib/metadata-helpers';
+
+const siteUrl = 'https://findmygen.com'
 
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Generation Insights Blog | FindMyGen',
   description: 'Expert insights on generations, from Gen Alpha to Baby Boomers. Learn about generational differences, trends, and what makes each generation unique.',
+  alternates: {
+    canonical: `${siteUrl}/blog`,
+  },
+  openGraph: {
+    title: 'Generation Insights Blog',
+    description: 'Expert insights on generations, from Gen Alpha to Baby Boomers. Learn about generational differences, trends, and what makes each generation unique.',
+    type: 'website',
+    url: `${siteUrl}/blog`,
+    siteName: 'FindMyGen',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Generation Insights Blog',
+    description: 'Expert insights on generations, from Gen Alpha to Baby Boomers.',
+  },
 }
 
 export default function Blog() {
-  const posts = [
-    {
-      slug: 'cuspers-born-between-generations',
-      title: 'Are You a Cusper? Born on the Edge Between Generations',
-      excerpt: 'Discover what it means to be born between generations. Learn about cuspers who do not quite fit their assigned generation and identify with traits from both.',
-      date: 'October 18, 2025',
-      readTime: '9 min read',
-      category: 'Generation Identity'
-    },
-    {
-      slug: 'bridging-generation-gaps-at-work',
-      title: 'Bridging Generation Gaps at Work: A Complete Guide for 2025',
-      excerpt: 'Learn practical strategies for managing multi-generational teams. Discover how to leverage generational differences as strengths and create workplace harmony.',
-      date: 'October 18, 2025',
-      readTime: '11 min read',
-      category: 'Workplace Strategy'
-    },
-    {
-      slug: 'gen-alpha-parenting-guide',
-      title: 'Gen Alpha Parenting: How to Raise Digital Natives in 2025',
-      excerpt: 'Practical guide for parents raising Gen Alpha children. Learn how to navigate screen time, social media, education, and preparing kids for an AI-powered future.',
-      date: 'October 18, 2025',
-      readTime: '10 min read',
-      category: 'Parenting Guide'
-    },
-    {
-      slug: 'gen-z-workplace-guide',
-      title: 'Gen Z in the Workplace: What Employers Need to Know in 2025',
-      excerpt: 'Gen Z is transforming the workplace with new expectations around flexibility, mental health, and authenticity. Learn how to attract, manage, and retain Gen Z talent.',
-      date: 'October 18, 2025',
-      readTime: '10 min read',
-      category: 'Workplace Insights'
-    },
-    {
-      slug: 'baby-boomer-retirement',
-      title: 'Baby Boomer Retirement: Redefining What It Means to Age in 2025',
-      excerpt: 'Baby Boomers are transforming retirement with active lifestyles, second careers, and longer lives. Learn how this generation is redefining aging and what comes next.',
-      date: 'October 18, 2025',
-      readTime: '9 min read',
-      category: 'Generation Guides'
-    },
-    {
-      slug: 'silent-generation-explained',
-      title: 'Silent Generation: The Forgotten Generation Explained',
-      excerpt: 'Born 1928-1945, the Silent Generation shaped modern America through quiet determination. Learn about their values, experiences, and lasting impact on society.',
-      date: 'October 18, 2025',
-      readTime: '9 min read',
-      category: 'Generation Guides'
-    },
-    {
-      slug: 'what-is-gen-alpha',
-      title: 'What is Gen Alpha? Everything About the First Fully Digital Generation',
-      excerpt: 'Born from 2013 onwards, Gen Alpha is the most tech-savvy generation yet. Learn what makes them unique, their defining characteristics, and how they will shape the future.',
-      date: 'October 18, 2025',
-      readTime: '7 min read',
-      category: 'Generation Guides'
-    },
-    {
-      slug: 'millennials-vs-gen-x',
-      title: 'Millennials vs Gen X: Why These Generations Clash at Work',
-      excerpt: 'Discover why Millennials and Gen X often misunderstand each other in the workplace. Learn about their different approaches to work, communication, and life.',
-      date: 'October 18, 2025',
-      readTime: '8 min read',
-      category: 'Generation Guides'
-    },
-    {
-      slug: 'gen-x-vs-baby-boomers',
-      title: 'Gen X vs Baby Boomers: Understanding the Generational Divide',
-      excerpt: 'Explore the key differences between Gen X and Baby Boomers in work values, technology adoption, parenting styles, and cultural perspectives.',
-      date: 'October 18, 2025',
-      readTime: '8 min read',
-      category: 'Generation Guides'
-    },
-    {
-      slug: 'gen-z-vs-millennials',
-      title: 'Gen Z vs Millennials: The Complete Guide to Understanding Both Generations',
-      excerpt: 'Discover the key differences between Gen Z and Millennials, from technology use to work values, communication styles, and cultural touchstones that define each generation.',
-      date: 'October 18, 2025',
-      readTime: '8 min read',
-      category: 'Generation Guides'
-    }
-  ];
+  // Use data source instead of hardcoded array
+  const posts = blogPosts.map(post => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt || post.description,
+    date: new Date(post.datePublished).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    readTime: post.readTime,
+    category: post.category,
+  }))
 
   return (
     <>
