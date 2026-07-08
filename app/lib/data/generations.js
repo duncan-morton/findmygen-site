@@ -3,13 +3,13 @@
  * Used for dynamic route generation and consistent metadata
  */
 
-const CURRENT_YEAR = 2025
+const CURRENT_YEAR = new Date().getFullYear()
 
 export const generations = [
   {
     slug: 'gen-alpha',
     displayName: 'Generation Alpha',
-    yearRange: { start: 2013, end: 2025 },
+    yearRange: { start: 2013, end: CURRENT_YEAR },
     emoji: '🚀',
     color: 'bg-purple-500',
     colorHex: '#a855f7',

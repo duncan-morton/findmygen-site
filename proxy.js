@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
  * - Removes trailing slashes (except root)
  * - Adds X-Robots-Tag: noindex for query-param URLs, except known-safe tracking params
  */
-export function middleware(request) {
+export function proxy(request) {
   const url = request.nextUrl
   const pathname = url.pathname
   const searchParams = url.searchParams

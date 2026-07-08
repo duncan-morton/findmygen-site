@@ -1,4 +1,4 @@
-const siteUrl = 'https://findmygen.com'
+const siteUrl = 'https://www.findmygen.com'
 
 export default function robots() {
   return {

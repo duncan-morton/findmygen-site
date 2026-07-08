@@ -5,6 +5,7 @@
  */
 
 import Link from 'next/link'
+import { CURRENT_YEAR } from '../lib/dates'
 import { getAllGenerationSlugs, getGenerationBySlug } from '../lib/data/generations'
 
 export default function Footer() {
@@ -70,7 +71,7 @@ export default function Footer() {
                   <span className="text-sm" aria-hidden="true">{gen.emoji}</span>
                   <span className="truncate">{gen.displayName}</span>
                   <span className="text-xs text-gray-500 ml-auto hidden sm:inline">
-                    {gen.yearRange.start}-{gen.yearRange.end === 2025 ? 'Present' : gen.yearRange.end}
+                    {gen.yearRange.start}-{gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}
                   </span>
                 </Link>
               ))}

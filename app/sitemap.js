@@ -6,7 +6,7 @@
 import { getAllGenerationSlugs, getGenerationBySlug } from './lib/data/generations'
 import { getAllPostSlugs, getPostBySlug } from './lib/data/blog'
 
-const siteUrl = 'https://findmygen.com'
+const siteUrl = 'https://www.findmygen.com'
 
 export default function sitemap() {
   const baseDate = new Date()

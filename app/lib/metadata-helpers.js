@@ -3,12 +3,14 @@
  * Used for generateMetadata in dynamic routes
  */
 
-const siteUrl = 'https://findmygen.com'
+import { CURRENT_YEAR } from './dates'
+
+const siteUrl = 'https://www.findmygen.com'
 
 export function generateGenerationMetadata(gen) {
   if (!gen) return {}
 
-  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === 2025 ? 'Present' : gen.yearRange.end}`
+  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`
   const ogImageUrl = `${siteUrl}/api/og?type=generation&slug=${gen.slug}&title=${encodeURIComponent(gen.displayName)}&description=${encodeURIComponent(gen.shortDescription)}`
 
   return {

@@ -46,13 +46,13 @@ export default function BoomersPage() {
   }
 
   // Calculate age range
-  const CURRENT_YEAR = 2025
+  const CURRENT_YEAR = new Date().getFullYear()
   const ageRange = {
     start: CURRENT_YEAR - gen.yearRange.end,
     end: CURRENT_YEAR - gen.yearRange.start,
   }
   
-  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === 2025 ? 'Present' : gen.yearRange.end}`
+  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`
 
   // Get related generations
   const allGenerations = getAllGenerationSlugs()

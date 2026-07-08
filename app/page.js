@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { trackEvent, AnalyticsEvents } from './lib/analytics'
+import { CURRENT_YEAR } from './lib/dates'
 
 export default function Home() {
   const [birthYear, setBirthYear] = useState('')
@@ -12,7 +13,7 @@ export default function Home() {
   }, [])
 
   const generations = {
-    'Gen Alpha': { start: 2013, end: 2025, color: 'bg-purple-500', emoji: '🚀' },
+    'Gen Alpha': { start: 2013, end: CURRENT_YEAR, color: 'bg-purple-500', emoji: '🚀' },
     'Gen Z': { start: 1997, end: 2012, color: 'bg-blue-500', emoji: '📱' },
     'Millennials': { start: 1981, end: 1996, color: 'bg-green-500', emoji: '💻' },
     'Gen X': { start: 1965, end: 1980, color: 'bg-yellow-500', emoji: '🎸' },
@@ -24,10 +25,10 @@ export default function Home() {
     const y = parseInt(year)
     if (isNaN(y) || y < 1920) return null
     
-    if (y > 2025) {
+    if (y > CURRENT_YEAR) {
       return {
         name: 'Terminator',
-        start: 2026,
+        start: CURRENT_YEAR + 1,
         end: 9999,
         color: 'bg-red-600',
         emoji: '🤖',
@@ -39,7 +40,7 @@ export default function Home() {
     
     for (const [name, data] of Object.entries(generations)) {
       if (y >= data.start && y <= data.end) {
-        const age = 2025 - y
+        const age = CURRENT_YEAR - y
         return { name, ...data, age, year: y }
       }
     }
@@ -121,7 +122,7 @@ export default function Home() {
                       Born in {result.year}? You are from the future!
                     </p>
                     <p className="text-md text-gray-600 italic">
-                      I will be back... to 2025
+                      I will be back... to {CURRENT_YEAR}
                     </p>
                     <div className="mt-4 p-4 bg-black bg-opacity-10 rounded-lg">
                       <p className="text-sm text-gray-700">
@@ -132,7 +133,7 @@ export default function Home() {
                 ) : (
                   <>
                     <p className="text-xl text-gray-700 mb-4">
-                      Born in {result.year} • Age {result.age} in 2025
+                      Born in {result.year} • Age {result.age} in {CURRENT_YEAR}
                     </p>
                     <p className="text-lg text-gray-600 mb-6">
                       Birth Years: {result.start} - {result.end}
@@ -218,15 +219,15 @@ export default function Home() {
                 <tr className="bg-gray-100">
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold">Generation</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold">Birth Years</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Age in 2025</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Age in {CURRENT_YEAR}</th>
                 </tr>
               </thead>
               <tbody>
                 {Object.entries(generations).map(([name, data]) => (
                   <tr key={name} className="hover:bg-gray-50">
                     <td className="border border-gray-300 px-4 py-3 font-semibold">{data.emoji} {name}</td>
-                    <td className="border border-gray-300 px-4 py-3">{data.start} - {data.end}</td>
-                    <td className="border border-gray-300 px-4 py-3">{2025 - data.end} - {2025 - data.start} years</td>
+                    <td className="border border-gray-300 px-4 py-3">{data.start} - {data.end === CURRENT_YEAR ? 'Present' : data.end}</td>
+                    <td className="border border-gray-300 px-4 py-3">{CURRENT_YEAR - data.end} - {CURRENT_YEAR - data.start} years</td>
                   </tr>
                 ))}
               </tbody>

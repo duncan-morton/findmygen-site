@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { CURRENT_YEAR } from '../lib/dates'
 
 export default function ComparePage() {
   const [gen1, setGen1] = useState('genz')
@@ -168,7 +169,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen1Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen1Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen1Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen1Data.ages} in 2025</p>
+                  <p className="text-md text-gray-600">Ages {gen1Data.ages} in {CURRENT_YEAR}</p>
                 </div>
               </div>
 
@@ -177,7 +178,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen2Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen2Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen2Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen2Data.ages} in 2025</p>
+                  <p className="text-md text-gray-600">Ages {gen2Data.ages} in {CURRENT_YEAR}</p>
                 </div>
               </div>
             </div>
