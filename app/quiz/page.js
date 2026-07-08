@@ -205,7 +205,7 @@ export default function Quiz() {
               <button
                 onClick={() => {
                   const text = encodeURIComponent(`I vibe with ${gen.name} ${gen.emoji}! Which generation do YOU match? Take the quiz:`)
-                  const url = encodeURIComponent('https://findmygen.com/quiz')
+                  const url = encodeURIComponent('https://www.findmygen.com/quiz')
                   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
                 }}
                 className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"

@@ -3,6 +3,14 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { CURRENT_YEAR } from '../lib/dates'
 
+// Derive current ages from a birth-year range string like '1997-2012' or '2013-Present'
+function agesFromYears(years) {
+  const [startStr, endStr] = years.split('-')
+  const startYear = parseInt(startStr, 10)
+  const endYear = /present/i.test(endStr) ? CURRENT_YEAR : parseInt(endStr, 10)
+  return `${CURRENT_YEAR - endYear}-${CURRENT_YEAR - startYear}`
+}
+
 export default function ComparePage() {
   const [gen1, setGen1] = useState('genz')
   const [gen2, setGen2] = useState('millennials')
@@ -12,7 +20,6 @@ export default function ComparePage() {
     genalpha: {
       name: 'Gen Alpha',
       years: '2013-Present',
-      ages: '0-12',
       emoji: '🚀',
       color: 'bg-purple-500',
       traits: ['AI Native', 'iPad Kids', 'Pandemic Schooling', 'Voice-First', 'Most Diverse'],
@@ -25,7 +32,6 @@ export default function ComparePage() {
     genz: {
       name: 'Gen Z',
       years: '1997-2012',
-      ages: '13-28',
       emoji: '📱',
       color: 'bg-blue-500',
       traits: ['Digital Natives', 'Socially Conscious', 'Entrepreneurial', 'Authentic', 'Mental Health Aware'],
@@ -38,7 +44,6 @@ export default function ComparePage() {
     millennials: {
       name: 'Millennials',
       years: '1981-1996',
-      ages: '29-44',
       emoji: '💻',
       color: 'bg-green-500',
       traits: ['Tech Savvy', 'Experience-Focused', 'Optimistic', 'Collaborative', 'Purpose-Driven'],
@@ -51,7 +56,6 @@ export default function ComparePage() {
     genx: {
       name: 'Gen X',
       years: '1965-1980',
-      ages: '45-60',
       emoji: '🎸',
       color: 'bg-yellow-500',
       traits: ['Independent', 'Skeptical', 'Resourceful', 'Pragmatic', 'Work-Life Balance'],
@@ -64,7 +68,6 @@ export default function ComparePage() {
     boomers: {
       name: 'Baby Boomers',
       years: '1946-1964',
-      ages: '61-79',
       emoji: '🌻',
       color: 'bg-orange-500',
       traits: ['Hardworking', 'Competitive', 'Optimistic', 'Loyal', 'Goal-Oriented'],
@@ -77,7 +80,6 @@ export default function ComparePage() {
     silent: {
       name: 'Silent Generation',
       years: '1928-1945',
-      ages: '80-97',
       emoji: '📻',
       color: 'bg-gray-500',
       traits: ['Dutiful', 'Frugal', 'Loyal', 'Respectful', 'Traditional'],
@@ -169,7 +171,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen1Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen1Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen1Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen1Data.ages} in {CURRENT_YEAR}</p>
+                  <p className="text-md text-gray-600">Ages {agesFromYears(gen1Data.years)} in {CURRENT_YEAR}</p>
                 </div>
               </div>
 
@@ -178,7 +180,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen2Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen2Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen2Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen2Data.ages} in {CURRENT_YEAR}</p>
+                  <p className="text-md text-gray-600">Ages {agesFromYears(gen2Data.years)} in {CURRENT_YEAR}</p>
                 </div>
               </div>
             </div>

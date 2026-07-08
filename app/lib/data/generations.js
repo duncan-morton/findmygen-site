@@ -15,7 +15,7 @@ export const generations = [
     colorHex: '#a855f7',
     bgGradient: 'from-purple-50 to-pink-50',
     shortDescription: 'Generation Alpha: birth years 2013-present, defining characteristics, technology habits, and what makes Gen Alpha the most digital generation yet.',
-    longDescription: 'Generation Alpha includes anyone born from 2013 to approximately 2025. This makes Gen Alpha currently between 0 and 12 years old in 2025. Gen Alpha is the first generation born entirely in the 21st century and the first to grow up with AI, voice assistants, and tablets as normal parts of childhood from birth.',
+    longDescription: 'Generation Alpha includes anyone born from 2013 onward. Gen Alpha is the first generation born entirely in the 21st century and the first to grow up with AI, voice assistants, and tablets as normal parts of childhood from birth.',
     keyCharacteristics: [
       {
         title: 'Born with Technology',
@@ -56,11 +56,11 @@ export const generations = [
       },
       {
         question: 'What generation comes after Gen Alpha?',
-        answer: 'The generation after Gen Alpha is expected to be called Generation Beta, continuing with the Greek alphabet. Gen Beta will likely begin around 2025 or 2026.',
+        answer: 'The generation after Gen Alpha is expected to be called Generation Beta, continuing with the Greek alphabet. Gen Beta is widely considered to begin in the mid-2020s.',
       },
       {
         question: 'Is a child born in 2020 Gen Alpha?',
-        answer: 'Yes, a child born in 2020 is Generation Alpha. Gen Alpha spans from 2013 to approximately 2025, making 2020-born children solidly within this generation.',
+        answer: 'Yes, a child born in 2020 is Generation Alpha. Gen Alpha spans from 2013 onward, so 2020-born children are solidly within this generation.',
       },
       {
         question: 'How is Gen Alpha different from Gen Z?',
@@ -80,7 +80,7 @@ export const generations = [
     colorHex: '#3b82f6',
     bgGradient: 'from-blue-50 to-purple-50',
     shortDescription: 'Everything about Generation Z: birth years 1997-2012, defining characteristics, cultural traits, work habits, and what makes Gen Z unique. Complete guide.',
-    longDescription: 'Generation Z includes anyone born between 1997 and 2012. This makes Gen Z currently between 13 and 28 years old in 2025. Gen Z is the first generation to grow up entirely with smartphones, social media, and instant internet access from childhood. They have never known a world without Google, YouTube, or mobile apps.',
+    longDescription: 'Generation Z includes anyone born between 1997 and 2012. Gen Z is the first generation to grow up entirely with smartphones, social media, and instant internet access from childhood. They have never known a world without Google, YouTube, or mobile apps.',
     keyCharacteristics: [
       {
         title: 'Digital Natives',
@@ -118,7 +118,7 @@ export const generations = [
     faqs: [
       {
         question: 'Is 2010 Gen Z?',
-        answer: 'Yes, 2010 is Generation Z. Anyone born in 2010 is currently 15 years old and firmly within the Gen Z cohort that spans 1997-2012.',
+        answer: 'Yes, 2010 is Generation Z. Anyone born in 2010 falls firmly within the Gen Z cohort that spans 1997-2012.',
       },
       {
         question: 'What comes after Gen Z?',
@@ -146,7 +146,7 @@ export const generations = [
     colorHex: '#22c55e',
     bgGradient: 'from-green-50 to-blue-50',
     shortDescription: 'Complete guide to Millennials (Generation Y): birth years 1981-1996, defining traits, workplace habits, cultural impact, and what makes Millennials unique.',
-    longDescription: 'Millennials, also known as Generation Y, include anyone born between 1981 and 1996. This makes Millennials currently between 29 and 44 years old in 2025. Millennials came of age during the rise of the internet, witnessed 9/11 as young adults, and entered the workforce during or after the 2008 financial crisis.',
+    longDescription: 'Millennials, also known as Generation Y, include anyone born between 1981 and 1996. Millennials came of age during the rise of the internet, witnessed 9/11 as young adults, and entered the workforce during or after the 2008 financial crisis.',
     keyCharacteristics: [
       {
         title: 'Digital Pioneers',
@@ -212,7 +212,7 @@ export const generations = [
     colorHex: '#eab308',
     bgGradient: 'from-yellow-50 to-orange-50',
     shortDescription: 'Complete guide to Generation X: birth years 1965-1980, defining characteristics, cultural impact, and what makes Gen X the forgotten generation.',
-    longDescription: 'Generation X includes anyone born between 1965 and 1980. This makes Gen X currently between 45 and 60 years old in 2025. Often called the forgotten generation or middle child between Baby Boomers and Millennials, Gen X quietly shaped modern culture while flying under the radar.',
+    longDescription: 'Generation X includes anyone born between 1965 and 1980. Often called the forgotten generation or middle child between Baby Boomers and Millennials, Gen X quietly shaped modern culture while flying under the radar.',
     keyCharacteristics: [
       {
         title: 'The Latchkey Kids',
@@ -279,7 +279,7 @@ export const generations = [
     colorHex: '#f97316',
     bgGradient: 'from-orange-50 to-yellow-50',
     shortDescription: 'Complete guide to Baby Boomers: birth years 1946-1964, defining characteristics, cultural impact, work ethic, and what makes the Boomer generation unique.',
-    longDescription: 'Baby Boomers include anyone born between 1946 and 1964. This makes Baby Boomers currently between 61 and 79 years old in 2025. The name comes from the dramatic increase in birth rates following World War II, when returning soldiers started families during a period of unprecedented economic prosperity.',
+    longDescription: 'Baby Boomers include anyone born between 1946 and 1964. The name comes from the dramatic increase in birth rates following World War II, when returning soldiers started families during a period of unprecedented economic prosperity.',
     keyCharacteristics: [
       {
         title: 'Strong Work Ethic',
@@ -346,7 +346,7 @@ export const generations = [
     colorHex: '#6b7280',
     bgGradient: 'from-gray-50 to-blue-50',
     shortDescription: 'Complete guide to the Silent Generation: birth years 1928-1945, defining characteristics, historical impact, and what shaped the Greatest Generation.',
-    longDescription: 'The Silent Generation includes anyone born between 1928 and 1945. This makes the Silent Generation currently between 80 and 97 years old in 2025. They are called silent because they were raised to respect authority, work hard without complaint, and avoid making waves. This generation grew up during the Great Depression and World War II, shaping their values of sacrifice, duty, and perseverance.',
+    longDescription: 'The Silent Generation includes anyone born between 1928 and 1945. They are called silent because they were raised to respect authority, work hard without complaint, and avoid making waves. This generation grew up during the Great Depression and World War II, shaping their values of sacrifice, duty, and perseverance.',
     keyCharacteristics: [
       {
         title: 'Hardworking and Resilient',

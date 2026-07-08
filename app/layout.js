@@ -12,6 +12,11 @@ const inter = Inter({
 
 const siteUrl = 'https://www.findmygen.com'
 
+// Default social share image, generated on the fly by the /api/og route
+const defaultOgImage = `${siteUrl}/api/og?title=${encodeURIComponent(
+  'What Generation Am I?'
+)}&description=${encodeURIComponent('Find your generation instantly by birth year')}`
+
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: 'What Generation Am I? | Birth Year → Generation Checker – FindMyGen',
@@ -33,7 +38,7 @@ export const metadata = {
     locale: 'en_US',
     images: [
       {
-        url: `${siteUrl}/og-image.png`,
+        url: defaultOgImage,
         width: 1200,
         height: 630,
         alt: 'FindMyGen - Generation Calculator',
@@ -45,7 +50,7 @@ export const metadata = {
     title: 'What Generation Am I? | FindMyGen',
     description:
       'Enter your birth year to instantly find your generation, age and fun facts.',
-    images: [`${siteUrl}/og-image.png`],
+    images: [defaultOgImage],
   },
   robots: {
     index: true,
@@ -66,7 +71,7 @@ export default function RootLayout({ children }) {
     '@type': 'Organization',
     name: 'FindMyGen',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/logo.svg`,
     sameAs: [],
   }
 

@@ -158,7 +158,7 @@ export default function Home() {
                       <button
                         onClick={() => {
                           const text = encodeURIComponent(`I am ${result.name} ${result.emoji}! What generation are you?`)
-                          const url = encodeURIComponent('https://findmygen.com')
+                          const url = encodeURIComponent('https://www.findmygen.com')
                           window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
                           trackEvent(AnalyticsEvents.CALCULATOR_RESULT_SHARED, {
                             generation: result.name,
@@ -172,7 +172,7 @@ export default function Home() {
                       
                       <button
                         onClick={() => {
-                          const url = encodeURIComponent('https://findmygen.com')
+                          const url = encodeURIComponent('https://www.findmygen.com')
                           const quote = encodeURIComponent(`I am ${result.name} ${result.emoji}! Find your generation:`)
                           window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, '_blank')
                           trackEvent(AnalyticsEvents.CALCULATOR_RESULT_SHARED, {
@@ -310,17 +310,17 @@ export default function Home() {
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What years are Gen Z?</h3>
-              <p className="text-gray-700">Gen Z birth years are 1997 to 2012. This makes Gen Z ages range from 13 to 28 years old in 2025.</p>
+              <p className="text-gray-700">Gen Z birth years are 1997 to 2012. This makes Gen Z ages range from {CURRENT_YEAR - 2012} to {CURRENT_YEAR - 1997} years old in {CURRENT_YEAR}.</p>
             </div>
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What comes after Gen Z?</h3>
-              <p className="text-gray-700">Generation Alpha comes after Gen Z. Gen Alpha includes anyone born from 2013 to the present day and is expected to continue until around 2025.</p>
+              <p className="text-gray-700">Generation Alpha comes after Gen Z. Gen Alpha includes anyone born from 2013 onward, with the next cohort (Generation Beta) widely considered to begin in the mid-2020s.</p>
             </div>
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What generation is 2010?</h3>
-              <p className="text-gray-700">2010 is Generation Z. Children born in 2010 are currently 15 years old and are part of the Gen Z cohort that grew up with smartphones and social media.</p>
+              <p className="text-gray-700">2010 is Generation Z. Children born in 2010 are {CURRENT_YEAR - 2010} years old and are part of the Gen Z cohort that grew up with smartphones and social media.</p>
             </div>
 
             <div>

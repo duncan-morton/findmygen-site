@@ -5,7 +5,7 @@
 
 import Link from 'next/link'
 
-const siteUrl = 'https://findmygen.com'
+const siteUrl = 'https://www.findmygen.com'
 
 export default function Breadcrumbs({ items = [] }) {
   // Ensure home is first

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Navigation from '../../components/Navigation';
 
-const siteUrl = 'https://findmygen.com'
+const siteUrl = 'https://www.findmygen.com'
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

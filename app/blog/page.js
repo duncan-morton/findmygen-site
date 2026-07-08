@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 import { blogPosts } from '../lib/data/blog';
 import { generateBlogMetadata } from '../lib/metadata-helpers';
 
-const siteUrl = 'https://findmygen.com'
+const siteUrl = 'https://www.findmygen.com'
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
