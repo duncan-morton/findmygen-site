@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link'
-import { CURRENT_YEAR } from '../lib/dates'
+import { getYearRangeDisplay } from '../lib/data/generations'
 
 export default function RelatedContent({ 
   generations = [], 
@@ -34,7 +34,7 @@ export default function RelatedContent({
                 <div className="text-3xl mb-1">{gen.emoji}</div>
                 <div className="font-semibold text-sm text-gray-900">{gen.displayName}</div>
                 <div className="text-xs text-gray-600 mt-1">
-                  {gen.yearRange.start} - {gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}
+                  {getYearRangeDisplay(gen)}
                 </div>
               </Link>
             ))}

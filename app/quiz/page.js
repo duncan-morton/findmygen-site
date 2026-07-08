@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { trackEvent, AnalyticsEvents } from '../lib/analytics'
+import { getGenerationBySlug, getYearRangeDisplay } from '../lib/data/generations'
 
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -116,14 +117,22 @@ export default function Quiz() {
     }
   ]
 
-  const generations = {
-    silent: { name: 'Silent Generation', emoji: '📻', years: '1928-1945', color: 'bg-gray-500' },
-    boomer: { name: 'Baby Boomer', emoji: '🌻', years: '1946-1964', color: 'bg-orange-500' },
-    genx: { name: 'Gen X', emoji: '🎸', years: '1965-1980', color: 'bg-yellow-500' },
-    millennial: { name: 'Millennial', emoji: '💻', years: '1981-1996', color: 'bg-green-500' },
-    genz: { name: 'Gen Z', emoji: '📱', years: '1997-2012', color: 'bg-blue-500' },
-    genalpha: { name: 'Gen Alpha', emoji: '🚀', years: '2013-Present', color: 'bg-purple-500' }
+  // Result-display data derived from the canonical generation source so birth
+  // years stay in sync. Keys map the quiz's scoring codes to canonical slugs.
+  const QUIZ_SLUGS = {
+    silent: 'silent-generation',
+    boomer: 'baby-boomers',
+    genx: 'gen-x',
+    millennial: 'millennials',
+    genz: 'gen-z',
+    genalpha: 'gen-alpha',
   }
+  const generations = Object.fromEntries(
+    Object.entries(QUIZ_SLUGS).map(([key, slug]) => {
+      const c = getGenerationBySlug(slug)
+      return [key, { name: c.shortName, emoji: c.emoji, years: getYearRangeDisplay(c), color: c.color }]
+    })
+  )
 
   const handleAnswer = (option) => {
     const updatedAnswers = [...answers, option.points]

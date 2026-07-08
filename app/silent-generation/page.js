@@ -5,11 +5,15 @@
  */
 
 import Link from 'next/link'
-import { getGenerationBySlug, getAllGenerationSlugs } from '../lib/data/generations'
+import { getGenerationBySlug, getAllGenerationSlugs, getAgeRange, getYearRangeDisplay } from '../lib/data/generations'
+import { getCurrentYear } from '../lib/dates'
 import { getPostBySlug, blogPosts } from '../lib/data/blog'
 import { generateGenerationMetadata } from '../lib/metadata-helpers'
 import Breadcrumbs from '../components/Breadcrumbs'
 import RelatedContent from '../components/RelatedContent'
+
+// Regenerate daily so age/year figures stay current without a manual redeploy.
+export const revalidate = 86400
 
 const SLUG = 'silent-generation'
 
@@ -46,13 +50,10 @@ export default function SilentGenPage() {
   }
 
   // Calculate age range
-  const CURRENT_YEAR = new Date().getFullYear()
-  const ageRange = {
-    start: CURRENT_YEAR - gen.yearRange.end,
-    end: CURRENT_YEAR - gen.yearRange.start,
-  }
+  const currentYear = getCurrentYear()
+  const ageRange = getAgeRange(gen)
   
-  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`
+  const yearDisplay = getYearRangeDisplay(gen)
 
   // Get related generations
   const allGenerations = getAllGenerationSlugs()
@@ -118,7 +119,7 @@ export default function SilentGenPage() {
               <p className={`text-2xl ${gen.color.replace('bg-', 'text-')} font-semibold mb-2`}>
                 Born: {yearDisplay}
               </p>
-              <p className="text-xl text-gray-600">Ages {ageRange.start}-{ageRange.end} in {CURRENT_YEAR}</p>
+              <p className="text-xl text-gray-600">Ages {ageRange.start}-{ageRange.end} in {currentYear}</p>
             </div>
 
             {/* Main Content */}

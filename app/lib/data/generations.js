@@ -3,13 +3,17 @@
  * Used for dynamic route generation and consistent metadata
  */
 
-const CURRENT_YEAR = new Date().getFullYear()
+import { getCurrentYear } from '../dates'
 
 export const generations = [
   {
     slug: 'gen-alpha',
     displayName: 'Generation Alpha',
-    yearRange: { start: 2013, end: CURRENT_YEAR },
+    shortName: 'Gen Alpha',
+    tagline: 'The AI native generation',
+    // end: null means the generation is still open ("Present"); helpers below
+    // resolve it against the current year so the range never goes stale.
+    yearRange: { start: 2013, end: null },
     emoji: '🚀',
     color: 'bg-purple-500',
     colorHex: '#a855f7',
@@ -74,6 +78,8 @@ export const generations = [
   {
     slug: 'gen-z',
     displayName: 'Generation Z (Gen Z)',
+    shortName: 'Gen Z',
+    tagline: 'Digital natives and entrepreneurs',
     yearRange: { start: 1997, end: 2012 },
     emoji: '📱',
     color: 'bg-blue-500',
@@ -140,6 +146,8 @@ export const generations = [
   {
     slug: 'millennials',
     displayName: 'Millennials (Generation Y)',
+    shortName: 'Millennials',
+    tagline: 'Digital pioneers and experience seekers',
     yearRange: { start: 1981, end: 1996 },
     emoji: '💻',
     color: 'bg-green-500',
@@ -206,6 +214,8 @@ export const generations = [
   {
     slug: 'gen-x',
     displayName: 'Generation X',
+    shortName: 'Gen X',
+    tagline: 'The forgotten independent generation',
     yearRange: { start: 1965, end: 1980 },
     emoji: '🎸',
     color: 'bg-yellow-500',
@@ -273,6 +283,8 @@ export const generations = [
   {
     slug: 'baby-boomers',
     displayName: 'Baby Boomers',
+    shortName: 'Baby Boomers',
+    tagline: 'Hardworking and optimistic achievers',
     yearRange: { start: 1946, end: 1964 },
     emoji: '🌻',
     color: 'bg-orange-500',
@@ -340,6 +352,8 @@ export const generations = [
   {
     slug: 'silent-generation',
     displayName: 'Silent Generation',
+    shortName: 'Silent Generation',
+    tagline: 'Dutiful and resilient survivors',
     yearRange: { start: 1928, end: 1945 },
     emoji: '📻',
     color: 'bg-gray-500',
@@ -415,12 +429,14 @@ export function getAllGenerationSlugs() {
 }
 
 export function getAgeRange(gen) {
-  const currentYear = CURRENT_YEAR
-  const startAge = currentYear - gen.yearRange.end
+  const currentYear = getCurrentYear()
+  // An open-ended generation (end: null) reaches up to the current year.
+  const endYear = gen.yearRange.end ?? currentYear
+  const startAge = currentYear - endYear
   const endAge = currentYear - gen.yearRange.start
   return { start: startAge, end: endAge }
 }
 
 export function getYearRangeDisplay(gen) {
-  return `${gen.yearRange.start} - ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`
+  return `${gen.yearRange.start} - ${gen.yearRange.end == null ? 'Present' : gen.yearRange.end}`
 }

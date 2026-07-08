@@ -6,8 +6,7 @@
  */
 
 import Link from 'next/link'
-import { CURRENT_YEAR } from '../lib/dates'
-import { getAllGenerationSlugs, getGenerationBySlug } from '../lib/data/generations'
+import { getAllGenerationSlugs, getGenerationBySlug, getYearRangeDisplay } from '../lib/data/generations'
 
 export default function HeaderNav() {
   // Get all generations for navigation links (sorted newest to oldest)
@@ -64,7 +63,7 @@ export default function HeaderNav() {
                 key={gen.slug}
                 href={`/${gen.slug}`}
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:bg-blue-50 focus:text-blue-600"
-                aria-label={`${gen.displayName} - ${gen.yearRange.start} to ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`}
+                aria-label={`${gen.displayName} - ${getYearRangeDisplay(gen)}`}
               >
                 <span className="text-lg" aria-hidden="true">{gen.emoji}</span>
                 <span className="hidden sm:inline">{gen.displayName}</span>

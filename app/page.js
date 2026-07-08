@@ -2,46 +2,48 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { trackEvent, AnalyticsEvents } from './lib/analytics'
-import { CURRENT_YEAR } from './lib/dates'
+import { getCurrentYear } from './lib/dates'
+import { generations, getAgeRange, getYearRangeDisplay } from './lib/data/generations'
 
 export default function Home() {
   const [birthYear, setBirthYear] = useState('')
   const [result, setResult] = useState(null)
 
+  const currentYear = getCurrentYear()
+
   useEffect(() => {
     trackEvent(AnalyticsEvents.PAGE_VIEW, { page: 'home' })
   }, [])
 
-  const generations = {
-    'Gen Alpha': { start: 2013, end: CURRENT_YEAR, color: 'bg-purple-500', emoji: '🚀' },
-    'Gen Z': { start: 1997, end: 2012, color: 'bg-blue-500', emoji: '📱' },
-    'Millennials': { start: 1981, end: 1996, color: 'bg-green-500', emoji: '💻' },
-    'Gen X': { start: 1965, end: 1980, color: 'bg-yellow-500', emoji: '🎸' },
-    'Baby Boomers': { start: 1946, end: 1964, color: 'bg-orange-500', emoji: '🌻' },
-    'Silent Generation': { start: 1928, end: 1945, color: 'bg-gray-500', emoji: '📻' }
-  }
-
   const getGeneration = (year) => {
     const y = parseInt(year)
     if (isNaN(y) || y < 1920) return null
-    
-    if (y > CURRENT_YEAR) {
+
+    if (y > currentYear) {
       return {
         name: 'Terminator',
-        start: CURRENT_YEAR + 1,
+        start: currentYear + 1,
         end: 9999,
         color: 'bg-red-600',
         emoji: '🤖',
         age: '???',
         year: y,
-        isTerminator: true
+        isTerminator: true,
       }
     }
-    
-    for (const [name, data] of Object.entries(generations)) {
-      if (y >= data.start && y <= data.end) {
-        const age = CURRENT_YEAR - y
-        return { name, ...data, age, year: y }
+
+    for (const gen of generations) {
+      const endYear = gen.yearRange.end ?? currentYear
+      if (y >= gen.yearRange.start && y <= endYear) {
+        return {
+          name: gen.shortName,
+          emoji: gen.emoji,
+          color: gen.color,
+          start: gen.yearRange.start,
+          end: gen.yearRange.end,
+          age: currentYear - y,
+          year: y,
+        }
       }
     }
     return null
@@ -112,7 +114,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="text-6xl mb-4">{result.emoji}</div>
                 <h2 className="text-3xl font-bold mb-2 text-gray-900">{result.name}</h2>
-                
+
                 {result.isTerminator ? (
                   <>
                     <p className="text-xl text-red-700 font-bold mb-4 animate-pulse">
@@ -122,7 +124,7 @@ export default function Home() {
                       Born in {result.year}? You are from the future!
                     </p>
                     <p className="text-md text-gray-600 italic">
-                      I will be back... to {CURRENT_YEAR}
+                      I will be back... to {currentYear}
                     </p>
                     <div className="mt-4 p-4 bg-black bg-opacity-10 rounded-lg">
                       <p className="text-sm text-gray-700">
@@ -133,12 +135,12 @@ export default function Home() {
                 ) : (
                   <>
                     <p className="text-xl text-gray-700 mb-4">
-                      Born in {result.year} • Age {result.age} in {CURRENT_YEAR}
+                      Born in {result.year} • Age {result.age} in {currentYear}
                     </p>
                     <p className="text-lg text-gray-600 mb-6">
-                      Birth Years: {result.start} - {result.end}
+                      Birth Years: {result.start} - {result.end === null ? 'Present' : result.end}
                     </p>
-                    
+
                     <div className="flex gap-3 justify-center flex-wrap mt-6">
                       <button
                         onClick={() => {
@@ -154,7 +156,7 @@ export default function Home() {
                       >
                         📋 Copy Result
                       </button>
-                      
+
                       <button
                         onClick={() => {
                           const text = encodeURIComponent(`I am ${result.name} ${result.emoji}! What generation are you?`)
@@ -169,7 +171,7 @@ export default function Home() {
                       >
                         🐦 Share on X
                       </button>
-                      
+
                       <button
                         onClick={() => {
                           const url = encodeURIComponent('https://www.findmygen.com')
@@ -207,8 +209,8 @@ export default function Home() {
         <div className="prose prose-lg max-w-none bg-white rounded-2xl shadow-lg p-8 space-y-8">
           <h2 className="text-3xl font-bold text-gray-900">Understanding Generations</h2>
           <p className="text-gray-700 leading-relaxed">
-            Generations are defined by birth year ranges that correspond to significant cultural, 
-            technological, and social changes. Each generation shares common experiences and 
+            Generations are defined by birth year ranges that correspond to significant cultural,
+            technological, and social changes. Each generation shares common experiences and
             characteristics that shape their worldview, values, and behaviors.
           </p>
 
@@ -219,30 +221,33 @@ export default function Home() {
                 <tr className="bg-gray-100">
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold">Generation</th>
                   <th className="border border-gray-300 px-4 py-3 text-left font-bold">Birth Years</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Age in {CURRENT_YEAR}</th>
+                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Age in {currentYear}</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(generations).map(([name, data]) => (
-                  <tr key={name} className="hover:bg-gray-50">
-                    <td className="border border-gray-300 px-4 py-3 font-semibold">{data.emoji} {name}</td>
-                    <td className="border border-gray-300 px-4 py-3">{data.start} - {data.end === CURRENT_YEAR ? 'Present' : data.end}</td>
-                    <td className="border border-gray-300 px-4 py-3">{CURRENT_YEAR - data.end} - {CURRENT_YEAR - data.start} years</td>
-                  </tr>
-                ))}
+                {generations.map((gen) => {
+                  const ages = getAgeRange(gen)
+                  return (
+                    <tr key={gen.slug} className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-4 py-3 font-semibold">{gen.emoji} {gen.shortName}</td>
+                      <td className="border border-gray-300 px-4 py-3">{getYearRangeDisplay(gen)}</td>
+                      <td className="border border-gray-300 px-4 py-3">{ages.start} - {ages.end} years</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mt-12">Generation Descriptions</h2>
-          
+
           <div className="space-y-6">
             <div>
               <h3 className="text-2xl font-bold text-purple-600 mb-3">🚀 Gen Alpha (2013 - Present)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Generation Alpha is the newest generation, born entirely in the 21st century. They are growing up 
-                with tablets, voice assistants, and AI as normal parts of daily life. These true digital natives 
-                have never known a world without smartphones, streaming services, or social media. They are expected 
+                Generation Alpha is the newest generation, born entirely in the 21st century. They are growing up
+                with tablets, voice assistants, and AI as normal parts of daily life. These true digital natives
+                have never known a world without smartphones, streaming services, or social media. They are expected
                 to be the most technologically immersed and formally educated generation in history.
               </p>
             </div>
@@ -250,9 +255,9 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-blue-600 mb-3">📱 Gen Z (1997 - 2012)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Generation Z grew up with smartphones in hand and witnessed major global events like COVID-19 during 
-                their formative years. They are known for being socially conscious, entrepreneurial, and fluent in 
-                digital communication. Gen Z values authenticity, diversity, and mental health awareness. They are 
+                Generation Z grew up with smartphones in hand and witnessed major global events like COVID-19 during
+                their formative years. They are known for being socially conscious, entrepreneurial, and fluent in
+                digital communication. Gen Z values authenticity, diversity, and mental health awareness. They are
                 the first generation to have never known life without the internet and social media.
               </p>
             </div>
@@ -260,10 +265,10 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-green-600 mb-3">💻 Millennials / Gen Y (1981 - 1996)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Millennials came of age during the internet boom and witnessed the transition from analog to digital. 
-                They experienced 9/11 as formative adults, faced the 2008 financial crisis early in their careers, 
-                and have dealt with student debt and rising housing costs. Known for valuing work-life balance, 
-                experiences over possessions, and using technology to stay connected. They are often called the 
+                Millennials came of age during the internet boom and witnessed the transition from analog to digital.
+                They experienced 9/11 as formative adults, faced the 2008 financial crisis early in their careers,
+                and have dealt with student debt and rising housing costs. Known for valuing work-life balance,
+                experiences over possessions, and using technology to stay connected. They are often called the
                 burnout generation but are also known for resilience and adaptability.
               </p>
             </div>
@@ -271,10 +276,10 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-yellow-600 mb-3">🎸 Gen X (1965 - 1980)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Generation X is often called the forgotten generation or latchkey kids. They grew up during 
-                rising divorce rates and the emergence of personal computers. Gen X witnessed the fall of the Berlin 
-                Wall, came of age with MTV and grunge music, and learned to be independent and resourceful. They value 
-                work-life balance, are skeptical of institutions, and successfully bridged the gap between analog 
+                Generation X is often called the forgotten generation or latchkey kids. They grew up during
+                rising divorce rates and the emergence of personal computers. Gen X witnessed the fall of the Berlin
+                Wall, came of age with MTV and grunge music, and learned to be independent and resourceful. They value
+                work-life balance, are skeptical of institutions, and successfully bridged the gap between analog
                 childhood and digital adulthood.
               </p>
             </div>
@@ -282,9 +287,9 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-orange-600 mb-3">🌻 Baby Boomers (1946 - 1964)</h3>
               <p className="text-gray-700 leading-relaxed">
-                Baby Boomers were born during the post-World War II population boom and grew up during unprecedented 
-                economic prosperity. They witnessed the civil rights movement, moon landing, Vietnam War, and Woodstock. 
-                Boomers are known for their optimism, work ethic, and driving cultural revolutions in the 1960s and 70s. 
+                Baby Boomers were born during the post-World War II population boom and grew up during unprecedented
+                economic prosperity. They witnessed the civil rights movement, moon landing, Vietnam War, and Woodstock.
+                Boomers are known for their optimism, work ethic, and driving cultural revolutions in the 1960s and 70s.
                 They are often characterized by individualism, competitive spirit, and strong work-centric values.
               </p>
             </div>
@@ -292,16 +297,16 @@ export default function Home() {
             <div>
               <h3 className="text-2xl font-bold text-gray-600 mb-3">📻 Silent Generation (1928 - 1945)</h3>
               <p className="text-gray-700 leading-relaxed">
-                The Silent Generation grew up during the Great Depression and World War II, which shaped their values 
-                of hard work, sacrifice, and civic duty. They witnessed the birth of television and the golden age of 
-                radio. Known for their strong work ethic, respect for authority, and commitment to financial security. 
+                The Silent Generation grew up during the Great Depression and World War II, which shaped their values
+                of hard work, sacrifice, and civic duty. They witnessed the birth of television and the golden age of
+                radio. Known for their strong work ethic, respect for authority, and commitment to financial security.
                 Despite their name, this generation produced many influential civil rights leaders and cultural icons.
               </p>
             </div>
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mt-12">Frequently Asked Questions</h2>
-          
+
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What generation am I if I was born in 2000?</h3>
@@ -310,7 +315,7 @@ export default function Home() {
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What years are Gen Z?</h3>
-              <p className="text-gray-700">Gen Z birth years are 1997 to 2012. This makes Gen Z ages range from {CURRENT_YEAR - 2012} to {CURRENT_YEAR - 1997} years old in {CURRENT_YEAR}.</p>
+              <p className="text-gray-700">Gen Z birth years are 1997 to 2012. This makes Gen Z ages range from {currentYear - 2012} to {currentYear - 1997} years old in {currentYear}.</p>
             </div>
 
             <div>
@@ -320,7 +325,7 @@ export default function Home() {
 
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">What generation is 2010?</h3>
-              <p className="text-gray-700">2010 is Generation Z. Children born in 2010 are {CURRENT_YEAR - 2010} years old and are part of the Gen Z cohort that grew up with smartphones and social media.</p>
+              <p className="text-gray-700">2010 is Generation Z. Children born in 2010 are {currentYear - 2010} years old and are part of the Gen Z cohort that grew up with smartphones and social media.</p>
             </div>
 
             <div>
@@ -348,47 +353,21 @@ export default function Home() {
     Explore Each Generation
   </h2>
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <Link href="/gen-alpha" className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl hover:shadow-lg transition border-2 border-purple-200 hover:border-purple-400">
-      <div className="text-4xl mb-2">🚀</div>
-      <h3 className="text-xl font-bold mb-2">Gen Alpha</h3>
-      <p className="text-gray-600 text-sm">2013-Present • Ages 0-12</p>
-      <p className="text-gray-700 mt-2">The AI native generation</p>
-    </Link>
-
-    <Link href="/gen-z" className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl hover:shadow-lg transition border-2 border-blue-200 hover:border-blue-400">
-      <div className="text-4xl mb-2">📱</div>
-      <h3 className="text-xl font-bold mb-2">Gen Z</h3>
-      <p className="text-gray-600 text-sm">1997-2012 • Ages 13-28</p>
-      <p className="text-gray-700 mt-2">Digital natives and entrepreneurs</p>
-    </Link>
-
-    <Link href="/millennials" className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl hover:shadow-lg transition border-2 border-green-200 hover:border-green-400">
-      <div className="text-4xl mb-2">💻</div>
-      <h3 className="text-xl font-bold mb-2">Millennials</h3>
-      <p className="text-gray-600 text-sm">1981-1996 • Ages 29-44</p>
-      <p className="text-gray-700 mt-2">Digital pioneers and experience seekers</p>
-    </Link>
-
-    <Link href="/gen-x" className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl hover:shadow-lg transition border-2 border-yellow-200 hover:border-yellow-400">
-      <div className="text-4xl mb-2">🎸</div>
-      <h3 className="text-xl font-bold mb-2">Gen X</h3>
-      <p className="text-gray-600 text-sm">1965-1980 • Ages 45-60</p>
-      <p className="text-gray-700 mt-2">The forgotten independent generation</p>
-    </Link>
-
-    <Link href="/baby-boomers" className="p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl hover:shadow-lg transition border-2 border-orange-200 hover:border-orange-400">
-      <div className="text-4xl mb-2">🌻</div>
-      <h3 className="text-xl font-bold mb-2">Baby Boomers</h3>
-      <p className="text-gray-600 text-sm">1946-1964 • Ages 61-79</p>
-      <p className="text-gray-700 mt-2">Hardworking and optimistic achievers</p>
-    </Link>
-
-    <Link href="/silent-generation" className="p-6 bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl hover:shadow-lg transition border-2 border-gray-200 hover:border-gray-400">
-      <div className="text-4xl mb-2">📻</div>
-      <h3 className="text-xl font-bold mb-2">Silent Generation</h3>
-      <p className="text-gray-600 text-sm">1928-1945 • Ages 80-97</p>
-      <p className="text-gray-700 mt-2">Dutiful and resilient survivors</p>
-    </Link>
+    {generations.map((gen) => {
+      const ages = getAgeRange(gen)
+      return (
+        <Link
+          key={gen.slug}
+          href={`/${gen.slug}`}
+          className={`p-6 bg-gradient-to-br ${gen.bgGradient} rounded-xl hover:shadow-lg transition border-2 border-gray-200 hover:border-blue-400`}
+        >
+          <div className="text-4xl mb-2">{gen.emoji}</div>
+          <h3 className="text-xl font-bold mb-2">{gen.shortName}</h3>
+          <p className="text-gray-600 text-sm">{getYearRangeDisplay(gen)} • Ages {ages.start}-{ages.end}</p>
+          <p className="text-gray-700 mt-2">{gen.tagline}</p>
+        </Link>
+      )
+    })}
   </div>
 
   <div className="text-center mt-8">

@@ -3,19 +3,21 @@
  * Used for generateMetadata in dynamic routes
  */
 
-import { CURRENT_YEAR } from './dates'
+import { getYearRangeDisplay } from './data/generations'
 
 const siteUrl = 'https://www.findmygen.com'
 
 export function generateGenerationMetadata(gen) {
   if (!gen) return {}
 
-  const yearDisplay = `${gen.yearRange.start} - ${gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}`
+  const yearDisplay = getYearRangeDisplay(gen)
   const ogImageUrl = `${siteUrl}/api/og?type=generation&slug=${gen.slug}&title=${encodeURIComponent(gen.displayName)}&description=${encodeURIComponent(gen.shortDescription)}`
 
   return {
     metadataBase: new URL(siteUrl),
-    title: `${gen.displayName}: Birth Years, Characteristics & Traits (${yearDisplay}) | FindMyGen`,
+    // Kept concise (~55 chars) so it isn't truncated in search results; the
+    // richer descriptive version lives in the OpenGraph/Twitter titles below.
+    title: `${gen.displayName}: Birth Years & Traits | FindMyGen`,
     description: gen.shortDescription,
     keywords: gen.keywords,
     alternates: {
@@ -94,7 +96,6 @@ export function generateBlogMetadata(post) {
       images: [ogImageUrl],
     },
     authors: [{ name: post.author }],
-    publishedTime: post.datePublished,
     robots: {
       index: true,
       follow: true,

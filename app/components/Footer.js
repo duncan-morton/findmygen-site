@@ -5,8 +5,8 @@
  */
 
 import Link from 'next/link'
-import { CURRENT_YEAR } from '../lib/dates'
-import { getAllGenerationSlugs, getGenerationBySlug } from '../lib/data/generations'
+import { getCurrentYear } from '../lib/dates'
+import { getAllGenerationSlugs, getGenerationBySlug, getYearRangeDisplay } from '../lib/data/generations'
 
 export default function Footer() {
   // Get all generations for footer links
@@ -15,7 +15,7 @@ export default function Footer() {
     .filter((gen) => gen !== undefined)
     .sort((a, b) => b.yearRange.start - a.yearRange.start) // Sort newest to oldest
 
-  const currentYear = new Date().getFullYear()
+  const currentYear = getCurrentYear()
 
   return (
     <footer className="bg-gray-900 text-gray-300 mt-16">
@@ -71,7 +71,7 @@ export default function Footer() {
                   <span className="text-sm" aria-hidden="true">{gen.emoji}</span>
                   <span className="truncate">{gen.displayName}</span>
                   <span className="text-xs text-gray-500 ml-auto hidden sm:inline">
-                    {gen.yearRange.start}-{gen.yearRange.end === CURRENT_YEAR ? 'Present' : gen.yearRange.end}
+                    {getYearRangeDisplay(gen)}
                   </span>
                 </Link>
               ))}

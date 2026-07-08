@@ -19,7 +19,7 @@ const defaultOgImage = `${siteUrl}/api/og?title=${encodeURIComponent(
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'What Generation Am I? | Birth Year → Generation Checker – FindMyGen',
+  title: 'What Generation Am I? Birth Year Checker | FindMyGen',
   description:
     "Find your generation instantly! Enter your birth year to discover if you're Gen Z, Millennial, Gen X, Boomer, or Gen Alpha. Free tool.",
   keywords:

@@ -1,14 +1,67 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { CURRENT_YEAR } from '../lib/dates'
+import { getCurrentYear } from '../lib/dates'
+import { getGenerationBySlug, getAgeRange, getYearRangeDisplay } from '../lib/data/generations'
 
-// Derive current ages from a birth-year range string like '1997-2012' or '2013-Present'
-function agesFromYears(years) {
-  const [startStr, endStr] = years.split('-')
-  const startYear = parseInt(startStr, 10)
-  const endYear = /present/i.test(endStr) ? CURRENT_YEAR : parseInt(endStr, 10)
-  return `${CURRENT_YEAR - endYear}-${CURRENT_YEAR - startYear}`
+// Editorial comparison content. Identity fields (name, years, emoji, colour) are
+// pulled from the canonical generation data via `slug` so they never drift; only
+// the comparison-specific copy lives here.
+const COMPARE_CONTENT = {
+  genalpha: {
+    slug: 'gen-alpha',
+    traits: ['AI Native', 'iPad Kids', 'Pandemic Schooling', 'Voice-First', 'Most Diverse'],
+    tech: 'Born with tablets and voice assistants',
+    work: 'Too young - will reshape future workplace',
+    values: 'Inclusivity, technology integration, adaptability',
+    communication: 'Voice commands, short videos, emojis',
+    notable: 'First generation born entirely in 21st century',
+  },
+  genz: {
+    slug: 'gen-z',
+    traits: ['Digital Natives', 'Socially Conscious', 'Entrepreneurial', 'Authentic', 'Mental Health Aware'],
+    tech: 'Smartphones, TikTok, social media fluent',
+    work: 'Value flexibility, purpose, work-life balance',
+    values: 'Diversity, sustainability, mental health, authenticity',
+    communication: 'Texting, memes, short-form video',
+    notable: 'First generation never knowing life without internet',
+  },
+  millennials: {
+    slug: 'millennials',
+    traits: ['Tech Savvy', 'Experience-Focused', 'Optimistic', 'Collaborative', 'Purpose-Driven'],
+    tech: 'Adapted to smartphones, social media pioneers',
+    work: 'Work-life balance, meaningful work, job hoppers',
+    values: 'Experiences over things, social responsibility, diversity',
+    communication: 'Text, email, social media, mix of digital and traditional',
+    notable: 'Bridge between analog childhood and digital adulthood',
+  },
+  genx: {
+    slug: 'gen-x',
+    traits: ['Independent', 'Skeptical', 'Resourceful', 'Pragmatic', 'Work-Life Balance'],
+    tech: 'Adapted well, comfortable with both analog and digital',
+    work: 'Results-focused, hands-off management, direct communication',
+    values: 'Independence, authenticity, work-life balance, skepticism',
+    communication: 'Email, phone calls, direct and to the point',
+    notable: 'The forgotten generation, latchkey kids',
+  },
+  boomers: {
+    slug: 'baby-boomers',
+    traits: ['Hardworking', 'Competitive', 'Optimistic', 'Loyal', 'Goal-Oriented'],
+    tech: 'Adapted out of necessity, prefer traditional methods',
+    work: 'Live to work, company loyalty, face time important',
+    values: 'Success, achievement, traditional family, materialism',
+    communication: 'Phone calls, face-to-face, formal emails',
+    notable: 'Largest generation, drove cultural revolutions of 60s-70s',
+  },
+  silent: {
+    slug: 'silent-generation',
+    traits: ['Dutiful', 'Frugal', 'Loyal', 'Respectful', 'Traditional'],
+    tech: 'Witnessed most change, prefer simplicity',
+    work: 'Company loyalty for life, respect hierarchy',
+    values: 'Hard work, sacrifice, saving, respect for authority',
+    communication: 'Phone calls, letters, in-person',
+    notable: 'Grew up during Great Depression and WWII',
+  },
 }
 
 export default function ComparePage() {
@@ -16,80 +69,32 @@ export default function ComparePage() {
   const [gen2, setGen2] = useState('millennials')
   const [showComparison, setShowComparison] = useState(false)
 
-  const generations = {
-    genalpha: {
-      name: 'Gen Alpha',
-      years: '2013-Present',
-      emoji: '🚀',
-      color: 'bg-purple-500',
-      traits: ['AI Native', 'iPad Kids', 'Pandemic Schooling', 'Voice-First', 'Most Diverse'],
-      tech: 'Born with tablets and voice assistants',
-      work: 'Too young - will reshape future workplace',
-      values: 'Inclusivity, technology integration, adaptability',
-      communication: 'Voice commands, short videos, emojis',
-      notable: 'First generation born entirely in 21st century'
-    },
-    genz: {
-      name: 'Gen Z',
-      years: '1997-2012',
-      emoji: '📱',
-      color: 'bg-blue-500',
-      traits: ['Digital Natives', 'Socially Conscious', 'Entrepreneurial', 'Authentic', 'Mental Health Aware'],
-      tech: 'Smartphones, TikTok, social media fluent',
-      work: 'Value flexibility, purpose, work-life balance',
-      values: 'Diversity, sustainability, mental health, authenticity',
-      communication: 'Texting, memes, short-form video',
-      notable: 'First generation never knowing life without internet'
-    },
-    millennials: {
-      name: 'Millennials',
-      years: '1981-1996',
-      emoji: '💻',
-      color: 'bg-green-500',
-      traits: ['Tech Savvy', 'Experience-Focused', 'Optimistic', 'Collaborative', 'Purpose-Driven'],
-      tech: 'Adapted to smartphones, social media pioneers',
-      work: 'Work-life balance, meaningful work, job hoppers',
-      values: 'Experiences over things, social responsibility, diversity',
-      communication: 'Text, email, social media, mix of digital and traditional',
-      notable: 'Bridge between analog childhood and digital adulthood'
-    },
-    genx: {
-      name: 'Gen X',
-      years: '1965-1980',
-      emoji: '🎸',
-      color: 'bg-yellow-500',
-      traits: ['Independent', 'Skeptical', 'Resourceful', 'Pragmatic', 'Work-Life Balance'],
-      tech: 'Adapted well, comfortable with both analog and digital',
-      work: 'Results-focused, hands-off management, direct communication',
-      values: 'Independence, authenticity, work-life balance, skepticism',
-      communication: 'Email, phone calls, direct and to the point',
-      notable: 'The forgotten generation, latchkey kids'
-    },
-    boomers: {
-      name: 'Baby Boomers',
-      years: '1946-1964',
-      emoji: '🌻',
-      color: 'bg-orange-500',
-      traits: ['Hardworking', 'Competitive', 'Optimistic', 'Loyal', 'Goal-Oriented'],
-      tech: 'Adapted out of necessity, prefer traditional methods',
-      work: 'Live to work, company loyalty, face time important',
-      values: 'Success, achievement, traditional family, materialism',
-      communication: 'Phone calls, face-to-face, formal emails',
-      notable: 'Largest generation, drove cultural revolutions of 60s-70s'
-    },
-    silent: {
-      name: 'Silent Generation',
-      years: '1928-1945',
-      emoji: '📻',
-      color: 'bg-gray-500',
-      traits: ['Dutiful', 'Frugal', 'Loyal', 'Respectful', 'Traditional'],
-      tech: 'Witnessed most change, prefer simplicity',
-      work: 'Company loyalty for life, respect hierarchy',
-      values: 'Hard work, sacrifice, saving, respect for authority',
-      communication: 'Phone calls, letters, in-person',
-      notable: 'Grew up during Great Depression and WWII'
-    }
-  }
+  const currentYear = getCurrentYear()
+
+  // Merge canonical identity data (name, years, ages, emoji, colour) with the
+  // editorial comparison copy so the birth-year and age figures never drift.
+  const generations = Object.fromEntries(
+    Object.entries(COMPARE_CONTENT).map(([key, content]) => {
+      const canon = getGenerationBySlug(content.slug)
+      const ages = getAgeRange(canon)
+      return [
+        key,
+        {
+          name: canon.shortName,
+          years: getYearRangeDisplay(canon),
+          ages: `${ages.start}-${ages.end}`,
+          emoji: canon.emoji,
+          color: canon.color,
+          traits: content.traits,
+          tech: content.tech,
+          work: content.work,
+          values: content.values,
+          communication: content.communication,
+          notable: content.notable,
+        },
+      ]
+    })
+  )
 
   const handleCompare = () => {
     setShowComparison(true)
@@ -171,7 +176,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen1Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen1Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen1Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {agesFromYears(gen1Data.years)} in {CURRENT_YEAR}</p>
+                  <p className="text-md text-gray-600">Ages {gen1Data.ages} in {currentYear}</p>
                 </div>
               </div>
 
@@ -180,7 +185,7 @@ export default function ComparePage() {
                   <div className="text-6xl mb-3">{gen2Data.emoji}</div>
                   <h2 className="text-3xl font-bold text-gray-900">{gen2Data.name}</h2>
                   <p className="text-lg text-gray-700">Born: {gen2Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {agesFromYears(gen2Data.years)} in {CURRENT_YEAR}</p>
+                  <p className="text-md text-gray-600">Ages {gen2Data.ages} in {currentYear}</p>
                 </div>
               </div>
             </div>
