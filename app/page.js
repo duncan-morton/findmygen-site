@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { generations, getAgeRange, getYearRangeDisplay } from './lib/data/generations'
 import { getCurrentYear } from './lib/dates'
 import GenerationCalculator from './components/GenerationCalculator'
+import GenerationCard from './components/GenerationCard'
 
 // Server component: regenerate daily so the age figures below stay current.
 export const revalidate = 86400
@@ -209,21 +210,9 @@ export default function Home() {
                 Explore Each Generation
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {generations.map((gen) => {
-                  const ages = getAgeRange(gen)
-                  return (
-                    <Link
-                      key={gen.slug}
-                      href={`/${gen.slug}`}
-                      className={`p-6 bg-gradient-to-br ${gen.bgGradient} rounded-xl hover:shadow-lg transition border-2 border-gray-200 hover:border-blue-400`}
-                    >
-                      <div className="text-4xl mb-2">{gen.emoji}</div>
-                      <h3 className="text-xl font-bold mb-2">{gen.shortName}</h3>
-                      <p className="text-gray-600 text-sm">{getYearRangeDisplay(gen)} • Ages {ages.start}-{ages.end}</p>
-                      <p className="text-gray-700 mt-2">{gen.tagline}</p>
-                    </Link>
-                  )
-                })}
+                {generations.map((gen) => (
+                  <GenerationCard key={gen.slug} gen={gen} />
+                ))}
               </div>
 
               <div className="text-center mt-8">

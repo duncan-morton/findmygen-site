@@ -11,6 +11,7 @@ import { getPostBySlug, blogPosts } from '../lib/data/blog'
 import { generateGenerationMetadata } from '../lib/metadata-helpers'
 import Breadcrumbs from '../components/Breadcrumbs'
 import RelatedContent from '../components/RelatedContent'
+import GenerationCtaBox from '../components/GenerationCtaBox'
 
 // Regenerate daily so age/year figures stay current without a manual redeploy.
 export const revalidate = 86400
@@ -174,30 +175,7 @@ export default function GenZPage() {
                 </>
               )}
 
-              {/* Call to Action Section */}
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">Explore More</h3>
-                <div className="flex gap-4 justify-center flex-wrap mb-8">
-                  <Link 
-                    href="/" 
-                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
-                  >
-                    🎯 Generation Calculator
-                  </Link>
-                  <Link 
-                    href="/quiz" 
-                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition font-semibold"
-                  >
-                    🎮 Take the Quiz
-                  </Link>
-                  <Link 
-                    href="/compare" 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
-                  >
-                    🆚 Compare Generations
-                  </Link>
-                </div>
-              </div>
+              <GenerationCtaBox />
             </div>
           </div>
 

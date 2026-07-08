@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link'
-import { getYearRangeDisplay } from '../lib/data/generations'
+import GenerationCard from './GenerationCard'
 
 export default function RelatedContent({ 
   generations = [], 
@@ -23,20 +23,7 @@ export default function RelatedContent({
           <h4 className="text-xl font-bold mb-4 text-gray-800">Browse All Generations</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {generations.slice(0, maxItems).map((gen) => (
-              <Link
-                key={gen.slug}
-                href={`/${gen.slug}`}
-                className="p-4 bg-gradient-to-br rounded-lg hover:shadow-lg transition border-2 border-gray-200 hover:border-blue-400 text-center"
-                style={{
-                  backgroundColor: `${gen.colorHex || '#f3f4f6'}15`,
-                }}
-              >
-                <div className="text-3xl mb-1">{gen.emoji}</div>
-                <div className="font-semibold text-sm text-gray-900">{gen.displayName}</div>
-                <div className="text-xs text-gray-600 mt-1">
-                  {getYearRangeDisplay(gen)}
-                </div>
-              </Link>
+              <GenerationCard key={gen.slug} gen={gen} />
             ))}
           </div>
         </div>
