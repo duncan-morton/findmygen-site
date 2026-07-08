@@ -5,7 +5,10 @@ export default function robots() {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        // Allow the indexable /compare/<a>-vs-<b> guides while keeping the
+        // interactive /compare tool page itself out of the index. The longer
+        // '/compare/' allow rule wins over the '/compare' disallow for subpaths.
+        allow: ['/', '/compare/'],
         disallow: ['/quiz', '/compare', '/api/'],
       },
     ],

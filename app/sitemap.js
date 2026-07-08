@@ -5,6 +5,7 @@
 
 import { getAllGenerationSlugs, getGenerationBySlug } from './lib/data/generations'
 import { getAllPostSlugs, getPostBySlug } from './lib/data/blog'
+import { getAllComparisonSlugs } from './lib/data/comparisons'
 
 const siteUrl = 'https://www.findmygen.com'
 
@@ -55,6 +56,14 @@ export default function sitemap() {
     }
   })
 
+  // Indexable generation-vs-generation comparison pages
+  const comparisonPages = getAllComparisonSlugs().map((slug) => ({
+    url: `${siteUrl}/compare/${slug}`,
+    lastModified: baseDate,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
   // Combine all pages
-  return [...corePages, ...generationPages, ...blogPages]
+  return [...corePages, ...generationPages, ...blogPages, ...comparisonPages]
 }

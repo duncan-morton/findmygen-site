@@ -2,66 +2,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { getCurrentYear } from '../lib/dates'
-import { getGenerationBySlug, getAgeRange, getYearRangeDisplay } from '../lib/data/generations'
+import { getComparisonGen, comparisonPairs, comparisonSlug } from '../lib/data/comparisons'
 
-// Editorial comparison content. Identity fields (name, years, emoji, colour) are
-// pulled from the canonical generation data via `slug` so they never drift; only
-// the comparison-specific copy lives here.
-const COMPARE_CONTENT = {
-  genalpha: {
-    slug: 'gen-alpha',
-    traits: ['AI Native', 'iPad Kids', 'Pandemic Schooling', 'Voice-First', 'Most Diverse'],
-    tech: 'Born with tablets and voice assistants',
-    work: 'Too young - will reshape future workplace',
-    values: 'Inclusivity, technology integration, adaptability',
-    communication: 'Voice commands, short videos, emojis',
-    notable: 'First generation born entirely in 21st century',
-  },
-  genz: {
-    slug: 'gen-z',
-    traits: ['Digital Natives', 'Socially Conscious', 'Entrepreneurial', 'Authentic', 'Mental Health Aware'],
-    tech: 'Smartphones, TikTok, social media fluent',
-    work: 'Value flexibility, purpose, work-life balance',
-    values: 'Diversity, sustainability, mental health, authenticity',
-    communication: 'Texting, memes, short-form video',
-    notable: 'First generation never knowing life without internet',
-  },
-  millennials: {
-    slug: 'millennials',
-    traits: ['Tech Savvy', 'Experience-Focused', 'Optimistic', 'Collaborative', 'Purpose-Driven'],
-    tech: 'Adapted to smartphones, social media pioneers',
-    work: 'Work-life balance, meaningful work, job hoppers',
-    values: 'Experiences over things, social responsibility, diversity',
-    communication: 'Text, email, social media, mix of digital and traditional',
-    notable: 'Bridge between analog childhood and digital adulthood',
-  },
-  genx: {
-    slug: 'gen-x',
-    traits: ['Independent', 'Skeptical', 'Resourceful', 'Pragmatic', 'Work-Life Balance'],
-    tech: 'Adapted well, comfortable with both analog and digital',
-    work: 'Results-focused, hands-off management, direct communication',
-    values: 'Independence, authenticity, work-life balance, skepticism',
-    communication: 'Email, phone calls, direct and to the point',
-    notable: 'The forgotten generation, latchkey kids',
-  },
-  boomers: {
-    slug: 'baby-boomers',
-    traits: ['Hardworking', 'Competitive', 'Optimistic', 'Loyal', 'Goal-Oriented'],
-    tech: 'Adapted out of necessity, prefer traditional methods',
-    work: 'Live to work, company loyalty, face time important',
-    values: 'Success, achievement, traditional family, materialism',
-    communication: 'Phone calls, face-to-face, formal emails',
-    notable: 'Largest generation, drove cultural revolutions of 60s-70s',
-  },
-  silent: {
-    slug: 'silent-generation',
-    traits: ['Dutiful', 'Frugal', 'Loyal', 'Respectful', 'Traditional'],
-    tech: 'Witnessed most change, prefer simplicity',
-    work: 'Company loyalty for life, respect hierarchy',
-    values: 'Hard work, sacrifice, saving, respect for authority',
-    communication: 'Phone calls, letters, in-person',
-    notable: 'Grew up during Great Depression and WWII',
-  },
+// The interactive tool keys its dropdowns by short codes; map them to the
+// canonical slugs used by the shared comparison data.
+const KEY_TO_SLUG = {
+  genalpha: 'gen-alpha',
+  genz: 'gen-z',
+  millennials: 'millennials',
+  genx: 'gen-x',
+  boomers: 'baby-boomers',
+  silent: 'silent-generation',
 }
 
 export default function ComparePage() {
@@ -71,30 +22,16 @@ export default function ComparePage() {
 
   const currentYear = getCurrentYear()
 
-  // Merge canonical identity data (name, years, ages, emoji, colour) with the
-  // editorial comparison copy so the birth-year and age figures never drift.
+  // Identity + editorial data for each generation, from the shared source.
   const generations = Object.fromEntries(
-    Object.entries(COMPARE_CONTENT).map(([key, content]) => {
-      const canon = getGenerationBySlug(content.slug)
-      const ages = getAgeRange(canon)
-      return [
-        key,
-        {
-          name: canon.shortName,
-          years: getYearRangeDisplay(canon),
-          ages: `${ages.start}-${ages.end}`,
-          emoji: canon.emoji,
-          color: canon.color,
-          traits: content.traits,
-          tech: content.tech,
-          work: content.work,
-          values: content.values,
-          communication: content.communication,
-          notable: content.notable,
-        },
-      ]
-    })
+    Object.entries(KEY_TO_SLUG).map(([key, slug]) => [key, getComparisonGen(slug)])
   )
+
+  // Links to the standalone, indexable comparison guides.
+  const comparisonGuides = comparisonPairs.map((pair) => ({
+    slug: comparisonSlug(pair),
+    gens: pair.map(getComparisonGen),
+  }))
 
   const handleCompare = () => {
     setShowComparison(true)
@@ -311,6 +248,22 @@ export default function ComparePage() {
               <p className="font-semibold">Boomers vs Silent Gen</p>
               <p className="text-sm text-gray-600">Prosperity vs hardship</p>
             </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
+          <h2 className="text-3xl font-bold mb-2 text-gray-900">In-Depth Comparison Guides</h2>
+          <p className="text-gray-600 mb-6">Full side-by-side breakdowns of the most-searched generation match-ups.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {comparisonGuides.map((guide) => (
+              <Link
+                key={guide.slug}
+                href={`/compare/${guide.slug}`}
+                className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition font-semibold text-gray-800"
+              >
+                {guide.gens[0].emoji} {guide.gens[0].name} vs {guide.gens[1].name} {guide.gens[1].emoji}
+              </Link>
+            ))}
           </div>
         </div>
 
