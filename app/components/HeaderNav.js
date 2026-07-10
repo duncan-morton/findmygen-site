@@ -1,76 +1,59 @@
 /**
- * Sitewide header navigation component
- * Server component - lightweight and accessible
- * Uses generations data source for dynamic links
- * Simple design: no dropdowns, always visible links for maximum accessibility
+ * Sitewide header. Compact single row: wordmark + nav, with the six generation
+ * links tucked into a native <details> disclosure so the bar stays slim and the
+ * component stays a no-JS, accessible server component.
  */
 
 import Link from 'next/link'
 import { getAllGenerationSlugs, getGenerationBySlug, getYearRangeDisplay } from '../lib/data/generations'
 
+const navLink =
+  'rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900'
+
 export default function HeaderNav() {
-  // Get all generations for navigation links (sorted newest to oldest)
   const allGenerations = getAllGenerationSlugs()
     .map((slug) => getGenerationBySlug(slug))
     .filter((gen) => gen !== undefined)
     .sort((a, b) => b.yearRange.start - a.yearRange.start)
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <nav aria-label="Primary navigation" className="max-w-7xl mx-auto px-4">
-        {/* Main Navigation Row */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 py-4">
-          {/* Logo/Home Link */}
-          <Link 
-            href="/" 
-            className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
-            aria-label="FindMyGen Home"
-          >
-            FindMyGen
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+      <nav
+        aria-label="Primary navigation"
+        className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3"
+      >
+        <Link
+          href="/"
+          className="rounded px-1 text-lg font-bold tracking-tight text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          aria-label="FindMyGen home"
+        >
+          Find<span className="text-brand">My</span>Gen
+        </Link>
 
-          {/* Main Navigation Links */}
-          <div className="flex flex-wrap items-center gap-4 lg:gap-6">
-            <Link 
-              href="/blog" 
-              className="text-gray-700 hover:text-blue-600 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
-            >
-              Blog
-            </Link>
-            <Link 
-              href="/quiz" 
-              className="text-gray-700 hover:text-blue-600 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
-            >
-              Quiz
-            </Link>
-            <Link 
-              href="/compare" 
-              className="text-gray-700 hover:text-blue-600 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
-            >
-              Compare
-            </Link>
-          </div>
-        </div>
+        <div className="flex items-center gap-0.5 sm:gap-1">
+          <details className="group relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 [&::-webkit-details-marker]:hidden">
+              Generations
+              <span className="text-xs transition group-open:rotate-180" aria-hidden="true">▾</span>
+            </summary>
+            <div className="absolute right-0 z-50 mt-2 w-60 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
+              {allGenerations.map((gen) => (
+                <Link
+                  key={gen.slug}
+                  href={`/${gen.slug}`}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition hover:bg-slate-50"
+                >
+                  <span aria-hidden="true">{gen.emoji}</span>
+                  <span className="font-medium text-slate-700">{gen.shortName}</span>
+                  <span className="ml-auto text-xs text-slate-400">{getYearRangeDisplay(gen)}</span>
+                </Link>
+              ))}
+            </div>
+          </details>
 
-        {/* Generations Section - Always visible, responsive grid */}
-        <div className="border-t border-gray-200 pt-4 pb-4">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-            Generations
-          </h3>
-          <div className="flex flex-wrap gap-2 lg:gap-3">
-            {allGenerations.map((gen) => (
-              <Link
-                key={gen.slug}
-                href={`/${gen.slug}`}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:bg-blue-50 focus:text-blue-600"
-                aria-label={`${gen.displayName} - ${getYearRangeDisplay(gen)}`}
-              >
-                <span className="text-lg" aria-hidden="true">{gen.emoji}</span>
-                <span className="hidden sm:inline">{gen.displayName}</span>
-                <span className="sm:hidden">{gen.slug.replace('-', ' ').replace('gen ', 'G')}</span>
-              </Link>
-            ))}
-          </div>
+          <Link href="/compare" className={navLink}>Compare</Link>
+          <Link href="/quiz" className={navLink}>Quiz</Link>
+          <Link href="/blog" className={navLink}>Blog</Link>
         </div>
       </nav>
     </header>

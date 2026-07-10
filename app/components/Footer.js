@@ -1,118 +1,67 @@
 /**
- * Sitewide footer component
- * Server component - lightweight and accessible
- * Uses generations data source for dynamic links
+ * Sitewide footer. Light, clean, matches the design system. Generation links are
+ * driven from the canonical data source.
  */
 
 import Link from 'next/link'
 import { getCurrentYear } from '../lib/dates'
 import { getAllGenerationSlugs, getGenerationBySlug, getYearRangeDisplay } from '../lib/data/generations'
 
+const link = 'text-sm text-slate-600 transition hover:text-brand'
+
 export default function Footer() {
-  // Get all generations for footer links
   const allGenerations = getAllGenerationSlugs()
     .map((slug) => getGenerationBySlug(slug))
     .filter((gen) => gen !== undefined)
-    .sort((a, b) => b.yearRange.start - a.yearRange.start) // Sort newest to oldest
+    .sort((a, b) => b.yearRange.start - a.yearRange.start)
 
   const currentYear = getCurrentYear()
 
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-16">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Main Links Section */}
+    <footer className="mt-16 border-t border-slate-200 bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Quick Links</h3>
-            <nav aria-label="Footer navigation" className="space-y-2">
-              <Link 
-                href="/" 
-                className="block hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Home
-              </Link>
-              <Link 
-                href="/blog" 
-                className="block hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Blog
-              </Link>
-              <Link 
-                href="/quiz" 
-                className="block hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Quiz
-              </Link>
-              <Link 
-                href="/compare" 
-                className="block hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Compare
-              </Link>
-              <Link 
-                href="/privacy" 
-                className="block hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Privacy Policy
-              </Link>
+            <div className="text-lg font-bold tracking-tight text-slate-900">
+              Find<span className="text-brand">My</span>Gen
+            </div>
+            <p className="mt-3 max-w-xs text-sm text-slate-500">
+              Discover your generation by birth year, and explore the traits and cultural markers
+              that define each cohort.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Explore
+            </h2>
+            <nav aria-label="Footer navigation" className="grid gap-2">
+              <Link href="/" className={link}>Home</Link>
+              <Link href="/compare" className={link}>Compare generations</Link>
+              <Link href="/quiz" className={link}>Generation quiz</Link>
+              <Link href="/blog" className={link}>Blog</Link>
+              <Link href="/privacy" className={link}>Privacy policy</Link>
             </nav>
           </div>
 
-          {/* Generations Section */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Explore Generations</h3>
-            <nav aria-label="Generation pages" className="space-y-2">
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Generations
+            </h2>
+            <nav aria-label="Generation pages" className="grid gap-2">
               {allGenerations.map((gen) => (
-                <Link
-                  key={gen.slug}
-                  href={`/${gen.slug}`}
-                  className="flex items-center gap-2 hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-                >
-                  <span className="text-sm" aria-hidden="true">{gen.emoji}</span>
-                  <span className="truncate">{gen.displayName}</span>
-                  <span className="text-xs text-gray-500 ml-auto hidden sm:inline">
-                    {getYearRangeDisplay(gen)}
-                  </span>
+                <Link key={gen.slug} href={`/${gen.slug}`} className={`${link} flex items-center gap-2`}>
+                  <span aria-hidden="true">{gen.emoji}</span>
+                  <span>{gen.shortName}</span>
+                  <span className="ml-auto text-xs text-slate-400">{getYearRangeDisplay(gen)}</span>
                 </Link>
               ))}
             </nav>
           </div>
-
-          {/* About Section */}
-          <div>
-            <h3 className="text-white font-bold text-lg mb-4">About</h3>
-            <p className="text-sm text-gray-400 mb-4">
-              FindMyGen helps you discover your generation based on your birth year. 
-              Learn about generational characteristics, traits, and cultural markers.
-            </p>
-            <div className="text-sm text-gray-500">
-              © {currentYear} FindMyGen. All rights reserved.
-            </div>
-          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <div>
-              <Link 
-                href="/" 
-                className="hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                FindMyGen
-              </Link>
-              {' '}•{' '}
-              <Link 
-                href="/privacy" 
-                className="hover:text-white transition-colors focus:outline-none focus:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
-              >
-                Privacy Policy
-              </Link>
-            </div>
-            <div className="text-center md:text-right">
-              Discover your generation • Learn about generational differences
-            </div>
-          </div>
+        <div className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-400">
+          © {currentYear} FindMyGen. All rights reserved.
         </div>
       </div>
     </footer>

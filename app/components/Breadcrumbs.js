@@ -35,18 +35,15 @@ export default function Breadcrumbs({ items = [] }) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <nav className="mb-6 text-sm" aria-label="Breadcrumb">
-        <ol className="flex items-center space-x-2">
+      <nav className="mb-8 text-sm" aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-x-1 text-slate-400">
           {breadcrumbItems.map((item, index) => (
-            <li key={index} className="flex items-center">
-              {index > 0 && <span className="mx-2 text-gray-500">→</span>}
+            <li key={index} className="flex items-center gap-x-1">
+              {index > 0 && <span aria-hidden="true">/</span>}
               {index === breadcrumbItems.length - 1 ? (
-                <span className="text-gray-700 font-medium">{item.name}</span>
+                <span className="font-medium text-slate-600">{item.name}</span>
               ) : (
-                <Link
-                  href={item.href}
-                  className="text-blue-600 hover:text-blue-700 hover:underline transition"
-                >
+                <Link href={item.href} className="text-slate-500 transition hover:text-brand">
                   {item.name}
                 </Link>
               )}

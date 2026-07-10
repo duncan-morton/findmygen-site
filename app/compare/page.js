@@ -15,6 +15,29 @@ const KEY_TO_SLUG = {
   silent: 'silent-generation',
 }
 
+const OPTIONS = [
+  ['genalpha', 'Gen Alpha (2013–Present)'],
+  ['genz', 'Gen Z (1997–2012)'],
+  ['millennials', 'Millennials (1981–1996)'],
+  ['genx', 'Gen X (1965–1980)'],
+  ['boomers', 'Baby Boomers (1946–1964)'],
+  ['silent', 'Silent Generation (1928–1945)'],
+]
+
+const POPULAR = [
+  ['genz', 'millennials', 'Gen Z vs Millennials', 'Digital natives vs digital pioneers'],
+  ['millennials', 'genx', 'Millennials vs Gen X', 'Work-life values differ'],
+  ['genx', 'boomers', 'Gen X vs Boomers', 'Independence vs loyalty'],
+  ['genz', 'genalpha', 'Gen Z vs Gen Alpha', 'Smartphone vs AI generation'],
+  ['millennials', 'boomers', 'Millennials vs Boomers', 'OK Boomer origins'],
+  ['boomers', 'silent', 'Boomers vs Silent Gen', 'Prosperity vs hardship'],
+]
+
+const selectClass =
+  'w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20'
+const shareButton =
+  'inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50'
+
 export default function ComparePage() {
   const [gen1, setGen1] = useState('genz')
   const [gen2, setGen2] = useState('millennials')
@@ -22,255 +45,159 @@ export default function ComparePage() {
 
   const currentYear = getCurrentYear()
 
-  // Identity + editorial data for each generation, from the shared source.
   const generations = Object.fromEntries(
     Object.entries(KEY_TO_SLUG).map(([key, slug]) => [key, getComparisonGen(slug)])
   )
 
-  // Links to the standalone, indexable comparison guides.
   const comparisonGuides = comparisonPairs.map((pair) => ({
     slug: comparisonSlug(pair),
     gens: pair.map(getComparisonGen),
   }))
 
-  const handleCompare = () => {
-    setShowComparison(true)
-  }
-
   const gen1Data = generations[gen1]
   const gen2Data = generations[gen2]
 
+  const rows = [
+    ['Technology', gen1Data.tech, gen2Data.tech],
+    ['Work style', gen1Data.work, gen2Data.work],
+    ['Core values', gen1Data.values, gen2Data.values],
+    ['Communication', gen1Data.communication, gen2Data.communication],
+    ['Notable', gen1Data.notable, gen2Data.notable],
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="mb-6 text-sm">
-          <Link href="/" className="text-blue-600 hover:text-blue-700">Home</Link>
-          <span className="mx-2 text-gray-500">→</span>
-          <span className="text-gray-700">Compare Generations</span>
-        </div>
+    <div className="mx-auto max-w-5xl px-4 py-10">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          Compare generations
+        </h1>
+        <p className="mt-3 text-slate-600">Discover the differences between any two generations.</p>
+      </div>
 
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-4 text-gray-900">
-            🆚 Compare Generations
-          </h1>
-          <p className="text-xl text-gray-600">
-            Discover the differences between any two generations
-          </p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div>
-              <label className="block text-lg font-semibold mb-3 text-gray-700">
-                First Generation
-              </label>
-              <select
-                value={gen1}
-                onChange={(e) => setGen1(e.target.value)}
-                className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-blue-500 outline-none"
-              >
-                <option value="genalpha">Gen Alpha (2013-Present)</option>
-                <option value="genz">Gen Z (1997-2012)</option>
-                <option value="millennials">Millennials (1981-1996)</option>
-                <option value="genx">Gen X (1965-1980)</option>
-                <option value="boomers">Baby Boomers (1946-1964)</option>
-                <option value="silent">Silent Generation (1928-1945)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-lg font-semibold mb-3 text-gray-700">
-                Second Generation
-              </label>
-              <select
-                value={gen2}
-                onChange={(e) => setGen2(e.target.value)}
-                className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-blue-500 outline-none"
-              >
-                <option value="genalpha">Gen Alpha (2013-Present)</option>
-                <option value="genz">Gen Z (1997-2012)</option>
-                <option value="millennials">Millennials (1981-1996)</option>
-                <option value="genx">Gen X (1965-1980)</option>
-                <option value="boomers">Baby Boomers (1946-1964)</option>
-                <option value="silent">Silent Generation (1928-1945)</option>
-              </select>
-            </div>
+      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <label htmlFor="gen1" className="mb-2 block text-sm font-semibold text-slate-700">
+              First generation
+            </label>
+            <select id="gen1" value={gen1} onChange={(e) => setGen1(e.target.value)} className={selectClass}>
+              {OPTIONS.map(([v, label]) => <option key={v} value={v}>{label}</option>)}
+            </select>
           </div>
-
-          <button
-            onClick={handleCompare}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xl font-bold py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition transform hover:scale-105"
-          >
-            Compare Generations 🔍
-          </button>
-        </div>
-
-        {showComparison && (
-          <div className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className={`${gen1Data.color} bg-opacity-10 rounded-2xl p-6 border-2 border-current`}>
-                <div className="text-center mb-6">
-                  <div className="text-6xl mb-3">{gen1Data.emoji}</div>
-                  <h2 className="text-3xl font-bold text-gray-900">{gen1Data.name}</h2>
-                  <p className="text-lg text-gray-700">Born: {gen1Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen1Data.ages} in {currentYear}</p>
-                </div>
-              </div>
-
-              <div className={`${gen2Data.color} bg-opacity-10 rounded-2xl p-6 border-2 border-current`}>
-                <div className="text-center mb-6">
-                  <div className="text-6xl mb-3">{gen2Data.emoji}</div>
-                  <h2 className="text-3xl font-bold text-gray-900">{gen2Data.name}</h2>
-                  <p className="text-lg text-gray-700">Born: {gen2Data.years}</p>
-                  <p className="text-md text-gray-600">Ages {gen2Data.ages} in {currentYear}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold mb-6 text-gray-900">Side-by-Side Comparison</h3>
-              
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-bold text-gray-700">Category</div>
-                  <div className="font-bold text-gray-700">{gen1Data.name}</div>
-                  <div className="font-bold text-gray-700">{gen2Data.name}</div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-semibold text-gray-800">Key Traits</div>
-                  <div>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                      {gen1Data.traits.map((trait, i) => (
-                        <li key={i}>{trait}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                      {gen2Data.traits.map((trait, i) => (
-                        <li key={i}>{trait}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-semibold text-gray-800">Technology</div>
-                  <div className="text-gray-700">{gen1Data.tech}</div>
-                  <div className="text-gray-700">{gen2Data.tech}</div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-semibold text-gray-800">Work Style</div>
-                  <div className="text-gray-700">{gen1Data.work}</div>
-                  <div className="text-gray-700">{gen2Data.work}</div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-semibold text-gray-800">Core Values</div>
-                  <div className="text-gray-700">{gen1Data.values}</div>
-                  <div className="text-gray-700">{gen2Data.values}</div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                  <div className="font-semibold text-gray-800">Communication</div>
-                  <div className="text-gray-700">{gen1Data.communication}</div>
-                  <div className="text-gray-700">{gen2Data.communication}</div>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="font-semibold text-gray-800">Notable</div>
-                  <div className="text-gray-700">{gen1Data.notable}</div>
-                  <div className="text-gray-700">{gen2Data.notable}</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">Share This Comparison</h3>
-              <div className="flex gap-4 flex-wrap">
-                <button
-                  onClick={() => {
-                    const text = `I compared ${gen1Data.name} vs ${gen2Data.name} on FindMyGen! Check it out:`
-                    navigator.clipboard.writeText(text + ' https://www.findmygen.com/compare')
-                    alert('Copied to clipboard!')
-                  }}
-                  className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition"
-                >
-                  📋 Copy Link
-                </button>
-                
-                <button
-                  onClick={() => {
-                    const text = encodeURIComponent(`I compared ${gen1Data.name} vs ${gen2Data.name}! Which generation are you?`)
-                    const url = encodeURIComponent('https://www.findmygen.com/compare')
-                    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
-                  }}
-                  className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
-                >
-                  🐦 Share on X
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
-          <h2 className="text-3xl font-bold mb-6 text-gray-900">Popular Comparisons</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <button onClick={() => { setGen1('genz'); setGen2('millennials'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Gen Z vs Millennials</p>
-              <p className="text-sm text-gray-600">Digital natives vs digital pioneers</p>
-            </button>
-            
-            <button onClick={() => { setGen1('millennials'); setGen2('genx'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Millennials vs Gen X</p>
-              <p className="text-sm text-gray-600">Work-life values differ</p>
-            </button>
-            
-            <button onClick={() => { setGen1('genx'); setGen2('boomers'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Gen X vs Boomers</p>
-              <p className="text-sm text-gray-600">Independence vs loyalty</p>
-            </button>
-            
-            <button onClick={() => { setGen1('genz'); setGen2('genalpha'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Gen Z vs Gen Alpha</p>
-              <p className="text-sm text-gray-600">Smartphone vs AI generation</p>
-            </button>
-            
-            <button onClick={() => { setGen1('millennials'); setGen2('boomers'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Millennials vs Boomers</p>
-              <p className="text-sm text-gray-600">OK Boomer origins</p>
-            </button>
-            
-            <button onClick={() => { setGen1('boomers'); setGen2('silent'); setShowComparison(true); }} className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition text-left">
-              <p className="font-semibold">Boomers vs Silent Gen</p>
-              <p className="text-sm text-gray-600">Prosperity vs hardship</p>
-            </button>
+          <div>
+            <label htmlFor="gen2" className="mb-2 block text-sm font-semibold text-slate-700">
+              Second generation
+            </label>
+            <select id="gen2" value={gen2} onChange={(e) => setGen2(e.target.value)} className={selectClass}>
+              {OPTIONS.map(([v, label]) => <option key={v} value={v}>{label}</option>)}
+            </select>
           </div>
         </div>
+        <button
+          onClick={() => setShowComparison(true)}
+          className="mt-6 w-full rounded-xl bg-brand py-4 text-lg font-semibold text-white transition hover:bg-brand-strong"
+        >
+          Compare
+        </button>
+      </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
-          <h2 className="text-3xl font-bold mb-2 text-gray-900">In-Depth Comparison Guides</h2>
-          <p className="text-gray-600 mb-6">Full side-by-side breakdowns of the most-searched generation match-ups.</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {comparisonGuides.map((guide) => (
-              <Link
-                key={guide.slug}
-                href={`/compare/${guide.slug}`}
-                className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-500 transition font-semibold text-gray-800"
-              >
-                {guide.gens[0].emoji} {guide.gens[0].name} vs {guide.gens[1].name} {guide.gens[1].emoji}
-              </Link>
+      {showComparison && (
+        <div className="mt-8 space-y-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            {[gen1Data, gen2Data].map((g, i) => (
+              <div key={i} className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+                <div className="text-5xl" aria-hidden="true">{g.emoji}</div>
+                <div className="mt-2 flex items-center justify-center gap-2">
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: g.colorHex }} aria-hidden="true" />
+                  <h2 className="text-2xl font-bold text-slate-900">{g.name}</h2>
+                </div>
+                <p className="mt-1 text-slate-600">Born {g.years}</p>
+                <p className="text-sm text-slate-500">Ages {g.ages} in {currentYear}</p>
+              </div>
             ))}
           </div>
-        </div>
 
-        <div className="mt-8 text-center">
-          <Link href="/" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition font-semibold text-lg">
-            ← Back to Generation Finder
-          </Link>
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-slate-900">Side-by-side comparison</h3>
+            <div className="mt-4">
+              <div className="grid gap-4 pb-2 md:grid-cols-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Category</div>
+                <div className="font-bold text-slate-900">{gen1Data.name}</div>
+                <div className="font-bold text-slate-900">{gen2Data.name}</div>
+              </div>
+              <div className="grid gap-4 border-t border-slate-100 py-4 md:grid-cols-3">
+                <div className="font-semibold text-slate-800">Key traits</div>
+                <ul className="list-disc space-y-1 pl-5 text-slate-600">
+                  {gen1Data.traits.map((t, i) => <li key={i}>{t}</li>)}
+                </ul>
+                <ul className="list-disc space-y-1 pl-5 text-slate-600">
+                  {gen2Data.traits.map((t, i) => <li key={i}>{t}</li>)}
+                </ul>
+              </div>
+              {rows.map(([label, a, b]) => (
+                <div key={label} className="grid gap-4 border-t border-slate-100 py-4 md:grid-cols-3">
+                  <div className="font-semibold text-slate-800">{label}</div>
+                  <div className="text-slate-600">{a}</div>
+                  <div className="text-slate-600">{b}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => {
+                const text = `I compared ${gen1Data.name} vs ${gen2Data.name} on FindMyGen! Check it out:`
+                navigator.clipboard.writeText(text + ' https://www.findmygen.com/compare')
+                alert('Copied to clipboard!')
+              }}
+              className={shareButton}
+            >
+              📋 Copy link
+            </button>
+            <button
+              onClick={() => {
+                const text = encodeURIComponent(`I compared ${gen1Data.name} vs ${gen2Data.name}! Which generation are you?`)
+                const url = encodeURIComponent('https://www.findmygen.com/compare')
+                window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+              }}
+              className={shareButton}
+            >
+              🐦 Share on X
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">Popular comparisons</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {POPULAR.map(([a, b, title, sub]) => (
+            <button
+              key={title}
+              onClick={() => { setGen1(a); setGen2(b); setShowComparison(true) }}
+              className="rounded-xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md"
+            >
+              <p className="font-semibold text-slate-900">{title}</p>
+              <p className="text-sm text-slate-500">{sub}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">In-depth comparison guides</h2>
+        <p className="mt-1 text-slate-600">Full side-by-side breakdowns of the most-searched match-ups.</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {comparisonGuides.map((guide) => (
+            <Link
+              key={guide.slug}
+              href={`/compare/${guide.slug}`}
+              className="rounded-xl border border-slate-200 bg-white p-4 font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+            >
+              {guide.gens[0].emoji} {guide.gens[0].name} vs {guide.gens[1].name} {guide.gens[1].emoji}
+            </Link>
+          ))}
         </div>
       </div>
     </div>

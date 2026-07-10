@@ -77,6 +77,7 @@ export function getComparisonGen(slug) {
     ages: `${ages.start}-${ages.end}`,
     emoji: canon.emoji,
     color: canon.color,
+    colorHex: canon.colorHex,
     ...comparisonContent[slug],
   }
 }

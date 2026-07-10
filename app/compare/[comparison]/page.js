@@ -60,7 +60,6 @@ export async function generateMetadata({ params }) {
       description,
       images: [ogImage],
     },
-    // Override the noindex default inherited from the /compare tool layout.
     robots: {
       index: true,
       follow: true,
@@ -71,10 +70,10 @@ export async function generateMetadata({ params }) {
 
 function Row({ label, a, b }) {
   return (
-    <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-      <div className="font-semibold text-gray-800">{label}</div>
-      <div className="text-gray-700">{a}</div>
-      <div className="text-gray-700">{b}</div>
+    <div className="grid gap-4 border-t border-slate-100 py-4 md:grid-cols-3">
+      <div className="font-semibold text-slate-800">{label}</div>
+      <div className="text-slate-600">{a}</div>
+      <div className="text-slate-600">{b}</div>
     </div>
   )
 }
@@ -108,7 +107,6 @@ export default async function ComparisonPage({ params }) {
     })),
   }
 
-  // Other curated comparisons to surface for internal linking.
   const otherComparisons = comparisonPairs
     .filter((p) => comparisonSlug(p) !== comparison)
     .slice(0, 4)
@@ -120,112 +118,103 @@ export default async function ComparisonPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <Breadcrumbs
-            items={[
-              { name: 'Compare Generations', href: '/compare' },
-              { name: `${a.name} vs ${b.name}`, href: `/compare/${comparison}` },
-            ]}
-          />
+      <div className="mx-auto max-w-4xl px-4 py-10">
+        <Breadcrumbs
+          items={[
+            { name: 'Compare Generations', href: '/compare' },
+            { name: `${a.name} vs ${b.name}`, href: `/compare/${comparison}` },
+          ]}
+        />
 
-          <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-              {a.emoji} {a.name} vs {b.name} {b.emoji}
-            </h1>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              How do {a.name} and {b.name} compare? {a.name} (born {a.years}) and {b.name} (born{' '}
-              {b.years}) grew up in very different worlds, shaping how each generation approaches
-              technology, work, values and communication. Here is a side-by-side breakdown.
-            </p>
+        <header className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            {a.emoji} {a.name} vs {b.name} {b.emoji}
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+            How do {a.name} and {b.name} compare? {a.name} (born {a.years}) and {b.name} (born{' '}
+            {b.years}) grew up in very different worlds, shaping how each generation approaches
+            technology, work, values and communication. Here is a side-by-side breakdown.
+          </p>
+        </header>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {[a, b].map((g) => (
+            <div key={g.slug} className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+              <div className="text-5xl" aria-hidden="true">{g.emoji}</div>
+              <div className="mt-2 flex items-center justify-center gap-2">
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: g.colorHex }} aria-hidden="true" />
+                <h2 className="text-2xl font-bold text-slate-900">{g.name}</h2>
+              </div>
+              <p className="mt-1 text-slate-600">Born {g.years}</p>
+              <p className="text-sm text-slate-500">Ages {g.ages} in {currentYear}</p>
+              <Link href={`/${g.slug}`} className="mt-3 inline-block text-sm font-semibold text-brand hover:underline">
+                Full {g.name} guide →
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Side-by-side comparison</h2>
+          <div className="mt-4">
+            <div className="grid gap-4 pb-2 md:grid-cols-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Category</div>
+              <div className="font-bold text-slate-900">{a.name}</div>
+              <div className="font-bold text-slate-900">{b.name}</div>
+            </div>
+            <div className="grid gap-4 border-t border-slate-100 py-4 md:grid-cols-3">
+              <div className="font-semibold text-slate-800">Key traits</div>
+              <ul className="list-disc space-y-1 pl-5 text-slate-600">
+                {a.traits.map((t) => <li key={t}>{t}</li>)}
+              </ul>
+              <ul className="list-disc space-y-1 pl-5 text-slate-600">
+                {b.traits.map((t) => <li key={t}>{t}</li>)}
+              </ul>
+            </div>
+            <Row label="Technology" a={a.tech} b={b.tech} />
+            <Row label="Work style" a={a.work} b={b.work} />
+            <Row label="Core values" a={a.values} b={b.values} />
+            <Row label="Communication" a={a.communication} b={b.communication} />
+            <Row label="Notable" a={a.notable} b={b.notable} />
           </div>
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            {[a, b].map((g) => (
-              <div key={g.slug} className={`${g.color} bg-opacity-10 rounded-2xl p-6 border-2 border-current`}>
-                <div className="text-center">
-                  <div className="text-6xl mb-3">{g.emoji}</div>
-                  <h2 className="text-3xl font-bold text-gray-900">{g.name}</h2>
-                  <p className="text-lg text-gray-700">Born: {g.years}</p>
-                  <p className="text-md text-gray-600">Ages {g.ages} in {currentYear}</p>
-                  <Link href={`/${g.slug}`} className="inline-block mt-3 text-blue-600 hover:underline font-semibold">
-                    Full {g.name} guide →
-                  </Link>
-                </div>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            {a.name} vs {b.name}: FAQs
+          </h2>
+          <dl className="mt-4 divide-y divide-slate-200">
+            {faqs.map((f) => (
+              <div key={f.question} className="py-5">
+                <dt className="font-semibold text-slate-900">{f.question}</dt>
+                <dd className="mt-2 text-slate-600">{f.answer}</dd>
               </div>
             ))}
-          </div>
+          </dl>
+        </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-900">Side-by-Side Comparison</h2>
-            <div className="space-y-6">
-              <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                <div className="font-bold text-gray-700">Category</div>
-                <div className="font-bold text-gray-700">{a.name}</div>
-                <div className="font-bold text-gray-700">{b.name}</div>
-              </div>
-              <div className="grid md:grid-cols-3 gap-4 pb-6 border-b">
-                <div className="font-semibold text-gray-800">Key Traits</div>
-                <div>
-                  <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                    {a.traits.map((t) => <li key={t}>{t}</li>)}
-                  </ul>
-                </div>
-                <div>
-                  <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                    {b.traits.map((t) => <li key={t}>{t}</li>)}
-                  </ul>
-                </div>
-              </div>
-              <Row label="Technology" a={a.tech} b={b.tech} />
-              <Row label="Work Style" a={a.work} b={b.work} />
-              <Row label="Core Values" a={a.values} b={b.values} />
-              <Row label="Communication" a={a.communication} b={b.communication} />
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="font-semibold text-gray-800">Notable</div>
-                <div className="text-gray-700">{a.notable}</div>
-                <div className="text-gray-700">{b.notable}</div>
-              </div>
-            </div>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">More comparisons</h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {otherComparisons.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/compare/${c.slug}`}
+                className="rounded-xl border border-slate-200 bg-white p-4 font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+              >
+                {c.gens[0].emoji} {c.gens[0].name} vs {c.gens[1].name} {c.gens[1].emoji}
+              </Link>
+            ))}
           </div>
+        </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-900">
-              {a.name} vs {b.name}: FAQs
-            </h2>
-            <div className="space-y-6">
-              {faqs.map((f) => (
-                <div key={f.question}>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{f.question}</h3>
-                  <p className="text-gray-700">{f.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">More Generation Comparisons</h2>
-            <div className="grid md:grid-cols-2 gap-3">
-              {otherComparisons.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/compare/${c.slug}`}
-                  className="p-4 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition font-semibold text-gray-800"
-                >
-                  {c.gens[0].emoji} {c.gens[0].name} vs {c.gens[1].name} {c.gens[1].emoji}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center">
-            <Link
-              href="/"
-              className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition font-semibold text-lg"
-            >
-              🎯 Which generation are you? Find out
-            </Link>
-          </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-strong"
+          >
+            🎯 Which generation are you?
+          </Link>
         </div>
       </div>
     </>
