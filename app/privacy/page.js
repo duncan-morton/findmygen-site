@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+    <div className="mx-auto max-w-3xl px-4 py-12">
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="mb-6">
-          <Link href="/" className="text-blue-600 hover:text-blue-700">Back to Home</Link>
+          <Link href="/" className="text-sm font-semibold text-brand hover:underline">← Back to home</Link>
         </div>
         
         <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-gray-200">
-          <Link href="/" className="text-blue-600 hover:text-blue-700 font-semibold">
+          <Link href="/" className="font-semibold text-brand hover:underline">
             Return to FindMyGen
           </Link>
         </div>

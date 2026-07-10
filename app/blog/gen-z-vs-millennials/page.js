@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navigation from '../../components/Navigation';
 
 const siteUrl = 'https://www.findmygen.com'
 
@@ -21,7 +20,7 @@ export const metadata = {
     tags: ['Gen Z', 'Millennials', 'Generation Comparison', 'Workplace Culture'],
     images: [
       {
-        url: `${siteUrl}/og-image.png`,
+        url: `${siteUrl}/api/og?type=blog&slug=gen-z-vs-millennials`,
         width: 1200,
         height: 630,
         alt: 'Gen Z vs Millennials Comparison',
@@ -32,7 +31,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Gen Z vs Millennials: Complete Guide',
     description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences.',
-    images: [`${siteUrl}/og-image.png`],
+    images: [`${siteUrl}/api/og?type=blog&slug=gen-z-vs-millennials`],
   },
   authors: [{ name: 'FindMyGen' }],
   publishedTime: '2025-10-18T00:00:00.000Z',
@@ -44,7 +43,7 @@ export default function GenZvsMillennials() {
     '@type': 'Article',
     headline: 'Gen Z vs Millennials: Complete Guide to Understanding Both Generations',
     description: 'Comprehensive comparison of Gen Z and Millennials. Learn the key differences in technology use, work values, communication styles, and cultural experiences.',
-    image: `${siteUrl}/og-image.png`,
+    image: `${siteUrl}/api/og?type=blog&slug=gen-z-vs-millennials`,
     datePublished: '2025-10-18T00:00:00.000Z',
     dateModified: '2025-10-18T00:00:00.000Z',
     author: {
@@ -106,7 +105,6 @@ export default function GenZvsMillennials() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <article className="container mx-auto px-4 py-16 max-w-4xl">
           

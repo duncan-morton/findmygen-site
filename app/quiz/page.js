@@ -130,7 +130,7 @@ export default function Quiz() {
   const generations = Object.fromEntries(
     Object.entries(QUIZ_SLUGS).map(([key, slug]) => {
       const c = getGenerationBySlug(slug)
-      return [key, { name: c.shortName, emoji: c.emoji, years: getYearRangeDisplay(c), color: c.color }]
+      return [key, { name: c.shortName, emoji: c.emoji, years: getYearRangeDisplay(c), color: c.color, colorHex: c.colorHex }]
     })
   )
 
@@ -183,80 +183,81 @@ export default function Quiz() {
     const gen = generations[result.generation]
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 py-12 px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">Your Result!</h1>
-            
-            <div className={`${gen.color} bg-opacity-10 rounded-xl p-8 mb-6 border-2 border-current`}>
-              <div className="text-8xl mb-4">{gen.emoji}</div>
-              <h2 className="text-4xl font-bold mb-2 text-gray-900">You vibe with {gen.name}!</h2>
-              <p className="text-xl text-gray-700">Born: {gen.years}</p>
+      <div className="mx-auto max-w-3xl px-4 py-10">
+        <div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Your result</h1>
+
+            <div
+              className="mt-6 rounded-2xl border-2 p-8"
+              style={{ borderColor: gen.colorHex, backgroundColor: `${gen.colorHex}0f` }}
+            >
+              <div className="text-7xl" aria-hidden="true">{gen.emoji}</div>
+              <h2 className="mt-3 text-3xl font-bold text-slate-900">You vibe with {gen.name}!</h2>
+              <p className="mt-1 text-slate-600">Born {gen.years}</p>
             </div>
 
-            <p className="text-lg text-gray-700 mb-8">
-              Based on your answers, you have the spirit and mindset of {gen.name}! 
-              Your preferences and attitudes align most closely with this generation.
+            <p className="mt-6 text-slate-600">
+              Based on your answers, you have the spirit and mindset of {gen.name}. Your preferences
+              and attitudes align most closely with this generation.
             </p>
 
-            <div className="flex gap-4 justify-center flex-wrap mb-6">
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
               <button
                 onClick={() => {
                   const text = `I took the Generation Quiz and I vibe with ${gen.name} ${gen.emoji}! Take the quiz at findmygen.com/quiz`
                   navigator.clipboard.writeText(text)
                   alert('Copied to clipboard!')
                 }}
-                className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               >
-                Copy Result
+                📋 Copy
               </button>
-              
               <button
                 onClick={() => {
                   const text = encodeURIComponent(`I vibe with ${gen.name} ${gen.emoji}! Which generation do YOU match? Take the quiz:`)
                   const url = encodeURIComponent('https://www.findmygen.com/quiz')
                   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
                 }}
-                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               >
-                Share on X
+                🐦 Share on X
               </button>
             </div>
 
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
               <button
                 onClick={restartQuiz}
-                className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
+                className="rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-strong"
               >
-                Take Quiz Again
+                Take the quiz again
               </button>
-              
               <Link
                 href="/"
-                className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition inline-block"
+                className="rounded-xl border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
               >
-                Find Your Birth Year Generation
+                Find your birth-year generation
               </Link>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 mt-8">
-            <h3 className="text-2xl font-bold mb-4 text-gray-900">Your Generation Breakdown:</h3>
-            <div className="space-y-3">
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-900">Your generation breakdown</h3>
+            <div className="mt-4 space-y-3">
               {Object.entries(result.scores).sort((a, b) => b[1] - a[1]).map(([key, score]) => {
                 const g = generations[key]
                 const percentage = (score / Math.max(...Object.values(result.scores)) * 100).toFixed(0)
                 return (
                   <div key={key} className="flex items-center gap-3">
-                    <span className="text-2xl">{g.emoji}</span>
-                    <span className="font-semibold w-32">{g.name}</span>
-                    <div className="flex-1 bg-gray-200 rounded-full h-4">
-                      <div 
-                        className={`${g.color} h-4 rounded-full transition-all`}
-                        style={{ width: `${percentage}%` }}
+                    <span className="text-xl" aria-hidden="true">{g.emoji}</span>
+                    <span className="w-28 text-sm font-medium text-slate-700">{g.name}</span>
+                    <div className="h-3 flex-1 rounded-full bg-slate-100">
+                      <div
+                        className="h-3 rounded-full"
+                        style={{ width: `${percentage}%`, backgroundColor: g.colorHex }}
                       ></div>
                     </div>
-                    <span className="font-bold w-12 text-right">{score}</span>
+                    <span className="w-10 text-right text-sm font-bold text-slate-700">{score}</span>
                   </div>
                 )
               })}
@@ -268,59 +269,50 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-4 text-gray-900">
-            Which Generation Do You Really Belong To?
-          </h1>
-          <p className="text-xl text-gray-600">
-            Answer 10 questions to discover which generation matches your vibe!
-          </p>
+    <div className="mx-auto max-w-2xl px-4 py-10">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          Which generation do you really belong to?
+        </h1>
+        <p className="mt-3 text-slate-600">
+          Answer 10 questions to discover which generation matches your vibe.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mb-6">
+          <div className="mb-2 flex items-center justify-between text-sm font-medium text-slate-500">
+            <span>Question {currentQuestion + 1} of {questions.length}</span>
+            <span className="text-brand">{Math.round((currentQuestion / questions.length) * 100)}% complete</span>
+          </div>
+          <div className="h-2 w-full rounded-full bg-slate-100">
+            <div
+              className="h-2 rounded-full bg-brand transition-all duration-300"
+              style={{ width: `${(currentQuestion / questions.length) * 100}%` }}
+            ></div>
+          </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-semibold text-gray-600">
-                Question {currentQuestion + 1} of {questions.length}
-              </span>
-              <span className="text-sm font-semibold text-purple-600">
-                {Math.round(((currentQuestion) / questions.length) * 100)}% Complete
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-gradient-to-r from-purple-600 to-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentQuestion / questions.length) * 100}%` }}
-              ></div>
-            </div>
-          </div>
+        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
+          {questions[currentQuestion].question}
+        </h2>
 
-          <h2 className="text-2xl font-bold mb-6 text-gray-900">
-            {questions[currentQuestion].question}
-          </h2>
-
-          <div className="space-y-3">
-            {questions[currentQuestion].options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswer(option)}
-                className="w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200"
-              >
-                <span className="text-lg font-medium text-gray-800">{option.text}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-6 text-center">
-            <Link
-              href="/"
-              className="text-purple-600 hover:text-purple-700 font-semibold"
+        <div className="mt-6 space-y-3">
+          {questions[currentQuestion].options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleAnswer(option)}
+              className="w-full rounded-xl border border-slate-200 p-4 text-left font-medium text-slate-800 transition hover:border-brand hover:bg-brand-soft"
             >
-              Back to Generation Calculator
-            </Link>
-          </div>
+              {option.text}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6 text-center">
+          <Link href="/" className="text-sm font-semibold text-brand hover:underline">
+            ← Back to the calculator
+          </Link>
         </div>
       </div>
     </div>

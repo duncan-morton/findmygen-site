@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navigation from '../../components/Navigation';
 
 export const metadata = {
   title: 'Are You a Cusper? Born on the Edge Between Generations',
@@ -9,7 +8,6 @@ export const metadata = {
 export default function Cuspers() {
   return (
     <>
-      <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <article className="container mx-auto px-4 py-16 max-w-4xl">
           
