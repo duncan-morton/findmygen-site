@@ -53,6 +53,45 @@ export default function Home() {
     },
   ]
 
+  const descriptions = [
+    {
+      emoji: '🚀',
+      title: 'Gen Alpha (2013 – Present)',
+      color: '#a855f7',
+      body: 'Generation Alpha is the newest generation, born entirely in the 21st century. They are growing up with tablets, voice assistants, and AI as normal parts of daily life. These true digital natives have never known a world without smartphones, streaming services, or social media. They are expected to be the most technologically immersed and formally educated generation in history.',
+    },
+    {
+      emoji: '📱',
+      title: 'Gen Z (1997 – 2012)',
+      color: '#3b82f6',
+      body: 'Generation Z grew up with smartphones in hand and witnessed major global events like COVID-19 during their formative years. They are known for being socially conscious, entrepreneurial, and fluent in digital communication. Gen Z values authenticity, diversity, and mental health awareness. They are the first generation to have never known life without the internet and social media.',
+    },
+    {
+      emoji: '💻',
+      title: 'Millennials / Gen Y (1981 – 1996)',
+      color: '#22c55e',
+      body: 'Millennials came of age during the internet boom and witnessed the transition from analog to digital. They experienced 9/11 as formative adults, faced the 2008 financial crisis early in their careers, and have dealt with student debt and rising housing costs. Known for valuing work-life balance, experiences over possessions, and using technology to stay connected. They are often called the burnout generation but are also known for resilience and adaptability.',
+    },
+    {
+      emoji: '🎸',
+      title: 'Gen X (1965 – 1980)',
+      color: '#eab308',
+      body: 'Generation X is often called the forgotten generation or latchkey kids. They grew up during rising divorce rates and the emergence of personal computers. Gen X witnessed the fall of the Berlin Wall, came of age with MTV and grunge music, and learned to be independent and resourceful. They value work-life balance, are skeptical of institutions, and successfully bridged the gap between analog childhood and digital adulthood.',
+    },
+    {
+      emoji: '🌻',
+      title: 'Baby Boomers (1946 – 1964)',
+      color: '#f97316',
+      body: 'Baby Boomers were born during the post-World War II population boom and grew up during unprecedented economic prosperity. They witnessed the civil rights movement, moon landing, Vietnam War, and Woodstock. Boomers are known for their optimism, work ethic, and driving cultural revolutions in the 1960s and 70s. They are often characterized by individualism, competitive spirit, and strong work-centric values.',
+    },
+    {
+      emoji: '📻',
+      title: 'Silent Generation (1928 – 1945)',
+      color: '#6b7280',
+      body: 'The Silent Generation grew up during the Great Depression and World War II, which shaped their values of hard work, sacrifice, and civic duty. They witnessed the birth of television and the golden age of radio. Known for their strong work ethic, respect for authority, and commitment to financial security. Despite their name, this generation produced many influential civil rights leaders and cultural icons.',
+    },
+  ]
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -64,166 +103,135 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-5xl font-bold text-center mb-4 text-gray-900">
-          What Generation Am I?
-        </h1>
-        <p className="text-xl text-center text-gray-600 mb-8">
-          Enter your birth year to instantly discover your generation
-        </p>
 
-        {/* Quiz and Blog Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <Link
-            href="/quiz"
-            className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-purple-700 hover:to-pink-700 transition transform hover:scale-105 shadow-lg"
-          >
-            🎯 Take the Generation Quiz
-          </Link>
-          <Link
-            href="/blog"
-            className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold px-8 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition transform hover:scale-105 shadow-lg"
-          >
-            📚 Read Our Blog
-          </Link>
+      {/* Hero with the calculator as the centrepiece */}
+      <section className="bg-gradient-to-b from-brand-soft to-canvas">
+        <div className="mx-auto max-w-2xl px-4 pb-16 pt-14 sm:pt-20">
+          <div className="text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand">
+              Free generation finder
+            </p>
+            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+              What generation am I?
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-slate-600">
+              Enter your birth year to instantly discover your generation, your age, and what makes
+              your cohort tick.
+            </p>
+          </div>
+
+          <div className="mt-8">
+            <GenerationCalculator />
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
+            <Link href="/quiz" className="transition hover:text-brand">🎯 Take the quiz</Link>
+            <Link href="/compare" className="transition hover:text-brand">🆚 Compare generations</Link>
+            <Link href="/blog" className="transition hover:text-brand">📚 Read the blog</Link>
+          </div>
         </div>
+      </section>
 
-        <GenerationCalculator />
-
-        <div className="prose prose-lg max-w-none bg-white rounded-2xl shadow-lg p-8 space-y-8">
-          <h2 className="text-3xl font-bold text-gray-900">Understanding Generations</h2>
-          <p className="text-gray-700 leading-relaxed">
-            Generations are defined by birth year ranges that correspond to significant cultural,
-            technological, and social changes. Each generation shares common experiences and
-            characteristics that shape their worldview, values, and behaviors.
+      <div className="mx-auto max-w-4xl space-y-16 px-4 py-16">
+        {/* Explore each generation */}
+        <section>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Explore each generation
+          </h2>
+          <p className="mt-2 text-slate-600">
+            Six generations, from the Silent Generation to Gen Alpha. Open any card for the full guide.
           </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {generations.map((gen) => (
+              <GenerationCard key={gen.slug} gen={gen} />
+            ))}
+          </div>
+          <div className="mt-6">
+            <Link
+              href="/compare"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-strong"
+            >
+              🆚 Compare any two generations
+            </Link>
+          </div>
+        </section>
 
-          <h2 className="text-3xl font-bold text-gray-900 mt-12">All Generations by Birth Year</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Generation</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Birth Years</th>
-                  <th className="border border-gray-300 px-4 py-3 text-left font-bold">Age in {currentYear}</th>
+        {/* Table */}
+        <section>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            All generations by birth year
+          </h2>
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">Generation</th>
+                  <th className="px-4 py-3 font-semibold">Birth years</th>
+                  <th className="px-4 py-3 font-semibold">Age in {currentYear}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {generations.map((gen) => {
                   const ages = getAgeRange(gen)
                   return (
-                    <tr key={gen.slug} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-4 py-3 font-semibold">{gen.emoji} {gen.shortName}</td>
-                      <td className="border border-gray-300 px-4 py-3">{getYearRangeDisplay(gen)}</td>
-                      <td className="border border-gray-300 px-4 py-3">{ages.start} - {ages.end} years</td>
+                    <tr key={gen.slug} className="transition hover:bg-slate-50">
+                      <td className="px-4 py-3 font-medium text-slate-900">
+                        <span className="mr-2" aria-hidden="true">{gen.emoji}</span>
+                        {gen.shortName}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{getYearRangeDisplay(gen)}</td>
+                      <td className="px-4 py-3 text-slate-600">{ages.start} – {ages.end} yrs</td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
           </div>
+        </section>
 
-          <h2 className="text-3xl font-bold text-gray-900 mt-12">Generation Descriptions</h2>
-
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-2xl font-bold text-purple-600 mb-3">🚀 Gen Alpha (2013 - Present)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Generation Alpha is the newest generation, born entirely in the 21st century. They are growing up
-                with tablets, voice assistants, and AI as normal parts of daily life. These true digital natives
-                have never known a world without smartphones, streaming services, or social media. They are expected
-                to be the most technologically immersed and formally educated generation in history.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-blue-600 mb-3">📱 Gen Z (1997 - 2012)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Generation Z grew up with smartphones in hand and witnessed major global events like COVID-19 during
-                their formative years. They are known for being socially conscious, entrepreneurial, and fluent in
-                digital communication. Gen Z values authenticity, diversity, and mental health awareness. They are
-                the first generation to have never known life without the internet and social media.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-green-600 mb-3">💻 Millennials / Gen Y (1981 - 1996)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Millennials came of age during the internet boom and witnessed the transition from analog to digital.
-                They experienced 9/11 as formative adults, faced the 2008 financial crisis early in their careers,
-                and have dealt with student debt and rising housing costs. Known for valuing work-life balance,
-                experiences over possessions, and using technology to stay connected. They are often called the
-                burnout generation but are also known for resilience and adaptability.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-yellow-600 mb-3">🎸 Gen X (1965 - 1980)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Generation X is often called the forgotten generation or latchkey kids. They grew up during
-                rising divorce rates and the emergence of personal computers. Gen X witnessed the fall of the Berlin
-                Wall, came of age with MTV and grunge music, and learned to be independent and resourceful. They value
-                work-life balance, are skeptical of institutions, and successfully bridged the gap between analog
-                childhood and digital adulthood.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-orange-600 mb-3">🌻 Baby Boomers (1946 - 1964)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Baby Boomers were born during the post-World War II population boom and grew up during unprecedented
-                economic prosperity. They witnessed the civil rights movement, moon landing, Vietnam War, and Woodstock.
-                Boomers are known for their optimism, work ethic, and driving cultural revolutions in the 1960s and 70s.
-                They are often characterized by individualism, competitive spirit, and strong work-centric values.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold text-gray-600 mb-3">📻 Silent Generation (1928 - 1945)</h3>
-              <p className="text-gray-700 leading-relaxed">
-                The Silent Generation grew up during the Great Depression and World War II, which shaped their values
-                of hard work, sacrifice, and civic duty. They witnessed the birth of television and the golden age of
-                radio. Known for their strong work ethic, respect for authority, and commitment to financial security.
-                Despite their name, this generation produced many influential civil rights leaders and cultural icons.
-              </p>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-gray-900 mt-12">Frequently Asked Questions</h2>
-
-          <div className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{faq.question}</h3>
-                <p className="text-gray-700">{faq.answer}</p>
+        {/* Understanding generations + descriptions */}
+        <section>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Understanding generations
+          </h2>
+          <p className="mt-3 leading-relaxed text-slate-600">
+            Generations are defined by birth year ranges that correspond to significant cultural,
+            technological, and social changes. Each generation shares common experiences and
+            characteristics that shape their worldview, values, and behaviors.
+          </p>
+          <div className="mt-8 space-y-8">
+            {descriptions.map((d) => (
+              <div key={d.title} className="border-l-2 pl-5" style={{ borderColor: d.color }}>
+                <h3 className="flex items-center gap-2 text-xl font-bold text-slate-900">
+                  <span aria-hidden="true">{d.emoji}</span>
+                  {d.title}
+                </h3>
+                <p className="mt-2 leading-relaxed text-slate-600">{d.body}</p>
               </div>
             ))}
-
-            {/* Browse All Generations Section */}
-            <div className="mt-16 pt-8 border-t border-gray-200">
-              <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
-                Explore Each Generation
-              </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {generations.map((gen) => (
-                  <GenerationCard key={gen.slug} gen={gen} />
-                ))}
-              </div>
-
-              <div className="text-center mt-8">
-                <Link href="/compare" className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition font-semibold text-lg">
-                  🆚 Compare Any Two Generations
-                </Link>
-              </div>
-            </div>
           </div>
-        </div>
+        </section>
+
+        {/* FAQ */}
+        <section>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Frequently asked questions
+          </h2>
+          <dl className="mt-6 divide-y divide-slate-200">
+            {faqs.map((faq) => (
+              <div key={faq.question} className="py-5">
+                <dt className="font-semibold text-slate-900">{faq.question}</dt>
+                <dd className="mt-2 text-slate-600">{faq.answer}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </div>
-    </div>
+    </>
   )
 }

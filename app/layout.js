@@ -4,10 +4,10 @@ import HeaderNav from './components/HeaderNav'
 import Footer from './components/Footer'
 import './globals.css'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  preload: true
+  variable: '--font-inter',
 })
 
 const siteUrl = 'https://www.findmygen.com'
@@ -102,7 +102,7 @@ export default function RootLayout({ children }) {
   }
 
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head>
         <script
           type="application/ld+json"
@@ -123,7 +123,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className="font-sans">
         <HeaderNav />
         <main id="main-content">{children}</main>
         <Footer />
